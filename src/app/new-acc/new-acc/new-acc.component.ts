@@ -25,6 +25,7 @@ export class NewAccComponent implements OnInit {
     private newAccService: NewAccService,
     // private snackBar:MatSnackBar,
     private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void 
@@ -56,9 +57,21 @@ export class NewAccComponent implements OnInit {
     };
 
     this.newAccService.createAccount(dto).subscribe({
-      next: (response: any) => {
-        this.successMessage = response.message;
-        this.errorMessage = '';
+      next: (response: any) => 
+      {
+          const role = this.authService.getRole();
+          if (role === 'Developer') 
+          {
+            this.router.navigate(['/devHome']);
+          }
+          else if (role === 'Customer') 
+          {
+            this.router.navigate(['/customerHome']);
+          }
+          else 
+          {
+            this.errorMessage = 'Unknown account role.';
+          }
       },
       error: (err: HttpErrorResponse) => 
       {
@@ -66,5 +79,8 @@ export class NewAccComponent implements OnInit {
         this.successMessage = '';
       }
     });
+  }
+  goToLogin(){
+    this.router.navigate(['/login']);
   }
 }
