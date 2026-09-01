@@ -1,0 +1,47 @@
+<div class="container">
+  <form [formGroup]="newAccForm" class="box" (ngSubmit)="onCreateAcc()">
+    <input type="email" formControlName="email" class="input" placeholder="Email">
+    <div class="error" *ngIf="newAccForm.get('email')?.invalid && newAccForm.get('email')?.touched">
+      Email is required!
+    </div>
+
+    <input type="text" formControlName="realName" class="input" placeholder="Name">
+    <div class="error" *ngIf="newAccForm.get('realName')?.invalid && newAccForm.get('realName')?.touched">
+      Name is required!
+    </div>
+
+    <input type="tel" formControlName="phone" class="input" placeholder="Phone number">
+    <div class="error" *ngIf="newAccForm.get('phone')?.invalid && newAccForm.get('phone')?.touched">
+      <span *ngIf="newAccForm.get('phone')?.errors?.['required']">Phone number is required!</span>
+      <span *ngIf="newAccForm.get('phone')?.errors?.['pattern']">Phone number must be 11 digits.</span>
+    </div>
+
+    <input type="date" formControlName="DOB" class="input" placeholder="Your date of birth">
+    <div class="error" *ngIf="newAccForm.get('DOB')?.invalid && newAccForm.get('DOB')?.touched">
+      <span *ngIf="newAccForm.get('DOB')?.errors?.['required']">DOB is required!</span>
+    </div>
+
+    <input type="password" formControlName="password" class="input" placeholder="Create password">
+    <div class="error" *ngIf="newAccForm.get('password')?.invalid && newAccForm.get('password')?.touched">
+      Password is required!
+    </div>
+
+    <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="success" *ngIf="successMessage">{{ successMessage }}</div>
+
+    <div class="accType">
+      <label for="role">Create account as</label>
+      <select id="role" formControlName="role" class="input"> 
+        <option value="Customer">Customer</option> 
+        <option value="Developer">Developer</option> 
+      </select>
+      <div *ngIf="newAccForm.get('role')?.value === 'Customer'">
+        Browse and view games, add games to your cart, and purchase games.
+      </div>
+      <div *ngIf="newAccForm.get('role')?.value === 'Developer'">
+        Upload and manage your games, view your uploaded games, and track your earnings.
+      </div>
+    </div>
+    <button type="submit" class="button" [disabled]="newAccForm.invalid">Create account</button>
+  </form>
+</div>
