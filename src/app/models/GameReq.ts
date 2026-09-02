@@ -6,3 +6,6 @@ export interface GameRequirement {
   graphicsCard: string;
   storage: string;
 }
+export interface UploadRequirementsResponse {
+  message: string;
+}

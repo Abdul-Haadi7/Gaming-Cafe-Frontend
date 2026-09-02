@@ -16,11 +16,6 @@
       <span *ngIf="newAccForm.get('phone')?.errors?.['pattern']">Phone number must be 11 digits.</span>
     </div>
 
-    <input type="date" formControlName="DOB" class="input" placeholder="Your date of birth">
-    <div class="error" *ngIf="newAccForm.get('DOB')?.invalid && newAccForm.get('DOB')?.touched">
-      <span *ngIf="newAccForm.get('DOB')?.errors?.['required']">DOB is required!</span>
-    </div>
-
     <input type="password" formControlName="password" class="input" placeholder="Create password">
     <div class="error" *ngIf="newAccForm.get('password')?.invalid && newAccForm.get('password')?.touched">
       Password is required!

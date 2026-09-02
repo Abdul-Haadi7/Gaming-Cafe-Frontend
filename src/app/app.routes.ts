@@ -8,6 +8,9 @@ import { SuperAdminComponent } from './super-admin/super-admin/super-admin.compo
 import { AdminComponent } from './admin/admin/admin.component';
 import { authGuard } from './guards/auth.guard';
 import { roleGuard } from './guards/role.guard';
+import { UploadGameComponent } from './upload-game/upload-game/upload-game.component';
+import { GameRequirementsComponent } from './game-requirements/game-requirements/game-requirements.component';
+
 
 export const routes: Routes = [
     {path:'',redirectTo:'login',pathMatch:'full'},
@@ -16,5 +19,7 @@ export const routes: Routes = [
     {path:'customerHome', component: CustomerComponent,canActivate: [authGuard, roleGuard(['Customer'])]},
     {path:'devHome', component: DeveloperComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
     {path:'superAdminHome', component: SuperAdminComponent,canActivate: [authGuard, roleGuard(['Super Admin'])]},
-    {path:'adminHome', component: AdminComponent,canActivate: [authGuard, roleGuard(['Admin'])]}
+    {path:'adminHome', component: AdminComponent,canActivate: [authGuard, roleGuard(['Admin'])]},
+    {path:'uploadGame', component: UploadGameComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
+    {path:'addRequirements/:gameId', component: GameRequirementsComponent,canActivate: [authGuard, roleGuard(['Developer'])]}
 ];

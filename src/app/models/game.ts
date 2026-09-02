@@ -1,13 +1,14 @@
 export interface Game {
-  id: number;
   name: string;
-  description: string;
   price: number;
-  releaseDate: Date;
-  developer: string;
-  publisher: string;
-  rating: number;
+  intro: string;
+  description: string;
   genre: string;
-  details: string; 
-  coverImage: string;
+  downloadLink: string;
+  imageLink: string;
+  discountPercentage?: number;
+}
+export interface UploadGameResponse {
+  message: string;
+  gameId: number;
 }

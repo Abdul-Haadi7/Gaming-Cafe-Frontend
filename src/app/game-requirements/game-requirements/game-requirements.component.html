@@ -1,0 +1,43 @@
+<div class="page-center-wrapper">
+  <form [formGroup]="requirementsForm" (ngSubmit)="onSubmit()" class="upload-form">
+
+    <h2>Upload game requirements</h2>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Operating system</mat-label>
+      <input matInput formControlName="os" maxlength="100" placeholder="Windows 10 64-bit">
+      <mat-error *ngIf="f['os'].hasError('required')">OS is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Processor</mat-label>
+      <input matInput formControlName="processor" maxlength="200" placeholder="Intel Core i5-6600K / AMD Ryzen 5 1600">
+      <mat-error *ngIf="f['processor'].hasError('required')">Processor is required</mat-error>
+    </mat-form-field>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>RAM</mat-label>
+        <input matInput formControlName="ram" maxlength="100" placeholder="8 GB">
+        <mat-error *ngIf="f['ram'].hasError('required')">RAM is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Storage</mat-label>
+        <input matInput formControlName="storage" maxlength="100" placeholder="50 GB available space">
+        <mat-error *ngIf="f['storage'].hasError('required')">Storage is required</mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Graphics card</mat-label>
+      <input matInput formControlName="graphicsCard" maxlength="100" placeholder="NVIDIA GTX 1060 / AMD RX 580">
+      <mat-error *ngIf="f['graphicsCard'].hasError('required')">Graphics card is required</mat-error>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" type="submit">Publish requirements</button>
+    </div>
+
+  </form>
+</div>

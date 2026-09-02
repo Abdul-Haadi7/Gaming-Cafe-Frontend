@@ -5,7 +5,6 @@ import { AuthService } from '../../login/login.service';
 import { CommonModule } from '@angular/common';
 import { NewAccService } from '../new-acc.service';
 import { NewAccDTO } from '../new-acc.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -23,7 +22,6 @@ export class NewAccComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private newAccService: NewAccService,
-    // private snackBar:MatSnackBar,
     private router: Router,
     private authService: AuthService
   ) {}
@@ -34,7 +32,6 @@ export class NewAccComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       realName: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
-      DOB: ['',Validators.required],
       password: ['', Validators.required],
       role: ['Customer', Validators.required]
     });
@@ -51,7 +48,6 @@ export class NewAccComponent implements OnInit {
       Name: this.newAccForm.value.realName,
       Email: this.newAccForm.value.email,
       Phone: this.newAccForm.value.phone,
-      dateOfBirth: this.newAccForm.value.DOB,
       password: this.newAccForm.value.password,
       role: this.newAccForm.value.role
     };

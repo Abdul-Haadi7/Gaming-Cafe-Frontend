@@ -13,9 +13,11 @@ export class SuperAdminService {
   getName(): Observable<string>
   {
     const token = localStorage.getItem('token');
-    return this.http.get(`${this.apiURL}/getName`, {
+    return this.http.get(`${this.apiURL}/getName`, 
+    {
       responseType: 'text',
-      headers: {
+      headers: 
+      {
         Authorization: `Bearer ${token}`
       }
     });

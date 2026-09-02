@@ -1,0 +1,74 @@
+<div class="page-center-wrapper">
+
+    
+  <form [formGroup]="gameForm" (ngSubmit)="onSubmit()" class="upload-form">
+
+  <h2>Upload new game</h2>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Game name</mat-label>
+    <input matInput formControlName="name" maxlength="100">
+    <mat-error *ngIf="f['name'].hasError('required')">Game name is required</mat-error>
+  </mat-form-field>
+
+  <div class="row">
+    <mat-form-field appearance="outline">
+      <mat-label>Price</mat-label>
+      <span matPrefix>PKR&nbsp;</span>
+      <input matInput type="number" formControlName="price" step="0.01" min="0">
+      <mat-error *ngIf="f['price'].hasError('required')">Price is required</mat-error>
+      <mat-error *ngIf="f['price'].hasError('min')">Price cannot be negative</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Genre</mat-label>
+
+      <mat-select formControlName="genre">
+        <mat-option *ngFor="let g of genres" value = "{{ g }}">{{ g }}</mat-option>
+        <!-- <mat-option value="Action">Action</mat-option>
+        <mat-option value="Adventure">Adventure</mat-option>
+        <mat-option value="RPG">RPG</mat-option> -->
+      </mat-select>
+      <mat-error *ngIf="f['genre'].hasError('required')">Genre is required</mat-error>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Intro (short tagline)</mat-label>
+    <input matInput formControlName="intro" maxlength="70">
+    <mat-hint align="end">{{ f['intro'].value?.length || 0 }}/70</mat-hint>
+    <mat-error *ngIf="f['intro'].hasError('required')">Intro is required</mat-error>
+    <mat-error *ngIf="f['intro'].hasError('maxlength')">Max 70 characters</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description" rows="4"></textarea>
+    <mat-error *ngIf="f['description'].hasError('required')">Description is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Download link</mat-label>
+    <input matInput formControlName="downloadLink" maxlength="100">
+    <mat-error *ngIf="f['downloadLink'].hasError('required')">Download link is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Image link</mat-label>
+    <input matInput formControlName="imageLink" maxlength="100">
+    <mat-error *ngIf="f['imageLink'].hasError('required')">Image link is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Discount %</mat-label>
+    <input matInput type="number" formControlName="discountPercentage" step="0.01" min="0" max="100">
+    <mat-hint>Max 100</mat-hint>
+    <mat-error *ngIf="f['discountPercentage'].hasError('max')">Max value is 100</mat-error>
+  </mat-form-field>
+
+  <div class="actions">
+    <button mat-stroked-button type="button">Save as draft</button>
+    <button mat-raised-button color="primary" type="submit" (click)="uploadGame()">Add requirements</button>
+  </div>
+</form>
+</div>
