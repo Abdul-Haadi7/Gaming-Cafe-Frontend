@@ -5,13 +5,17 @@ import { Observable, tap } from 'rxjs';
 // import { LoginRequest, LoginResponse } from '../models/login-request.model';
 import { LoginRequest, LoginResponse } from '../models/login-request.model';
 import { environment } from '../../../environments/environment.development';
+import { Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService 
 {
   private baseUrl = environment.apiURL; 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   login(credentials: LoginRequest): Observable<LoginResponse> 
   {
@@ -22,17 +26,28 @@ export class AuthService
         })
       );
   }
-
-  logout(): void {
-    localStorage.removeItem('token');
+  
+  logout() {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem('token');
+    }
   }
 
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+   isLoggedIn(): boolean {
+
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('token') !== null;
+    }
+    return false;
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  getToken(): string | null
+  {
+    if (isPlatformBrowser(this.platformId))
+    {
+      return localStorage.getItem('token');
+    }
+    return null;
   }
   getRole(): string | null 
   {
