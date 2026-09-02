@@ -8,22 +8,46 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { ReturnGamesToDevDTO } from '../../models/ReturnGameToDev';
+import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-developer',
   standalone: true,
   imports: [MatToolbar, MatSidenavModule, MatButtonModule, MatIconModule,
-    MatListModule, MatCardModule, MatTableModule
+    MatListModule, MatCardModule, MatTableModule, CommonModule
   ],
   templateUrl: './developer.component.html',
   styleUrl: './developer.component.css'
 })
 export class DeveloperComponent {
   name: string = '';
-    constructor(private developerService: DeveloperService, private router: Router) {}
+  devGames: ReturnGamesToDevDTO[] = [];
+  activeGames: ReturnGamesToDevDTO[] = [];
+  constructor(private developerService: DeveloperService, private router: Router,
+    private snackBar: MatSnackBar
+  ) {}
     ngOnInit(): void 
     {
       this.getName();
+      this.developerService.getGames().subscribe({
+        next: (games) => 
+        {
+          this.devGames = games;
+          this.activeGames = [];
+          for(const game of this.devGames)
+          {
+            if (game.isActive)
+            {
+              this.activeGames.push(game);
+            }
+          }
+        },
+        error: (error) => {
+          console.error('Failed to get games:', error);
+        }
+      });
     }
     getName() 
     {
@@ -36,19 +60,40 @@ export class DeveloperComponent {
         }
       });
   }
-  displayedColumns: string[] = ['name', 'price', 'sold', 'earned', 'rating', 'actions'];
-  games = [
-  { name: 'Tekken', price: 100, sold: 1, earned: 100, rating: 9.7 },
-  { name: 'Street Fighter', price: 150, sold: 3, earned: 450, rating: 8.9 },
-  { name: 'Mortal Kombat', price: 120, sold: 2, earned: 240, rating: 9.2 },
-  ];
+  displayedColumns: string[] = ['name', 'price', 'sold', 'earned', 'rating', 'genre','actions'];
+ 
 
   editGame(game: any) {
     alert('Edit '+ game.name);
   }
 
-  deleteGame(game: any) {
-    alert('Delete '+ game.name);
+  deleteGame(game: ReturnGamesToDevDTO) 
+  {
+    const confirmed = confirm(
+      `Are you sure you want to delete "${game.name}"?`
+    );
+    if (!confirmed)
+    {
+      return;
+    }
+    this.developerService.deleteGame(game.id).subscribe({
+        next: (result) => 
+        { 
+            this.activeGames = this.activeGames.filter(g => g !== game);
+            this.snackBar.open(
+            'Game deleted!',
+            'Close',
+            {
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top'
+            }
+          );
+        },
+        error: (err) => {
+          console.error('Failed to get name:', err);
+        }
+    });
   }
   goToUploadGame() {
     this.router.navigate(['/uploadGame']);

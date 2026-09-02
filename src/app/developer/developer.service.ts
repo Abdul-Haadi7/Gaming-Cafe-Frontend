@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ReturnStatement } from '@angular/compiler';
+import { ReturnGamesToDevDTO } from '../models/ReturnGameToDev';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +21,29 @@ export class DeveloperService {
         Authorization: `Bearer ${token}`
       }
     });
+  }
+  getGames(): Observable<ReturnGamesToDevDTO[]> 
+  {
+    const token = localStorage.getItem('token');
+    return this.http.get<ReturnGamesToDevDTO[]>(
+      `${this.apiURL}/getMyGames`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+  }
+  deleteGame(id:number)  
+  {
+    const token = localStorage.getItem('token');
+    return this.http.delete(
+      `${this.apiURL}/deleteMyGame?gameId=`+id,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
   }
 }
