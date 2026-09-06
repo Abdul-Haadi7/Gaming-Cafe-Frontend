@@ -67,7 +67,6 @@ export class GameRequirementsComponent
       this.requirements = this.requirementsForm.value;
       const gameId = Number(this.route.snapshot.paramMap.get('gameId'));
       this.requirements.gameId = gameId;
-      console.log(this.requirements);
       this.gameRequirementsService.uploadGameReq(this.requirements)
       .subscribe({
         next: (response: any) => 
@@ -98,4 +97,8 @@ export class GameRequirementsComponent
         }
       });
     }
+  home()
+  {
+    this.router.navigate(['/devHome']);
+  }
 }

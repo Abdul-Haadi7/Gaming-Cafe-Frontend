@@ -109,4 +109,17 @@ export class UploadGameComponent {
       }
     });
   }
+  addReq()
+  {
+    if (this.gameForm.invalid) 
+    {
+      this.gameForm.markAllAsTouched();
+      return;
+    }
+    this.router.navigate(['/addRequirements',this.gameId]);
+  }
+  home()
+  {
+    this.router.navigate(['/devHome']);
+  }
 }

@@ -1,5 +1,6 @@
-export interface Game 
+export interface EditGameDTO 
 {
+  id:number;
   name: string;
   price: number;
   intro: string;
@@ -8,8 +9,4 @@ export interface Game
   downloadLink: string;
   imageLink: string;
   discountPercentage?: number;
-}
-export interface UploadGameResponse {
-  message: string;
-  gameId: number;
 }

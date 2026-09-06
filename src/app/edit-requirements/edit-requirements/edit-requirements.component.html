@@ -1,7 +1,7 @@
 <div class="page-center-wrapper">
   <form [formGroup]="requirementsForm" (ngSubmit)="onSubmit()" class="upload-form">
 
-    <h2>Upload game requirements</h2>
+    <h2>Edit game requirements</h2>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Operating system</mat-label>
@@ -36,8 +36,8 @@
     </mat-form-field>
 
     <div class="actions">
-      <button mat-raised-button (click)="home()">Home</button>
-      <button mat-raised-button color="primary" type="submit">Upload requirements</button>
+        <button mat-raised-button (click)="home()">Home</button>
+      <button mat-raised-button color="primary" (click)="saveEditedReq()">Save</button>
     </div>
 
   </form>

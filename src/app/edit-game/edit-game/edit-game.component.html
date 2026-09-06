@@ -3,7 +3,7 @@
     
   <form [formGroup]="gameForm" (ngSubmit)="onSubmit()" class="upload-form">
 
-  <h2>Upload new game</h2>
+  <h2>Edit game</h2>
 
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Game name</mat-label>
@@ -67,8 +67,9 @@
   </mat-form-field>
 
   <div class="actions">
+    <button mat-stroked-button type="button" (click)="saveEditedGame()">Save</button>
     <button mat-stroked-button type="button" (click)="home()">Home</button>
-    <button mat-raised-button color="primary" type="submit" (click)="uploadGame()">Upload & add requirements</button>
+    <button mat-raised-button color="primary" (click)="editReq()">Edit requirements</button>
   </div>
 </form>
 </div>

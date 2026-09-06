@@ -63,8 +63,9 @@ export class DeveloperComponent {
   displayedColumns: string[] = ['name', 'price', 'sold', 'earned', 'rating', 'genre','actions'];
  
 
-  editGame(game: any) {
-    alert('Edit '+ game.name);
+  editGame(game: ReturnGamesToDevDTO) 
+  {
+    this.router.navigate(['/editGame',game.id]);
   }
 
   deleteGame(game: ReturnGamesToDevDTO) 

@@ -1,0 +1,35 @@
+.page-center-wrapper {
+  display: flex;
+  justify-content: center;   /* horizontal */
+  align-items: center;       /* vertical */
+  min-height: calc(100vh - 64px); /* subtract toolbar height if you have one */
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 600px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+}
+
+.row mat-form-field {
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}

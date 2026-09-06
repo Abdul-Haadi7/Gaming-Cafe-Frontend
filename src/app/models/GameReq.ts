@@ -1,4 +1,5 @@
-export interface GameRequirement {
+export interface GameRequirement 
+{
   gameId: number;
   os: string;
   processor: string;
