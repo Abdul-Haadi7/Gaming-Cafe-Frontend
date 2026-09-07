@@ -121,6 +121,7 @@ export class EditRequirementsComponent
           horizontalPosition: 'center',
           verticalPosition: 'top'
         });
+        this.router.navigate(['/devHome']);
         },
 
         error: (error) => 
@@ -159,6 +160,7 @@ export class EditRequirementsComponent
               horizontalPosition: 'center',
               verticalPosition: 'top'
           });
+          this.router.navigate(['/devHome']);
         },
         error: (error) => {
           console.error(error);

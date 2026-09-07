@@ -25,6 +25,9 @@ export class DeveloperComponent {
   name: string = '';
   devGames: ReturnGamesToDevDTO[] = [];
   activeGames: ReturnGamesToDevDTO[] = [];
+  totalGameSold = 0;
+  totalMoneyEarned = 0;
+  discountedPrice = 0;
   constructor(private developerService: DeveloperService, private router: Router,
     private snackBar: MatSnackBar
   ) {}
@@ -43,11 +46,19 @@ export class DeveloperComponent {
               this.activeGames.push(game);
             }
           }
+          this.upateStats();
         },
         error: (error) => {
           console.error('Failed to get games:', error);
         }
       });
+    }
+    upateStats(){
+      for (let game of this.devGames)
+      {
+        this.totalGameSold+= game.soldAmount;
+        this.totalMoneyEarned+= game.earned;
+      }
     }
     getName() 
     {
@@ -60,7 +71,7 @@ export class DeveloperComponent {
         }
       });
   }
-  displayedColumns: string[] = ['name', 'price', 'sold', 'earned', 'rating', 'genre','actions'];
+  displayedColumns: string[] = ['name', 'price', 'discount','sold', 'earned', 'rating', 'genre','actions'];
  
 
   editGame(game: ReturnGamesToDevDTO) 
@@ -98,5 +109,9 @@ export class DeveloperComponent {
   }
   goToUploadGame() {
     this.router.navigate(['/uploadGame']);
+  }
+  getDiscountedPrice(originalPrice:number, discountPercentage:number)
+  {
+    return originalPrice - (originalPrice * discountPercentage / 100)
   }
 }

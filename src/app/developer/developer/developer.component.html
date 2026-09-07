@@ -33,14 +33,14 @@
 
         <mat-card class="stat-card">
           <mat-icon class="stat-icon">sell</mat-icon>
-          <div class="stat-value">42</div>
+          <div class="stat-value">{{totalGameSold}}</div>
           <div class="stat-label">Games sold</div>
         </mat-card>
 
         <mat-card class="stat-card">
           <mat-icon class="stat-icon">money</mat-icon>
-          <div class="stat-value">7</div>
-          <div class="stat-label">Money earned</div>
+          <div class="stat-value">{{totalMoneyEarned}}</div>
+          <div class="stat-label">Money earned (PKR)</div>
         </mat-card>
     </div>
   </div>
@@ -55,19 +55,41 @@
 
   <!-- Price -->
   <ng-container matColumnDef="price">
-    <th mat-header-cell *matHeaderCellDef> Current Price </th>
-    <td mat-cell *matCellDef="let game"> {{ game.price }} </td>
+    <th mat-header-cell *matHeaderCellDef> Current Price (PKR) </th>
+    <td mat-cell *matCellDef="let game"> 
+      <span *ngIf="game.discountPercentage <= 0">
+        {{ game.price }}
+      </span>
+
+      <span *ngIf="game.discountPercentage > 0">
+        <!-- Discounted -->
+        <div *ngIf="game.discountPercentage > 0">
+          <span style="text-decoration: line-through;">
+            {{ game.price }} 
+          </span>
+          <br>
+          <span>
+            {{getDiscountedPrice(game.price,game.discountPercentage)}} 
+          </span>
+        </div>
+      </span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="discount">
+    <th mat-header-cell *matHeaderCellDef> Discount Apppiled (%) </th>
+    <td mat-cell *matCellDef="let game"> {{ game.discountPercentage }} </td>
   </ng-container>
 
   <!-- Sold -->
   <ng-container matColumnDef="sold">
     <th mat-header-cell *matHeaderCellDef> Sold </th>
-    <td mat-cell *matCellDef="let game"> {{ game.sold }} </td>
+    <td mat-cell *matCellDef="let game"> {{ game.soldAmount }} </td>
   </ng-container>
 
   <!-- Total Earned -->
   <ng-container matColumnDef="earned">
-    <th mat-header-cell *matHeaderCellDef> Total Earned </th>
+    <th mat-header-cell *matHeaderCellDef> Total Earned (PKR) </th>
     <td mat-cell *matCellDef="let game"> {{ game.earned }} </td>
   </ng-container>
 

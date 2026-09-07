@@ -11,4 +11,7 @@ export interface ReturnGamesToDevDTO
     discountPercentage: number;
     hasWarning: boolean;
     isActive: boolean;
+    soldAmount: number;
+    earned: number;
+    rating: number;
 }
