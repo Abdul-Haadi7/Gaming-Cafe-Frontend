@@ -14,4 +14,5 @@ export interface ReturnGamesToDevDTO
     soldAmount: number;
     earned: number;
     rating: number;
+    isPublic:boolean;
 }

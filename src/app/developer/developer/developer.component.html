@@ -39,13 +39,48 @@
 
         <mat-card class="stat-card">
           <mat-icon class="stat-icon">money</mat-icon>
-          <div class="stat-value">{{totalMoneyEarned}}</div>
+          <div class="stat-value">{{totalMoneyEarned.toFixed(2)}}</div>
           <div class="stat-label">Money earned (PKR)</div>
         </mat-card>
     </div>
   </div>
-  <h1 class="marginLeft">Active games</h1>
-  <table mat-table [dataSource]="activeGames" class="mat-elevation-z2 games-table marginLeft">
+
+  <h1 class="margin">Active games</h1>
+  <h3 class="margin">Total games: {{filteredGames.length}}</h3>
+  <div class="margin">
+    <mat-form-field class="searchFilter">
+      <input #searchInput matInput  placeholder="Search games" (keyup)="searchGames(searchInput.value)">
+    </mat-form-field>
+    <mat-form-field class="searchFilter"> 
+      <mat-select [(value)]="sortOrder" placeholder="Sort games" (selectionChange)="sortGames($event.value)">    
+        <mat-option value="priceLowHigh"> Price: Low to High </mat-option>
+        <mat-option value="priceHighLow"> Price: High to Low </mat-option>
+        <mat-option value="ratingLowHigh"> Rating: Low to High </mat-option>
+        <mat-option value="ratingHighLow"> Rating: High to Low </mat-option>
+        <mat-option value="soldLowHigh"> Sold: Low to High </mat-option>
+        <mat-option value="soldHighLow"> Sold: High to Low </mat-option>
+        <mat-option value="earnedLowHigh"> Earned: Low to High </mat-option>
+        <mat-option value="earnedHighLow"> Earned: High to Low </mat-option>
+        <button mat-button (click)="clearSort()">Clear filter</button>
+      </mat-select>
+    </mat-form-field>
+     <mat-form-field class="searchFilter"> 
+      <mat-select [(value)]="filter" placeholder="Filter out games" (selectionChange)="filterOutGames($event.value)">    
+        <mat-option value="discounted"> Discounted applied </mat-option>
+        <mat-option value="notDiscounted"> No discounted </mat-option>
+        <mat-option value="public"> Public </mat-option>
+        <mat-option value="private"> Private </mat-option>
+        <mat-option value="warning"> Has warning </mat-option>
+        <mat-option value="noWarning"> No warning </mat-option>
+        <button mat-button (click)="clearFilter()">Clear filter</button>
+      </mat-select>
+    </mat-form-field>
+    <button class="newGameBtn " color="primary" (click)="goToUploadGame()">
+      <mat-icon>add</mat-icon>
+        Upload Game
+      </button>
+  </div>
+  <table mat-table [dataSource]="filteredGames" class="mat-elevation-z2 games-table marginLeft">
 
   <!-- Game Name -->
   <ng-container matColumnDef="name">
@@ -104,6 +139,18 @@
     <td mat-cell *matCellDef="let game"> {{ game.genre }} </td>
   </ng-container>
 
+  <ng-container matColumnDef="availability">
+    <th mat-header-cell *matHeaderCellDef> Availabiliity </th>
+    <td mat-cell *matCellDef="let game"> 
+      <span *ngIf="game.isPublic == true">
+        <button mat-stroked-button type="button" (click)="toggleAvailability(game)">Public</button>
+      </span>
+      <span *ngIf="game.isPublic == false">
+        <button mat-stroked-button type="button" (click)="toggleAvailability(game)">Private</button>
+      </span>
+    </td>
+  </ng-container>
+
   <!-- Actions -->
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef> Actions </th>
@@ -120,10 +167,7 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-<button class="newGameBtn marginLeft" color="primary" (click)="goToUploadGame()">
-  <mat-icon>add</mat-icon>
-    Upload Game
-</button>
+
   </mat-sidenav-content>
 </mat-sidenav-container>
 

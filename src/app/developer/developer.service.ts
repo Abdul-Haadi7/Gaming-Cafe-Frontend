@@ -46,4 +46,16 @@ export class DeveloperService {
       }
     );
   }
+  toggleAvailabiity(gameId:number)
+  {
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      `${this.apiURL}/toggleAvailability?gameId=`+gameId,null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+  }
 }
