@@ -112,6 +112,6 @@ export class DeveloperComponent {
   }
   getDiscountedPrice(originalPrice:number, discountPercentage:number)
   {
-    return originalPrice - (originalPrice * discountPercentage / 100)
+    return (originalPrice - (originalPrice * discountPercentage / 100)).toFixed(2);
   }
 }
