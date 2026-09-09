@@ -1,0 +1,37 @@
+<mat-toolbar class="sticky">
+    <mat-toolbar-row class = "navbar">
+        <a href="/customerHome" mat-button>Games</a>
+        <a mat-button *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
+        <a mat-button *ngIf="gamesInCart < 1">Cart</a>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+
+
+<div class="container-sm">
+    <mat-card *ngIf="games.length > 0">
+        <mat-list-item *ngFor="let game of games">
+            <div class="game-row">
+                <span class="game-name">{{ game.name }}</span>
+                <span class="game-price">
+                    {{ game.price | currency:'PKR ' }}
+                    <button mat-icon-button (click)="deleteFromCart(game.id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </span>
+            </div>
+        </mat-list-item>
+
+        <mat-list-item>
+            <div class="game-row total-row">
+                <span class="game-name">Total: {{ totalPrice | currency:'PKR ' }}</span>
+                <button mat-button (click)="clearCart()">Clear Cart</button>
+                <button mat-button (click)="checkOut()">Pay and download</button>
+            </div>
+        </mat-list-item>
+    </mat-card>
+
+    <div *ngIf="games.length < 1">
+        <h1 class="pad">Your cart is empty.</h1>
+    </div>
+</div>

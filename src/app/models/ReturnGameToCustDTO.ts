@@ -11,4 +11,5 @@ export interface ReturnGamesToCustomerDTO
     discountPercentage: number;
     developerName:string;
     rating: number;
+    alreadyOwned:boolean;
 }

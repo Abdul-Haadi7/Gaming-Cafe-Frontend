@@ -1,0 +1,70 @@
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  margin-bottom: 20px;
+}
+
+
+.price {
+    font-weight: 800;
+}
+
+.container-sm {
+    max-width: 700px;
+    margin: 50px auto;
+}
+
+mat-card {
+    padding: 20px;
+}
+
+::ng-deep mat-list-item {
+    height: auto !important;
+}
+
+mat-list-item {
+    display: block;
+    padding: 14px 8px;
+}
+
+mat-list-item:not(:last-child) {
+    border-bottom: 1px solid #eee;
+}
+
+.game-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-name {
+    font-size: 16px;
+}
+
+.game-price {
+    font-size: 16px;
+    margin-left: 50px;
+}
+
+.total-row {
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    padding-top: 15px;
+    font-weight: bold;
+}
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  margin-bottom: 20px;
+}
+
+.pad{
+    padding-top: 30px;
+}

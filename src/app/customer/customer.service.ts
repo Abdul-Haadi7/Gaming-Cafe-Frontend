@@ -94,4 +94,17 @@ export class CustomerService {
       }
     );
   }
+ getCartCount(): Observable<number>
+  {
+    const token = localStorage.getItem('token');
+    return this.http.get<number>(
+      `${this.apiURL}/getCartCount`,
+      {
+        headers: 
+        {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+  }
 }

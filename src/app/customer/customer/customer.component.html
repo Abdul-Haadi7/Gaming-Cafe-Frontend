@@ -1,8 +1,8 @@
 <mat-toolbar class="sticky">
     <mat-toolbar-row class = "navbar">
-        <a href="/games" mat-button>Games</a>
-        <a href="/cart" mat-button *ngIf="gamesInCart > 0">Your Cart ({{gamesInCart}})</a>
-        <a href="/cart" mat-button *ngIf="gamesInCart < 1">Your Cart</a>
+        <a mat-button>Games</a>
+        <a (click)="goToCart()" mat-button *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
+        <a href="/cart" mat-button *ngIf="gamesInCart < 1">Cart</a>
     </mat-toolbar-row>
 </mat-toolbar>
 
@@ -30,6 +30,8 @@
       <mat-select [(value)]="filter" placeholder="Filter out games" (selectionChange)="filterOutGames($event.value)">    
         <mat-option value="discounted"> Discounted applied </mat-option>
         <mat-option value="notDiscounted"> No discounted </mat-option>
+        <mat-option value="owned"> Owned </mat-option>
+        <mat-option value="notOwned"> Not owned </mat-option>
  
         <button mat-button (click)="clearFilter()">Clear filter</button>
       </mat-select>
@@ -66,8 +68,12 @@
         <mat-card-subtitle>Developer: {{game.developerName}}</mat-card-subtitle>
       </mat-card-content>
       <mat-card-content>
-        <button (click)="addToCart(game.id, game.name); $event.stopPropagation()" class="button" mat-stroked-button color="primary">
+        <button *ngIf="!game.alreadyOwned" (click)="addToCart(game.id, game.name); $event.stopPropagation()" class="button" mat-stroked-button color="primary">
             <mat-icon>shopping_cart</mat-icon>
+        </button>
+        <button *ngIf="game.alreadyOwned"  class="button" mat-stroked-button disabled>
+          <mat-icon>check</mat-icon>
+            Owned
         </button>
       </mat-card-content>
     </mat-card>

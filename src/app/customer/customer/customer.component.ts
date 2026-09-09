@@ -16,6 +16,7 @@ import { MatToolbarRow } from "@angular/material/toolbar";
 import { Router } from '@angular/router'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReturnGamesToCustomerDTO } from '../../models/ReturnGameToCustDTO';
+import { getDiffieHellman } from 'crypto';
 // import { CartService } from '../../cart/cart.service';
 
 @Component({
@@ -46,6 +47,7 @@ export class CustomerComponent
     {
       this.getName();
       this.getAllGames();
+      this.getCartCount();
     }
     getName() 
     {
@@ -61,13 +63,30 @@ export class CustomerComponent
     getAllGames()
     {
       this.customerService.getAllGames().subscribe({
-            next: (result) => {
+            next: (result) => 
+            {
+              for(let game of result){
+                game.rating = this.roundToTwoDecimal(game.rating);
+              }
               this.allGames = result;
               this.filteredGames = [...this.allGames];
+              console.log(this.allGames);
             },
             error: (err) => 
             {
               console.error('Failed to get name:', err);
+            }
+          });
+    }
+    getCartCount(){
+      this.customerService.getCartCount().subscribe({
+            next: (result) => 
+            {
+              this.gamesInCart = result;
+            },
+            error: (err) => 
+            {
+              console.error('Failed to get count:', err);
             }
           });
     }
@@ -167,6 +186,12 @@ export class CustomerComponent
     else if (this.filter === 'notDiscounted') {
       games = games.filter(game => game.discountPercentage <= 0);
     }
+    else if (this.filter === 'owned') {
+      games = games.filter(game => game.alreadyOwned == true);
+    }
+    else if (this.filter === 'notOwned') {
+      games = games.filter(game => game.alreadyOwned == false);
+    }
     this.filteredGames = games;
   }
 
@@ -182,5 +207,33 @@ export class CustomerComponent
   goToDetails(gameId:number)
   {
     this.router.navigate(['/gameDetails',gameId]);
+  }
+  goToCart(){
+    this.router.navigate(['/cart']);
+  }
+  getUserId()
+  {
+    try 
+    {
+      const token = localStorage.getItem('token');
+      if(token == null){
+        return;
+      }
+      const payload = token.split('.')[0];
+      const decodedPayload = JSON.parse(atob(payload));
+      this.router.navigate(['/cart', decodedPayload.id]);
+      return decodedPayload.role ?? null;
+
+    } 
+    catch (error)
+    {
+      console.error('Invalid token:', error);
+      return null;
+
+    }
+  }
+  roundToTwoDecimal(value: number): number 
+  {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
   }
 }

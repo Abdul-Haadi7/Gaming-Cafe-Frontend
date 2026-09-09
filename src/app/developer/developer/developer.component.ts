@@ -47,6 +47,9 @@ export class DeveloperComponent {
       this.developerService.getGames().subscribe({
         next: (games) => 
         {
+          for(let game of games){
+            game.rating = this.roundToTwoDecimal(game.rating);
+          }
           this.devGames = games;
           this.activeGames = [];
           this.devGames = games;
@@ -244,5 +247,8 @@ export class DeveloperComponent {
     this.filter = '';
     this.applyFilters();
   }
-  
+  roundToTwoDecimal(value: number): number 
+  {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
+  }
 }

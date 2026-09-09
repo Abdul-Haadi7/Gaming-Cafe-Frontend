@@ -20,7 +20,8 @@ import { EditRequirementsService } from '../../edit-requirements/edit-requiremen
 })
 export class GameDetailsComponent 
 {
-  game: ReturnGamesToCustomerDTO={
+  game: ReturnGamesToCustomerDTO=
+  {
     id:0,
     name:'',
     price:0,
@@ -32,6 +33,7 @@ export class GameDetailsComponent
     discountPercentage: 0,
     developerName:'',
     rating: 0,
+    alreadyOwned: true
   }
   gameId=0;
   userRating=0;
@@ -51,6 +53,7 @@ export class GameDetailsComponent
     this.gameId = idParam ? Number(idParam) : 0;
     this.customerService.getGameById(this.gameId).subscribe({
       next: (result) => {
+        result.rating = this.roundToTwoDecimal(result.rating);
         this.game = result;
       },
       error: (err) => 
@@ -60,7 +63,7 @@ export class GameDetailsComponent
     });
     this.customerService.getRatingGiven(this.gameId).subscribe({
         next: (result) => {
-          this.userRating = result;
+          this.userRating = this.roundToTwoDecimal(result);
         },
         error: (err) => 
         {
@@ -82,17 +85,14 @@ export class GameDetailsComponent
       }
     });
   }
-  addToCart(gameId:number)
-  {
-    this.customerService.addToCart(gameId);
-  }
+ 
   rateGame(gameId: number, ratingGiven: number)
   {
     console.log(ratingGiven);
     this.customerService.rateGame(gameId,ratingGiven).subscribe({
       next: (response) => 
       {
-        this.userRating = ratingGiven;
+        this.userRating = this.roundToTwoDecimal(ratingGiven);
         this.snackBar.open("Rating saved!", 'Close',
         {
           duration: 3000,
@@ -123,5 +123,39 @@ export class GameDetailsComponent
   {
     const discounted = originalPrice - (originalPrice * discountPercentage / 100);
     return Math.round(discounted * 100) / 100;
+  }
+  addToCart(gameId: number, gameName: string): void
+  {
+    this.customerService.addToCart(gameId).subscribe({
+    next: (response) => 
+      {
+        this.snackBar.open(`"${gameName}" added to cart!`, 'Close',
+        {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        }
+      );
+    },
+
+    error: (error) => {
+      console.error("Add to cart error:", error);
+      let message = `Unable to add "${gameName}" to cart!`;
+
+      if (error.status === 400) {
+        message = error.error;
+      }
+
+      this.snackBar.open(message, 'Close', 
+      {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
+    }
+    });
+  }
+  roundToTwoDecimal(value: number): number {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
   }
 }
