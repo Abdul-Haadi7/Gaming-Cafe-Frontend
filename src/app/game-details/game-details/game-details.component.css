@@ -1,0 +1,193 @@
+
+
+.image-container {
+  display: flex;
+  justify-content: center;
+}
+
+.image-container img {
+  width: 50%;
+  height: 450px;
+  border-radius: 15px;
+  object-fit: cover;
+  padding: 5px;
+}
+.image-container img:hover{
+    cursor: pointer;
+    transform: scale(1.01);
+    transition: 0.5s ease;
+}
+
+.name-desc{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.details 
+{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    max-width: 60%;
+    margin: 30px auto;
+    padding: 15px;
+    line-height: 1.6;
+    overflow-wrap: break-word;
+    border: 1px solid rgb(171, 169, 169);
+    border-radius: 20px;
+}
+
+.details:hover{
+    background-color: rgb(223, 218, 218);
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+
+.stats 
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px auto;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: 1px solid rgb(171, 169, 169);
+    border-radius: 50px;
+
+    white-space: nowrap;
+}
+.stat:hover{
+    background-color: rgb(223, 218, 218);
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+.star{
+    color: #FFD700;
+}
+
+.moreDetails{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    max-width: 60%;
+    margin: 30px auto;
+    padding: 15px;
+    line-height: 1.6;
+    overflow-wrap: break-word;
+    border: 1px solid rgb(171, 169, 169);
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.item{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    align-items: center;
+    padding: 15px;
+}
+
+
+
+
+.game-info-card {
+    width: 60%;
+    margin: 30px auto;
+}
+
+.game-info-card div {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.game-info-card div:last-child {
+    border-bottom: none;
+}
+
+.game-info-card strong {
+    width: 40%;
+}
+
+.game-info-card span {
+    width: 60%;
+}
+
+.cartButton {
+    box-sizing: border-box;
+    width: 20%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: 1px solid black;
+}
+.cartButton:hover{
+    cursor: pointer;
+    background-color: rgb(223, 218, 218);
+    transition: 0.5s ease;
+}
+
+.rating-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+    margin: 40px auto;
+    padding: 25px;
+    border: 1px solid rgb(171, 169, 169);
+    border-radius: 20px;
+    text-align: center;
+}
+
+.rating-section h1 {
+    margin-bottom: 20px;
+}
+
+.rating-control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.rating-control span {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.rating-control mat-slider {
+    width: 350px;
+}
+
+.rateButton {
+    box-sizing: border-box;
+    padding: 12px 25px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: 1px solid black;
+}
+
+.rateButton:hover {
+    cursor: pointer;
+    background-color: rgb(223, 218, 218);
+    transition: 0.5s ease;
+}
+
+.rateButton:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}

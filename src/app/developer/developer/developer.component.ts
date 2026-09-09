@@ -118,9 +118,10 @@ export class DeveloperComponent {
   goToUploadGame() {
     this.router.navigate(['/uploadGame']);
   }
-  getDiscountedPrice(originalPrice:number, discountPercentage:number)
+  getDiscountedPrice(originalPrice: number, discountPercentage: number): number
   {
-    return (originalPrice - (originalPrice * discountPercentage / 100)).toFixed(2);
+    const discounted = originalPrice - (originalPrice * discountPercentage / 100);
+    return Math.round(discounted * 100) / 100;
   }
   toggleAvailability(game:ReturnGamesToDevDTO)
   {
@@ -181,10 +182,16 @@ export class DeveloperComponent {
     }
     // Sort
     if (this.sortOrder === 'priceLowHigh') {
-      games.sort((a, b) => a.price - b.price);
+      games.sort((a, b) =>
+        this.getDiscountedPrice(a.price, a.discountPercentage) -
+        this.getDiscountedPrice(b.price, b.discountPercentage)
+      );
     }
     else if (this.sortOrder === 'priceHighLow') {
-      games.sort((a, b) => b.price - a.price);
+      games.sort((a, b) =>
+        this.getDiscountedPrice(b.price, b.discountPercentage) -
+        this.getDiscountedPrice(a.price, a.discountPercentage)
+      );
     }
     else if (this.sortOrder === 'ratingLowHigh') {
       games.sort((a, b) => a.rating - b.rating);

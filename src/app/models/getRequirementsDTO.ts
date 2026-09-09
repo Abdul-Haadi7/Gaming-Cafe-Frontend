@@ -6,6 +6,3 @@ export interface GetRequirementsDTO
   graphicsCard: string;
   storage: string;
 }
-// export interface UploadRequirementsResponse {
-//   message: string;
-// }

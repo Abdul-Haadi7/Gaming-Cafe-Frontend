@@ -12,6 +12,7 @@ import { UploadGameComponent } from './upload-game/upload-game/upload-game.compo
 import { GameRequirementsComponent } from './game-requirements/game-requirements/game-requirements.component';
 import { EditGameComponent } from './edit-game/edit-game/edit-game.component';
 import { EditRequirementsComponent } from './edit-requirements/edit-requirements/edit-requirements.component';
+import { GameDetailsComponent } from './game-details/game-details/game-details.component';
 
 export const routes: Routes = [
     {path:'',redirectTo:'login',pathMatch:'full'},
@@ -24,5 +25,6 @@ export const routes: Routes = [
     {path:'uploadGame', component: UploadGameComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
     {path:'addRequirements/:gameId', component: GameRequirementsComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
     {path:'editGame/:gameId', component: EditGameComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
-    {path:'editReq/:gameId', component: EditRequirementsComponent,canActivate: [authGuard, roleGuard(['Developer'])]}
+    {path:'editReq/:gameId', component: EditRequirementsComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
+    {path:'gameDetails/:gameId', component: GameDetailsComponent,canActivate: [authGuard, roleGuard(['Developer','Customer','Admin','Super Admin'])]}
 ];

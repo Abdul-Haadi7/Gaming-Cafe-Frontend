@@ -38,8 +38,9 @@ export class CustomerComponent
    gamesInCart = 0;
    searchName='';
    filter='';
+   
    constructor(private customerService: CustomerService,
-    private snackBar:MatSnackBar
+    private snackBar:MatSnackBar, private router:Router
    ) {}   
     ngOnInit(): void 
     {
@@ -57,7 +58,8 @@ export class CustomerComponent
         }
       });
     }
-    getAllGames(){
+    getAllGames()
+    {
       this.customerService.getAllGames().subscribe({
             next: (result) => {
               this.allGames = result;
@@ -106,9 +108,10 @@ export class CustomerComponent
     const img = event.target as HTMLImageElement;
     img.src = 'assets/Images/default.jpg';
   }
-  getDiscountedPrice(originalPrice:number, discountPercentage:number):number
+  getDiscountedPrice(originalPrice: number, discountPercentage: number): number
   {
-    return originalPrice - (originalPrice * discountPercentage / 100);
+    const discounted = originalPrice - (originalPrice * discountPercentage / 100);
+    return Math.round(discounted * 100) / 100;
   }
 
   searchGames(searched: string): void 
@@ -175,5 +178,9 @@ export class CustomerComponent
   clearFilter(): void {
     this.filter = '';
     this.applyFilters();
+  }
+  goToDetails(gameId:number)
+  {
+    this.router.navigate(['/gameDetails',gameId]);
   }
 }

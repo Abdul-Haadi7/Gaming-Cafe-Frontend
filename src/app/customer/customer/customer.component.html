@@ -40,7 +40,7 @@
 
   <mat-grid-list cols="3" rowHeight="350px" gutterSize="20px">
   <mat-grid-tile *ngFor="let game of filteredGames">
-    <mat-card class="product-card game-card" appearance="outlined">
+    <mat-card class="product-card game-card" appearance="outlined" (click)="goToDetails(game.id)">
       <div class="ribbon" *ngIf="game.discountPercentage > 0">
         <span>{{game.discountPercentage}}% off!</span>
       </div>

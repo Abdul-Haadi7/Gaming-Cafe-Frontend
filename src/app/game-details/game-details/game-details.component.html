@@ -1,0 +1,107 @@
+<div *ngIf="game as g">  
+    <div class="image-container">
+        <img src="{{g.imageLink}}" alt="Game Image" height="450px" width="50%">
+    </div>
+    <div class="name-desc">
+        <h1>{{game.name}}</h1>
+        <h3>{{game.intro}}</h3>
+    </div>
+    <div class="details">
+        <h1>About Game:</h1>
+        {{game.description}}
+    </div>
+
+    <div class="stats">
+        <div class="stat" *ngIf="game.rating > 0">
+            <mat-icon class="star" >star</mat-icon>
+            <span>{{ game.rating }}</span>
+        </div>
+
+        <div class="stat">
+            <mat-icon>category</mat-icon>
+            <span>{{ game.genre }}</span>
+        </div>
+
+        <div class="stat">
+            <span>PKR {{ getDiscountedPrice(game.price, game.discountPercentage) }}</span>
+        </div>
+    </div>
+
+    <mat-card class="game-info-card">
+    <mat-card-content>
+        <div>
+            <strong>Developer</strong>
+            <span>{{ game.developerName }}</span>
+        </div>
+
+    </mat-card-content>
+    </mat-card>
+
+    <h1 class="image-container">PC requirements</h1>    
+    <mat-card class="game-info-card">
+    <mat-card-content>
+        <div>
+            <strong>Operating system</strong>
+            <span>{{ gameReq.os }}</span>
+        </div>
+
+        <div>
+            <strong>Processor</strong>
+            <span>{{ gameReq.processor }}</span>
+        </div>
+
+        <div>
+            <strong>RAM</strong>
+            <span>{{ gameReq.ram }}</span>
+        </div>
+
+        <div>
+            <strong>Graphics card</strong>
+            <span>{{ gameReq.graphicsCard }}</span>
+        </div>
+
+        <div>
+            <strong>Storage</strong>
+            <span>{{ gameReq.storage }}</span>
+        </div>
+
+    </mat-card-content>
+    </mat-card>
+    <div class="image-container">
+        <button class="cartButton" (click)="addToCart(game.id)">Add to cart</button>
+    </div>
+
+    <div class="rating-section" *ngIf="this.userRating <= 0">
+    <h1>Rate this game</h1>
+
+        <div class="rating-control">
+            <span>Your rating: {{ tempRating }}/10</span>
+
+            <mat-slider
+                min="0.5"
+                max="10"
+                step="0.5"
+                discrete>
+                <input matSliderThumb [(ngModel)]="tempRating">
+            </mat-slider>
+
+            <button
+                class="rateButton"
+                [disabled]="tempRating <= 0 || tempRating > 10"
+                (click)="rateGame(game.id, tempRating)">
+                Submit Rating
+            </button>
+        </div>
+        
+    </div>
+
+
+
+    <div class="rating-section" *ngIf="this.userRating > 0">
+        <div class="rating-control">
+            <span>You rated this game: {{ userRating }}/10</span>
+        </div>
+    </div>
+
+
+</div>
