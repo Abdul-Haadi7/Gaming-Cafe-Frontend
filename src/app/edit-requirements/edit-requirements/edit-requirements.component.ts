@@ -79,8 +79,7 @@ export class EditRequirementsComponent
           graphicsCard: req.graphicsCard,
           storage: req.storage,
         });
-        console.log(this.requirements);
-        console.log(req.graphicsCard);
+
       },
       error: (error) => 
       {

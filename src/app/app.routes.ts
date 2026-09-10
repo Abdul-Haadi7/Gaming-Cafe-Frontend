@@ -14,6 +14,8 @@ import { EditGameComponent } from './edit-game/edit-game/edit-game.component';
 import { EditRequirementsComponent } from './edit-requirements/edit-requirements/edit-requirements.component';
 import { GameDetailsComponent } from './game-details/game-details/game-details.component';
 import { CustomerCartComponent } from './customer-cart/customer-cart/customer-cart.component';
+import { UploadRequestsComponent } from './developer/upload-requests/upload-requests.component';
+import { UploadRequestsReceived } from './admin/upload-requests/upload-requests.component';
 
 export const routes: Routes = [
     {path:'',redirectTo:'login',pathMatch:'full'},
@@ -28,5 +30,7 @@ export const routes: Routes = [
     {path:'editGame/:gameId', component: EditGameComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
     {path:'editReq/:gameId', component: EditRequirementsComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
     {path:'gameDetails/:gameId', component: GameDetailsComponent,canActivate: [authGuard, roleGuard(['Developer','Customer','Admin','Super Admin'])]},
-    {path:'cart', component: CustomerCartComponent,canActivate: [authGuard, roleGuard(['Customer'])]}
+    {path:'cart', component: CustomerCartComponent,canActivate: [authGuard, roleGuard(['Customer'])]},
+    {path:'uploadRequestsSent', component: UploadRequestsComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
+    {path:'uploadRequestsReceived', component: UploadRequestsReceived,canActivate: [authGuard, roleGuard(['Super Admin','Admin'])]}
 ];

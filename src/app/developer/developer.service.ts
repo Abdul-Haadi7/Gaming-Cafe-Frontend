@@ -58,4 +58,16 @@ export class DeveloperService {
       }
     );
   }
+  getUploadRequests(): Observable<ReturnGamesToDevDTO[]> 
+  {
+    const token = localStorage.getItem('token');
+    return this.http.get<ReturnGamesToDevDTO[]>(
+      `${this.apiURL}/viewPendingGameRequests`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+  }
 }

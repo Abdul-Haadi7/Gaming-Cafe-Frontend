@@ -1,8 +1,46 @@
 <mat-toolbar>
   <span>Gaming Cafe</span>
 
-  <span class="example-spacer"></span>
+<span class="example-spacer"></span>
 
-  <a mat-button>{{name}}</a>
-
+  <h1>{{name}}</h1>
 </mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+
+<mat-sidenav #sidenav mode="side" [opened]="false" class="app-sidenav">
+
+<mat-nav-list>
+
+  <a mat-list-item>
+    Home
+  </a>
+
+  <a mat-list-item (click)="goToUploadRequests()">
+    Pending upload requests
+  </a>
+
+  <a mat-list-item>
+    Issue warning
+  </a>
+
+  <a mat-list-item>
+    Warning end requests
+  </a>
+
+</mat-nav-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+<!-- Menu button -->
+<button mat-icon-button (click)="sidenav.toggle()">
+  <mat-icon>menu</mat-icon>
+</button>
+
+
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

@@ -63,7 +63,6 @@ export class EditGameComponent {
     this.editGameService.getGameById(this.gameId).subscribe({
       next: (game) => 
       {
-        console.log(this.game);
         this.gameForm.patchValue({
           name: game.name,
           price: game.price,
@@ -96,8 +95,6 @@ export class EditGameComponent {
     );
     this.game = this.gameForm.value;
     this.game.id = this.gameId;
-
-    console.log(this.game);
 
     this.editGameService.saveEditedGame(this.game, this.gameId).subscribe({
       next: (response) => {

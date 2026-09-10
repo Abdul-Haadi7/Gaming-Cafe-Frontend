@@ -1,6 +1,6 @@
 <div *ngIf="game as g">  
     <div class="image-container">
-        <img src="{{g.imageLink}}" alt="Game Image" height="450px" width="50%">
+        <img src="{{g.imageLink}}" alt="Game Image" height="450px" width="50%" (error)="imageError($event)">
     </div>
     <div class="name-desc">
         <h1>{{game.name}}</h1>
@@ -67,11 +67,11 @@
 
     </mat-card-content>
     </mat-card>
-    <div class="image-container">
+    <div class="image-container" *ngIf="viewerIsCustomer()">
         <button *ngIf="!g.alreadyOwned" class="cartButton" (click)="addToCart(game.id,game.name)">Add to cart</button>
     </div>
 
-    <div class="rating-section" *ngIf="this.userRating <= 0">
+    <div class="rating-section" *ngIf="this.userRating <= 0 && viewerIsCustomer()">
     <h1>Rate this game</h1>
 
         <div class="rating-control">
@@ -97,7 +97,7 @@
 
 
 
-    <div class="rating-section" *ngIf="this.userRating > 0">
+    <div class="rating-section" *ngIf="this.userRating > 0 && viewerIsCustomer()">
         <div class="rating-control">
             <span>You rated this game: {{ userRating }}/10</span>
         </div>

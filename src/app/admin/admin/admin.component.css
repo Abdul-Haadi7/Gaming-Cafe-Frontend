@@ -1,3 +1,13 @@
 .example-spacer{
     flex: 1 1 auto;
 }
+
+
+.sidenav-container {
+  height: 100vh;   /* full screen height */
+  width: 100%;
+}
+
+.app-sidenav {
+  width: 250px;    /* set whatever width you want */
+}

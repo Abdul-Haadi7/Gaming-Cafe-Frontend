@@ -55,7 +55,6 @@ export class DeveloperComponent {
           this.devGames = games;
           this.activeGames = this.devGames.filter(game => game.isActive);
           this.filteredGames = [...this.activeGames];
-          console.log(this.filteredGames);
           this.upateStats();
         },
         error: (error) => {
@@ -250,5 +249,8 @@ export class DeveloperComponent {
   roundToTwoDecimal(value: number): number 
   {
     return Math.round((value + Number.EPSILON) * 100) / 100;
+  }
+  goToUploadRequests(){
+    this.router.navigate(['/uploadRequestsSent']);
   }
 }

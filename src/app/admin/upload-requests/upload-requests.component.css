@@ -1,0 +1,25 @@
+.example-spacer{
+    flex: 1 1 auto;
+}
+
+.sidenav-container {
+  height: 100vh;  
+  width: 100%;
+}
+
+.app-sidenav {
+  width: 250px;   
+} 
+
+.approve-button 
+{
+    margin-right: 20px;
+}
+
+.approve-icon {
+    color: green;
+}
+
+.reject-icon {
+    color: red;
+}

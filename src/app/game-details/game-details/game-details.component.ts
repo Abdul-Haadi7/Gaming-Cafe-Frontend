@@ -45,12 +45,19 @@ export class GameDetailsComponent
     graphicsCard:'',
     storage: ''
   }
+  viewerRole='';
   constructor(private customerService: CustomerService, private route:ActivatedRoute,
     private snackBar:MatSnackBar){}
   ngOnInit()
   {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      this.viewerRole = payload.role;
+    }
     const idParam = this.route.snapshot.paramMap.get('gameId');
     this.gameId = idParam ? Number(idParam) : 0;
+
     this.customerService.getGameById(this.gameId).subscribe({
       next: (result) => {
         result.rating = this.roundToTwoDecimal(result.rating);
@@ -61,15 +68,17 @@ export class GameDetailsComponent
         console.error('Failed to get game:', err);
       }
     });
-    this.customerService.getRatingGiven(this.gameId).subscribe({
+    if(this.viewerIsCustomer()){
+      this.customerService.getRatingGiven(this.gameId).subscribe({
         next: (result) => {
           this.userRating = this.roundToTwoDecimal(result);
         },
         error: (err) => 
-        {
-          console.error('Failed to get game:', err);
-        }
-      });
+          {
+            console.error('Failed to get game:', err);
+          }
+        });
+    }
     this.customerService.getGameReq(this.gameId).subscribe({
       next: (req) => 
       {
@@ -88,7 +97,6 @@ export class GameDetailsComponent
  
   rateGame(gameId: number, ratingGiven: number)
   {
-    console.log(ratingGiven);
     this.customerService.rateGame(gameId,ratingGiven).subscribe({
       next: (response) => 
       {
@@ -157,5 +165,13 @@ export class GameDetailsComponent
   }
   roundToTwoDecimal(value: number): number {
     return Math.round((value + Number.EPSILON) * 100) / 100;
+  }
+  imageError(event: Event) 
+  {
+    const img = event.target as HTMLImageElement;
+    img.src = 'assets/Images/default.jpg';
+  }
+  viewerIsCustomer():boolean{
+    return this.viewerRole == 'Customer';  
   }
 }
