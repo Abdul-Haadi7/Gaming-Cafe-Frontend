@@ -34,13 +34,153 @@
 
   <mat-sidenav-content>
 
-<!-- Menu button -->
-<button mat-icon-button (click)="sidenav.toggle()">
-  <mat-icon>menu</mat-icon>
-</button>
+  <!-- Menu button -->
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+    <div class="quick-stats-section">
+      <h2>Quick Stats</h2>
+
+      <div class="stats-row">
+        <mat-card class="stat-card" (click)="goToUploadRequests()">
+          <mat-icon class="stat-icon">pending</mat-icon>
+          <div class="stat-value">{{activeReqCount}}</div>
+          <div class="stat-label">Pending upload requests</div>
+        </mat-card>
+
+        <mat-card class="stat-card">
+          <mat-icon class="stat-icon">warning</mat-icon>
+          <div class="stat-value">{{activeWarnings}}</div>
+          <div class="stat-label">Active warnings</div>
+        </mat-card>
+        
+        <mat-card class="stat-card">
+          <mat-icon class="stat-icon">notification_important</mat-icon>
+          <div class="stat-value">{{endWarningReqCount}}</div>
+          <div class="stat-label">End warning request</div>
+        </mat-card>
+      </div>
+    </div>
+    
+    
+    <div class="marginLeft">
+      <mat-form-field class="searchFilter">
+        <input #searchInput matInput  placeholder="Search games" (keyup)="searchGames(searchInput.value)">
+      </mat-form-field>
+      <mat-form-field class="searchFilter"> 
+        <mat-select [(value)]="sortOrder" placeholder="Sort games" (selectionChange)="sortGames($event.value)">    
+          <mat-option value="priceLowHigh"> Price: Low to High </mat-option>
+          <mat-option value="priceHighLow"> Price: High to Low </mat-option>
+          <mat-option value="ratingLowHigh"> Rating: Low to High </mat-option>
+          <mat-option value="ratingHighLow"> Rating: High to Low </mat-option>
+          <button mat-button (click)="clearSort()">Clear filter</button>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="searchFilter"> 
+        <mat-select [(value)]="filter" placeholder="Filter out games" (selectionChange)="filterOutGames($event.value)">    
+          <mat-option value="discounted"> Discounted applied </mat-option>
+          <mat-option value="notDiscounted"> No discounted </mat-option>
+          <mat-option value="public"> Public </mat-option>
+          <mat-option value="private"> Private </mat-option>
+          <mat-option value="warning"> Has warning </mat-option>
+          <mat-option value="noWarning"> No warning </mat-option>
+          <button mat-button (click)="clearFilter()">Clear filter</button>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    
+    
+    <h1 class="marginLeft">All active games</h1>
+    <h4 class="marginLeft">Total games: {{filteredGames.length}}</h4>
+  <table mat-table [dataSource]="filteredGames" class="mat-elevation-z2 games-table marginLeft">
+
+  <!-- Game Name -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Game name </th>
+      <td mat-cell *matCellDef="let game"> 
+        <button *ngIf="game.hasWarning" mat-icon-button color="warn">
+          <mat-icon>warning</mat-icon>
+        </button>
+        <span>{{ game.name }}</span> 
+      </td>
+  </ng-container>
+
+  <ng-container matColumnDef="developer">
+    <th mat-header-cell *matHeaderCellDef> Develper </th>
+      <td mat-cell *matCellDef="let game"> 
+        <span>{{ game.developerName }}</span> 
+      </td>
+  </ng-container>
+
+  <!-- Price -->
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef> Current Price (PKR) </th>
+    <td mat-cell *matCellDef="let game"> 
+      <span *ngIf="game.discountPercentage <= 0">
+        {{ game.price }}
+      </span>
+
+      <span *ngIf="game.discountPercentage > 0">
+        <!-- Discounted -->
+        <div *ngIf="game.discountPercentage > 0">
+          <span style="text-decoration: line-through;">
+            {{ game.price }} 
+          </span>
+          <br>
+          <span>
+            {{getDiscountedPrice(game.price,game.discountPercentage)}} 
+          </span>
+        </div>
+      </span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="discount">
+    <th mat-header-cell *matHeaderCellDef> Discount Apppiled (%) </th>
+    <td mat-cell *matCellDef="let game"> {{ game.discountPercentage }} </td>
+  </ng-container>
 
 
+  <!-- Rating -->
+  <ng-container matColumnDef="rating">
+    <th mat-header-cell *matHeaderCellDef> Rating </th>
+    <td mat-cell *matCellDef="let game"> {{ game.rating }} </td>
+  </ng-container>
+   <!-- Genre -->
+   <ng-container matColumnDef="genre">
+    <th mat-header-cell *matHeaderCellDef> Genre </th>
+    <td mat-cell *matCellDef="let game"> {{ game.genre }} </td>
+  </ng-container>
 
-  </mat-sidenav-content>
+
+   <ng-container matColumnDef="availability">
+    <th mat-header-cell *matHeaderCellDef> Availability </th>
+    <td mat-cell *matCellDef="let game"> 
+      <span *ngIf="game.isPublic">
+        Public
+      </span>
+      <span *ngIf="!game.isPublic">
+        Private
+      </span>
+    </td>
+  </ng-container>
+
+  <!-- Actions -->
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let game">
+      <button (click)="openWarningDialog(game)" mat-stroked-button>
+          <mat-icon>report</mat-icon>
+          Warn
+      </button>
+  
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+</mat-sidenav-content>
 
 </mat-sidenav-container>

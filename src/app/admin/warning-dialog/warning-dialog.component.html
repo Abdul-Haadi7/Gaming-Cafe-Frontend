@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>
+  Send Warning
+</h2>
+
+<mat-dialog-content>
+
+  <p>
+    Send warning to
+    <strong>{{ data.game.name }}</strong>
+    Developer
+    <strong>{{ data.game.developerName }}</strong>
+  </p>
+
+  <mat-form-field appearance="outline" class="warning-field">
+    <mat-label>Warning reason</mat-label>
+
+    <textarea
+      matInput
+      [(ngModel)]="warningReason"
+      rows="5"
+      placeholder="Enter the reason for this warning">
+    </textarea>
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+  <button mat-button (click)="cancel()">
+    Cancel
+  </button>
+
+  <button
+    mat-flat-button
+    color="warn"
+    [disabled]="!warningReason.trim()"
+    (click)="sendWarning()">
+
+    <mat-icon>warning</mat-icon>
+    Warn
+
+  </button>
+
+</mat-dialog-actions>

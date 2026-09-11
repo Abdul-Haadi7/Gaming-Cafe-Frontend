@@ -11,3 +11,56 @@
 .app-sidenav {
   width: 250px;    /* set whatever width you want */
 }
+
+.quick-stats-section {
+  padding: 16px;
+}
+
+.stats-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap; 
+}
+
+.stat-card {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+}
+.stat-icon {
+  font-size: 32px;
+  height: 32px;
+  width: 32px;
+  color: #3f51b5; 
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+  margin-top: 4px;
+}
+
+.stat-card:hover{
+    transition: background-color 0.5s ease;
+    background-color: #cfcece;
+    cursor: pointer;
+    transform: translateY(-4px);
+}
+
+.marginLeft{
+    margin-left: 10px;
+}
+
+.searchFilter{
+  margin-right: 20px;
+}
