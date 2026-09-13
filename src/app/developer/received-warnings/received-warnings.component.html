@@ -1,0 +1,83 @@
+<mat-toolbar>
+  <span>Gaming Cafe</span>
+
+ <span class="example-spacer"></span>
+
+  <h1>{{name}}</h1>
+</mat-toolbar>
+
+
+
+<mat-sidenav-container class="sidenav-container">
+
+    <mat-sidenav #sidenav mode="side" [opened]="false" class="app-sidenav">
+        <mat-nav-list>
+            <a mat-list-item (click)="goToHome()">
+                Home
+            </a>
+
+            <a mat-list-item (click)="goToUploadRequests()">
+                Pending upload requests
+            </a>
+
+            <a mat-list-item>
+                Received warnings
+            </a>
+
+            <a mat-list-item>
+                Warning end requests
+            </a>
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+
+        <button class="marginLeft" mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+        </button>
+        <h1 class="marginLeft">Received warnings</h1>
+
+<table mat-table [dataSource]="warnings" class="mat-elevation-z2 games-table marginLeft">
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Game name </th>
+      <td mat-cell *matCellDef="let warn"> 
+        {{ warn.gameName }}
+      </td>
+  </ng-container>
+
+  <ng-container matColumnDef="reason">
+    <th mat-header-cell *matHeaderCellDef> Reason </th>
+    <td mat-cell *matCellDef="let warn"> 
+        {{ warn.reason }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="issuedAt">
+    <th mat-header-cell *matHeaderCellDef> Issued at </th>
+    <td mat-cell *matCellDef="let warn"> {{ warn.issuedAt }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let warn">
+      <button *ngIf="!warn.requestedToEnd" (click)="openWarningDialog(warn)" mat-stroked-button color="primary">
+        <mat-icon>notifications_off</mat-icon>
+        Request to end
+      </button>  
+      <button *ngIf="warn.requestedToEnd" mat-stroked-button color="primary">
+        <mat-icon>notifications_off</mat-icon>
+        Already requested
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+
+
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

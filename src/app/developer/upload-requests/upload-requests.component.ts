@@ -26,7 +26,11 @@ export class UploadRequestsComponent {
   displayedColumns: string[] = ['name', 'price', 'genre','status','details'];
   pendingRequests: ReturnGamesToDevDTO[] = [];
   ngOnInit(){
-     this.developerService.getUploadRequests().subscribe({
+    this.getName();
+    this.getUploadReq();
+  }
+  getUploadReq(){
+    this.developerService.getUploadRequests().subscribe({
         next: (req) => 
         {
           this.pendingRequests = req;
@@ -36,10 +40,24 @@ export class UploadRequestsComponent {
         }
       });
   }
+  getName() 
+  {
+    this.developerService.getName().subscribe({
+    next: (result) => {
+      this.name = result;
+      },
+    error: (err) => {
+      console.error('Failed to get name:', err);
+    }
+    });
+  }
   goToHome(){
     this.router.navigate(["/devHome"]);
   }
   goToEdit(gameId:number){
     this.router.navigate(["/editGame",gameId]);
+  }
+  goToWarnings(){
+    this.router.navigate(['/receivedWarnings']);
   }
 }

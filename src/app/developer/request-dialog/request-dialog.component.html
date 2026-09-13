@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>
+  Request to end warning
+</h2>
+
+<mat-dialog-content>
+
+  <p>
+    Game: 
+    <strong>{{ data.warning.gameName }}</strong>
+    <br>
+    Warning reason: 
+    <strong>{{ data.warning.reason }}</strong>
+  </p>
+
+  <mat-form-field appearance="outline" class="warning-field">
+    <mat-label>Request note</mat-label>
+
+    <textarea
+      matInput
+      [(ngModel)]="requestNote"
+      rows="5"
+      placeholder="Enter a note for your request">
+    </textarea>
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+  <button mat-button (click)="cancel()">
+    Cancel
+  </button>
+
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="!requestNote.trim()"
+    (click)="sendRequest()">
+
+    <mat-icon>send</mat-icon>
+    Send
+
+  </button>
+
+</mat-dialog-actions>

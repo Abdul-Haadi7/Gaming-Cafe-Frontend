@@ -15,4 +15,5 @@ export interface ReturnGamesToDevDTO
     earned: number;
     rating: number;
     isPublic:boolean;
+    warningReason:string;
 }

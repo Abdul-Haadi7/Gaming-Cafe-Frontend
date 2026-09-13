@@ -47,6 +47,7 @@ export class CustomerComponent
     {
       this.getName();
       this.getAllGames();
+      console.log(this.allGames);
       this.getCartCount();
     }
     getName() 

@@ -20,7 +20,7 @@
     Pending upload requests
   </a>
 
-  <a mat-list-item>
+  <a mat-list-item (click)="goToWarnings()">
     Received warnings
   </a>
 
@@ -30,10 +30,9 @@
 
 </mat-nav-list>
 
-  </mat-sidenav>
+</mat-sidenav>
 
-  <mat-sidenav-content>
-
+<mat-sidenav-content>
 
 <button mat-icon-button (click)="sidenav.toggle()">
   <mat-icon>menu</mat-icon>

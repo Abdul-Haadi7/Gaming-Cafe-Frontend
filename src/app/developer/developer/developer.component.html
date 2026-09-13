@@ -11,7 +11,7 @@
     <mat-nav-list>
       <a mat-list-item>Home</a>
       <a mat-list-item (click)="goToUploadRequests()">Pending upload requests</a>
-      <a mat-list-item>Received warnings</a>
+      <a mat-list-item (click)="goToWarnings()">Received warnings</a>
       <a mat-list-item>Warning end requests</a>
     </mat-nav-list>
 </mat-sidenav>
@@ -30,6 +30,12 @@
           <mat-icon class="stat-icon">sports_esports</mat-icon>
           <div class="stat-value">{{activeGames.length}}</div>
           <div class="stat-label">Active games</div>
+        </mat-card>
+
+       <mat-card class="stat-card" (click)="goToWarnings()">
+          <mat-icon class="stat-icon">warning</mat-icon>
+          <div class="stat-value">{{warningsCount}}</div>
+          <div class="stat-label">Active warnings</div>
         </mat-card>
 
         <mat-card class="stat-card">
@@ -87,7 +93,7 @@
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Name </th>
       <td mat-cell *matCellDef="let game"> 
-        <button *ngIf="game.hasWarning" mat-icon-button color="warn">
+        <button title="{{game.warningReason}}" (click)="goToWarnings()" *ngIf="game.hasWarning" mat-icon-button color="warn">
           <mat-icon>warning</mat-icon>
         </button>
         <span>{{ game.name }}</span> 

@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ReturnStatement } from '@angular/compiler';
 import { ReturnGamesToDevDTO } from '../models/ReturnGameToDev';
+import { Warning } from '../models/Warnings';
+import { SendWarningEndReqDTO } from '../models/SendWarningEndReqDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -70,4 +72,39 @@ export class DeveloperService {
       }
     );
   }
+  getReceivedWarnings(): Observable<Warning[]> 
+  {
+    const token = localStorage.getItem('token');
+    return this.http.get<Warning[]>(
+      `${this.apiURL}/viewReceivedWarnings`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+  }
+
+  sendRequest(req: SendWarningEndReqDTO){
+    const token = localStorage.getItem('token');
+    return this.http.post(
+      this.apiURL+"/makeEndWarningRequest",req,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  getWarningsCount():Observable<number>{
+    const token = localStorage.getItem('token');
+    return this.http.get<number>(
+      this.apiURL+"/getWarningsCount",{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+
 }

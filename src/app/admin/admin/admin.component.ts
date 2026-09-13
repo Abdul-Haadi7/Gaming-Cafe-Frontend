@@ -92,8 +92,8 @@ export class AdminComponent {
       const discounted = originalPrice - (originalPrice * discountPercentage / 100);
       return Math.round(discounted * 100) / 100;
     }
-  openWarningDialog(game: ReturnGamesToAdminDTO) {
-
+  openWarningDialog(game: ReturnGamesToAdminDTO) 
+  {
     const dialogRef = this.dialog.open(WarningDialogComponent, {
       width: '450px',
       data: {

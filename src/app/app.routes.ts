@@ -16,6 +16,7 @@ import { GameDetailsComponent } from './game-details/game-details/game-details.c
 import { CustomerCartComponent } from './customer-cart/customer-cart/customer-cart.component';
 import { UploadRequestsComponent } from './developer/upload-requests/upload-requests.component';
 import { UploadRequestsReceived } from './admin/upload-requests/upload-requests.component';
+import { ReceivedWarningsComponent } from './developer/received-warnings/received-warnings.component';
 
 export const routes: Routes = [
     {path:'',redirectTo:'login',pathMatch:'full'},
@@ -32,5 +33,6 @@ export const routes: Routes = [
     {path:'gameDetails/:gameId', component: GameDetailsComponent,canActivate: [authGuard, roleGuard(['Developer','Customer','Admin','Super Admin'])]},
     {path:'cart', component: CustomerCartComponent,canActivate: [authGuard, roleGuard(['Customer'])]},
     {path:'uploadRequestsSent', component: UploadRequestsComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
-    {path:'uploadRequestsReceived', component: UploadRequestsReceived,canActivate: [authGuard, roleGuard(['Super Admin','Admin'])]}
+    {path:'uploadRequestsReceived', component: UploadRequestsReceived,canActivate: [authGuard, roleGuard(['Super Admin','Admin'])]},
+    {path:'receivedWarnings', component: ReceivedWarningsComponent,canActivate: [authGuard, roleGuard(['Developer'])]}  
 ];

@@ -17,6 +17,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialog } from '@angular/material/dialog';
+import { RequestDialogComponent } from '../request-dialog/request-dialog.component';
 
 @Component({
   selector: 'app-developer',
@@ -38,8 +40,10 @@ export class DeveloperComponent {
   sortOrder: string = "";
   searchName:string="";
   filter:string="";
+  warningsCount = 0;
+
   constructor(private developerService: DeveloperService, private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar, private dialog:MatDialog
   ) {}
     ngOnInit(): void 
     {
@@ -56,11 +60,13 @@ export class DeveloperComponent {
           this.activeGames = this.devGames.filter(game => game.isActive);
           this.filteredGames = [...this.activeGames];
           this.upateStats();
+          console.log(this.activeGames);
         },
         error: (error) => {
           console.error('Failed to get games:', error);
         }
       });
+      this.getWarningsCount();
     }
     upateStats(){
       for (let game of this.devGames)
@@ -79,7 +85,18 @@ export class DeveloperComponent {
           console.error('Failed to get name:', err);
         }
       });
-  }
+    }
+    getWarningsCount(){
+      this.developerService.getWarningsCount().subscribe({
+        next: (result) => 
+        {
+          this.warningsCount = result; 
+        },
+        error:(err) => {
+          console.error('Failed to get warnings count:', err);
+        }
+      });
+    }
   displayedColumns: string[] = ['name', 'price', 'discount','sold', 'earned', 'rating', 
     'genre','availability','actions'];
  
@@ -253,4 +270,9 @@ export class DeveloperComponent {
   goToUploadRequests(){
     this.router.navigate(['/uploadRequestsSent']);
   }
+  goToWarnings(){
+    this.router.navigate(['/receivedWarnings']);
+  }
+
+
 }
