@@ -237,4 +237,10 @@ export class AdminComponent {
   goToallActiveWarnings(){
     this.router.navigate(['/allActiveWarnings']);
   }
+  goToDevs(){
+    this.router.navigate(['/viewDevs']);
+  }
+  goToCust(){
+    this.router.navigate(['/viewCust']);
+  }
 }

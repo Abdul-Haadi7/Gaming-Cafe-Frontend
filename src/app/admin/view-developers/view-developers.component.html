@@ -1,0 +1,87 @@
+<mat-toolbar>
+  <span>Gaming Cafe</span>
+
+<span class="example-spacer"></span>
+
+  <h1>{{name}}</h1>
+</mat-toolbar>
+
+
+<mat-sidenav-container class="sidenav-container">
+
+    <mat-sidenav #sidenav mode="side" [opened]="false" class="app-sidenav">
+
+        <mat-nav-list>
+
+        <a mat-list-item (click)="goToHome()">
+            Home
+        </a>
+
+        <a mat-list-item (click)="goToUploadRequests()">
+            Pending upload requests
+        </a>
+
+        <a mat-list-item (click)="goToallActiveWarnings()">
+            Issued warning
+        </a>
+
+        <a mat-list-item (click)="goToWarningEndReqs()">
+            Warning end requests
+        </a>
+        <a mat-list-item>
+            Developers
+        </a>
+        <a mat-list-item (click)="goToCust()">
+            Customers
+        </a>
+
+        </mat-nav-list>
+
+    </mat-sidenav>
+
+  <mat-sidenav-content>
+
+   <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+   </button>
+   <h1 class="marginLeft">All developers</h1>
+    <table mat-table [dataSource]="allDevs" class="mat-elevation-z2">
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let dev"> 
+            {{ dev.name }}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let dev"> 
+            <span>{{ dev.email }}</span> 
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef> Phone </th>
+        <td mat-cell *matCellDef="let dev"> {{ dev.phone }} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="activeGamesCount">
+        <th mat-header-cell *matHeaderCellDef> Total active games </th>
+        <td mat-cell *matCellDef="let dev"> {{ dev.totalActiveGames }} </td>
+    </ng-container>
+
+   <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let dev"> 
+            <span *ngIf="dev.isActive" class="active">Active</span>
+            <span *ngIf="!dev.isActive" class="blocked">Blocked</span>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+</mat-sidenav-content>
+
+</mat-sidenav-container>

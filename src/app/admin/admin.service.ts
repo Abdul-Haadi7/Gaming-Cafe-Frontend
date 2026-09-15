@@ -6,6 +6,8 @@ import { ReturnUploadReqToAdmin } from '../models/ReturnUploadReqToAdminDTO';
 import { ReturnGamesToAdminDTO } from '../models/ReturnGameToAdmin';
 import { Warning } from '../models/Warnings';
 import { ReturnWarningEndReq } from '../models/ReturnWarningEndReq';
+import { ReturnDevsToAdmin } from '../models/ReturnDevsToAdmin';
+import { ReturnCustomerToAdmin } from '../models/ReturnCustomerToAdmin';
 
 @Injectable({
   providedIn: 'root'
@@ -167,5 +169,24 @@ export class AdminService {
       }
     )
   }
-
+  fetchAllDevs(){
+    const token = localStorage.getItem('token');
+    return this.http.get<ReturnDevsToAdmin[]>(
+      this.apiURL+"/getAllDevelopers",{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  fetchAllCust(){
+    const token = localStorage.getItem('token');
+    return this.http.get<ReturnCustomerToAdmin[]>(
+      this.apiURL+"/getAllCustomers",{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
 }

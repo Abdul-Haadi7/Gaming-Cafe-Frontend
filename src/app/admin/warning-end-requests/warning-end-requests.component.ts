@@ -104,4 +104,10 @@ export class WarningEndRequestsComponent {
       }
     });
   }
+  goToDevs(){
+    this.router.navigate(['/viewDevs']);
+  }
+ goToCust(){
+    this.router.navigate(['/viewCust']);
+  }
 }
