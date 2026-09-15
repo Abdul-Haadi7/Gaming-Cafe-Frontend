@@ -11,6 +11,11 @@
   width: 250px;   
 } 
 
+.marginLeft{
+    margin-left: 10px;
+}
+
+
 mat-icon {
   vertical-align: middle;
   margin-right: 5px;
@@ -35,7 +40,4 @@ span {
 
 .marginRight{
   margin-right: 15px;
-}
-.marginLeft{
-  margin-left: 15px;
 }

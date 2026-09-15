@@ -102,4 +102,7 @@ export class ReceivedWarningsComponent {
     });
 
   }
+  goToWarningEndReqs(){
+    this.router.navigate(['/warningEndReqs']);
+  }
 }

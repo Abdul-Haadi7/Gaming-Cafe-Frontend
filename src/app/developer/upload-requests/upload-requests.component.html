@@ -24,7 +24,7 @@
     Received warnings
   </a>
 
-  <a mat-list-item>
+  <a mat-list-item (click)="goToWarningEndReqs()">
     Warning end requests
   </a>
 
@@ -41,7 +41,7 @@
 
 <div class="requests-container">
 
-  <h2>Pending Upload Requests</h2>
+  <h2 class="marginLeft">Upload Requests</h2>
 
   <table mat-table [dataSource]="pendingRequests">
 
@@ -50,8 +50,8 @@
         Game Name
       </th>
 
-      <td mat-cell *matCellDef="let game">
-        {{ game.name }}
+      <td mat-cell *matCellDef="let req">
+        {{ req.name }}
       </td>
     </ng-container>
 
@@ -60,8 +60,8 @@
         Price (PKR)
       </th>
 
-      <td mat-cell *matCellDef="let game">
-        {{ game.price }}
+      <td mat-cell *matCellDef="let req">
+        {{ req.price }}
       </td>
     </ng-container>
 
@@ -71,8 +71,8 @@
         Genre
       </th>
 
-      <td mat-cell *matCellDef="let game">
-        {{ game.genre }}
+      <td mat-cell *matCellDef="let req">
+        {{ req.genre }}
       </td>
     </ng-container>
 
@@ -81,19 +81,36 @@
         Status
       </th>
 
-      <td mat-cell *matCellDef="let game">
-        Pending
+      <td mat-cell *matCellDef="let req">
+        <span *ngIf="req.status === 'Approved'">
+          <mat-icon class="approved">check_circle</mat-icon>
+          Approved
+        </span>
+        <span *ngIf="req.status === 'Rejected'">
+          <mat-icon class="rejected">cancel</mat-icon>
+          Rejected
+          <br>
+          Reason: {{req.rejectionReason}}
+        </span>
+        <span *ngIf="req.status === 'Pending'">
+          <mat-icon class="pending">schedule</mat-icon>
+          Pending
+        </span>
+
       </td>
     </ng-container>
 
-   <ng-container matColumnDef="details">
+   <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>
-        Details
+        Actions
       </th>
 
-      <td mat-cell *matCellDef="let game">
-        <button mat-stroked-button (click)="goToEdit(game.id)">
-            View and edit details
+      <td mat-cell *matCellDef="let req">
+        <button class = "marginRight" mat-stroked-button (click)="goToEdit(req.id)">
+            Edit game
+        </button>
+        <button mat-stroked-button *ngIf="req.status!='Pending'" (click)="markWarningEndReqAsDontShow(req)">
+            Don`t show again
         </button>
       </td>
     </ng-container>

@@ -74,7 +74,7 @@
             <mat-icon class="approve-icon">check</mat-icon>
             Accept
         </button>
-        <button mat-stroked-button class="reject-button">
+        <button mat-stroked-button class="reject-button" (click)="rejectRequest(req)">
             <mat-icon class="reject-icon" color="danger">close</mat-icon>
             Reject
         </button>

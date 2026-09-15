@@ -273,6 +273,7 @@ export class DeveloperComponent {
   goToWarnings(){
     this.router.navigate(['/receivedWarnings']);
   }
-
-
+  goToWarningEndReqs(){
+    this.router.navigate(['/warningEndReqs']);
+  }
 }

@@ -15,7 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from '@angular/material/select';
-import { ReturnWarningEndReqToAdmin } from '../../models/ReturnWarningEndReqToAdmin';
+import { ReturnWarningEndReq } from '../../models/ReturnWarningEndReq';
 
 @Component({
   selector: 'app-warning-end-requests',
@@ -29,7 +29,7 @@ import { ReturnWarningEndReqToAdmin } from '../../models/ReturnWarningEndReqToAd
 export class WarningEndRequestsComponent {
   name='';
   
-  allRequests: ReturnWarningEndReqToAdmin[] = [];
+  allRequests: ReturnWarningEndReq[] = [];
   displayedColumns: string[] = ['game', 'developer','reason', 'note','actions'];
   constructor(private adminService:AdminService, private router:Router,
     private snackBar:MatSnackBar){}
@@ -70,7 +70,7 @@ export class WarningEndRequestsComponent {
   goToallActiveWarnings(){
     this.router.navigate(['/allActiveWarnings']);
   }
-  acceptRequest(req:ReturnWarningEndReqToAdmin){
+  acceptRequest(req:ReturnWarningEndReq){
     this.adminService.approveReq(req.warningId).subscribe({
       next:(result) => 
       {
@@ -84,6 +84,23 @@ export class WarningEndRequestsComponent {
       },
       error: (err) =>{
         console.error('Failed to accept request:', err);
+      }
+    });
+  }
+  rejectRequest(req:ReturnWarningEndReq){
+    this.adminService.rejectEndWarningReq(req.warningId).subscribe({
+      next:(result) => 
+      {
+        this.snackBar.open("Request rejected", 'Close',
+        {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
+        this.allRequests = this.allRequests.filter(request => request!=req)
+      },
+      error: (err) =>{
+        console.error('Failed to reject request:', err);
       }
     });
   }

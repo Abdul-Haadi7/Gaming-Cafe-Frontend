@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ReturnUploadReqToAdmin } from '../models/ReturnUploadReqToAdminDTO';
 import { ReturnGamesToAdminDTO } from '../models/ReturnGameToAdmin';
 import { Warning } from '../models/Warnings';
-import { ReturnWarningEndReqToAdmin } from '../models/ReturnWarningEndReqToAdmin';
+import { ReturnWarningEndReq } from '../models/ReturnWarningEndReq';
 
 @Injectable({
   providedIn: 'root'
@@ -125,9 +125,9 @@ export class AdminService {
       }
     )
   }
-  getWarningEndReqs():Observable<ReturnWarningEndReqToAdmin[]>{
+  getWarningEndReqs():Observable<ReturnWarningEndReq[]>{
     const token = localStorage.getItem('token');
-    return this.http.get<ReturnWarningEndReqToAdmin[]>(
+    return this.http.get<ReturnWarningEndReq[]>(
       this.apiURL+"/getAllWarningEndReq",{
         headers:{
           Authorization: `Bearer ${token}`
@@ -156,4 +156,16 @@ export class AdminService {
       }
     )
   }
+  rejectEndWarningReq(warningId:number){
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      this.apiURL+"/rejectEndWarningReq?warningId="+warningId,null,
+     {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+
 }

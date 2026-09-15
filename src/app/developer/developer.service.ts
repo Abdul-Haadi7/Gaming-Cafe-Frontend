@@ -6,6 +6,8 @@ import { ReturnStatement } from '@angular/compiler';
 import { ReturnGamesToDevDTO } from '../models/ReturnGameToDev';
 import { Warning } from '../models/Warnings';
 import { SendWarningEndReqDTO } from '../models/SendWarningEndReqDTO';
+import { ReturnUploadReqToDev } from '../models/ReturnUploadReqToDev';
+import { ReturnWarningEndReq } from '../models/ReturnWarningEndReq';
 
 @Injectable({
   providedIn: 'root'
@@ -60,10 +62,10 @@ export class DeveloperService {
       }
     );
   }
-  getUploadRequests(): Observable<ReturnGamesToDevDTO[]> 
+  getUploadRequests(): Observable<ReturnUploadReqToDev[]> 
   {
     const token = localStorage.getItem('token');
-    return this.http.get<ReturnGamesToDevDTO[]>(
+    return this.http.get<ReturnUploadReqToDev[]>(
       `${this.apiURL}/viewPendingGameRequests`,
       {
         headers: {
@@ -106,5 +108,38 @@ export class DeveloperService {
       }
     )
   }
-
+  markUploadReqAsDontShow(id:number){
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      this.apiURL+"/doNotShowUploadReq?gameId="+id,null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  markWarningEndReqAsDontShow(id:number){
+   const token = localStorage.getItem('token');
+    return this.http.put(
+      this.apiURL+"/doNotShowWarningEndReq?reqId="+id,null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  getEndWarningReqs():Observable<ReturnWarningEndReq[]>
+  {
+    const token = localStorage.getItem('token');
+    return this.http.get<ReturnWarningEndReq[]>(
+      this.apiURL+"/getEndWarningReqs",
+      {
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+  }
 }
