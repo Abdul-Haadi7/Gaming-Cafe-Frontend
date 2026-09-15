@@ -47,7 +47,6 @@ export class CustomerComponent
     {
       this.getName();
       this.getAllGames();
-      console.log(this.allGames);
       this.getCartCount();
     }
     getName() 
@@ -79,7 +78,8 @@ export class CustomerComponent
             }
           });
     }
-    getCartCount(){
+    getCartCount()
+    { 
       this.customerService.getCartCount().subscribe({
             next: (result) => 
             {

@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ReturnUploadReqToAdmin } from '../models/ReturnUploadReqToAdminDTO';
 import { ReturnGamesToAdminDTO } from '../models/ReturnGameToAdmin';
+import { Warning } from '../models/Warnings';
+import { ReturnWarningEndReqToAdmin } from '../models/ReturnWarningEndReqToAdmin';
 
 @Injectable({
   providedIn: 'root'
@@ -42,10 +44,23 @@ export class AdminService {
       }
     });
   }
-  approveGame(gameId:number, approve:boolean){
+  approveGame(gameId:number){
     const token = localStorage.getItem('token');
     return this.http.put(
-      `${this.apiURL}/approveGame?gameId=${gameId}&&approve=${approve}`,null,
+      `${this.apiURL}/approveGame?gameId=${gameId}`
+      ,null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+  }
+  rejectGame(gameId:number,reason:string){
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      `${this.apiURL}/rejectGame?gameId=${gameId}&&reason=${reason}`
+      ,null,
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -75,5 +90,70 @@ export class AdminService {
         }
       }
     );
+  }
+  getAllActiveWarnings()
+  {
+    const token = localStorage.getItem('token');
+    return this.http.get<Warning[]>(
+      this.apiURL+"/getAllActiveWarnings",{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  getAllWarningsCount()
+  {
+    const token = localStorage.getItem('token');
+    return this.http.get<number>(
+      this.apiURL+"/getActiveWarningsCount",{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  endWarning(warning:Warning)
+  {
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      this.apiURL+"/endWarning"
+      ,warning,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  getWarningEndReqs():Observable<ReturnWarningEndReqToAdmin[]>{
+    const token = localStorage.getItem('token');
+    return this.http.get<ReturnWarningEndReqToAdmin[]>(
+      this.apiURL+"/getAllWarningEndReq",{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  getWarningEndReqsCount():Observable<number>{
+    const token = localStorage.getItem('token');
+    return this.http.get<number>(
+      this.apiURL+"/countEndWarningReq",{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  approveReq(warningId:number){
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      this.apiURL+"/approveEndWarningReq?warningId="+warningId,null,
+     {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
   }
 }

@@ -1,3 +1,7 @@
+.example-spacer{
+    flex: 1 1 auto;
+}
+
 .sticky {
   position: fixed;
   top: 0;
@@ -67,4 +71,9 @@ mat-list-item:not(:last-child) {
 
 .pad{
     padding-top: 30px;
+}
+
+
+.marginLeft{
+  margin-left: 20px;
 }

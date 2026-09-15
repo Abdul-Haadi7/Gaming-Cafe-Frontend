@@ -49,6 +49,8 @@ export class AdminComponent {
       this.getName();
       this.getReqCount();
       this.getAllGames();
+      this.getWarningsCount();
+      this.getWarningEndReqCount();
     }
     getName() 
     {
@@ -72,6 +74,26 @@ export class AdminComponent {
         }
       });
     }
+    getWarningsCount(){
+      this.adminService.getAllWarningsCount().subscribe({
+            next: (result) => {
+            this.activeWarnings = result;
+            },
+            error: (err) => {
+              console.error('Failed to get name:', err);
+            }
+          });
+    }
+    getWarningEndReqCount(){
+      this.adminService.getWarningEndReqsCount().subscribe({
+            next: (result) => {
+            this.endWarningReqCount = result;
+            },
+            error: (err) => {
+              console.error('Failed to get name:', err);
+            }
+          });
+    }
     getAllGames() 
     {
       this.adminService.getAllGames().subscribe({
@@ -87,6 +109,7 @@ export class AdminComponent {
     goToUploadRequests(){
       this.router.navigate(['/uploadRequestsReceived']);
     }
+  
     getDiscountedPrice(originalPrice: number, discountPercentage: number): number
     {
       const discounted = originalPrice - (originalPrice * discountPercentage / 100);
@@ -116,6 +139,7 @@ export class AdminComponent {
               }
             );
           game.hasWarning = true;
+          this.activeWarnings++;
           },
           error: (err) => {
             console.error('Failed to get name:', err);
@@ -206,5 +230,11 @@ export class AdminComponent {
   clearFilter(): void {
     this.filter = '';
     this.applyFilters();
+  }
+  goToWarningEndReqs(){
+    this.router.navigate(['/warningEndRequestsReceived']);
+  }
+  goToallActiveWarnings(){
+    this.router.navigate(['/allActiveWarnings']);
   }
 }

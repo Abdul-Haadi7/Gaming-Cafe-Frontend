@@ -1,12 +1,21 @@
-<mat-toolbar class="sticky">
+<!-- <mat-toolbar class="sticky">
     <mat-toolbar-row class = "navbar">
         <a href="/customerHome" mat-button>Games</a>
         <a mat-button *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
         <a mat-button *ngIf="gamesInCart < 1">Cart</a>
     </mat-toolbar-row>
+</mat-toolbar> -->
+
+
+<mat-toolbar>
+  <span>Gaming Cafe</span>
+  <a mat-button (click)="goToGames()" class="marginLeft">Games</a>
+  <a mat-button *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
+  <a href="/cart" mat-button *ngIf="gamesInCart < 1">Cart</a>
+ <span class="example-spacer"></span>
+
+  <h1>{{name}}</h1>
 </mat-toolbar>
-
-
 
 <div class="container-sm">
     <mat-card *ngIf="games.length > 0">

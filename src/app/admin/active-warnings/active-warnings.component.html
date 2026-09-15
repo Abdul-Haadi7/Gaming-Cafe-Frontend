@@ -1,0 +1,97 @@
+<mat-toolbar>
+  <span>Gaming Cafe</span>
+
+<span class="example-spacer"></span>
+
+  <h1>{{name}}</h1>
+</mat-toolbar>
+
+
+<mat-sidenav-container class="sidenav-container">
+
+    <mat-sidenav #sidenav mode="side" [opened]="false" class="app-sidenav">
+
+        <mat-nav-list>
+
+        <a mat-list-item (click)="goToHome()">
+            Home
+        </a>
+
+        <a mat-list-item (click)="goToUploadRequests()">
+            Pending upload requests
+        </a>
+
+        <a mat-list-item>
+            Issued warning
+        </a>
+
+        <a mat-list-item (click)="goToWarningEndReqs()">
+            Warning end requests
+        </a>
+
+        </mat-nav-list>
+
+    </mat-sidenav>
+
+  <mat-sidenav-content>
+
+   <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+   </button>
+   <h1 class="marginLeft">All active warnings</h1>
+  <table mat-table [dataSource]="allWarnings" class="mat-elevation-z2">
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Game name </th>
+      <td mat-cell *matCellDef="let warn"> 
+        {{ warn.gameName }}
+      </td>
+  </ng-container>
+
+  <ng-container matColumnDef="developer">
+    <th mat-header-cell *matHeaderCellDef> Develper </th>
+      <td mat-cell *matCellDef="let warn"> 
+        <span>{{ warn.developerName }}</span> 
+      </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="reason">
+    <th mat-header-cell *matHeaderCellDef> Reason </th>
+    <td mat-cell *matCellDef="let warn"> {{ warn.reason }} </td>
+  </ng-container>
+
+
+   <ng-container matColumnDef="issuedAt">
+    <th mat-header-cell *matHeaderCellDef> Issued at </th>
+    <td mat-cell *matCellDef="let warn"> {{ warn.issuedAt }} </td>
+  </ng-container>
+
+
+   <ng-container matColumnDef="requested">
+    <th mat-header-cell *matHeaderCellDef> Requested to end </th>
+    <td mat-cell *matCellDef="let warn"> 
+      <span *ngIf="warn.requestedToEnd">
+        Yes
+      </span>
+      <span *ngIf="!warn.requestedToEnd">
+        No
+      </span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let warn">
+      <button mat-stroked-button (click)="endWarning(warn)">
+        <mat-icon>close</mat-icon>
+          End Warning
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+</mat-sidenav-content>
+</mat-sidenav-container>

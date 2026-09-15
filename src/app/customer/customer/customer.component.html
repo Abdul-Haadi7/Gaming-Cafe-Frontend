@@ -1,16 +1,25 @@
-<mat-toolbar class="sticky">
+<!-- <mat-toolbar class="sticky">
     <mat-toolbar-row class = "navbar">
         <a mat-button>Games</a>
         <a (click)="goToCart()" mat-button *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
         <a href="/cart" mat-button *ngIf="gamesInCart < 1">Cart</a>
     </mat-toolbar-row>
+</mat-toolbar> -->
+<mat-toolbar>
+  <span>Gaming Cafe</span>
+  <a mat-button class="marginLeft">Games</a>
+  <a (click)="goToCart()" mat-button *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
+  <a href="/cart" mat-button *ngIf="gamesInCart < 1">Cart</a>
+ <span class="example-spacer"></span>
+
+  <h1>{{name}}</h1>
 </mat-toolbar>
 
 <div class = "container">
-  <div class = "container marginLeft">
+  <!-- <div class = "container marginLeft">
     <h1>Gaming Cafe</h1>
     <h3>Get your favourite games</h3>
-  </div>
+  </div> -->
 
   <div class="container">
     <mat-form-field class = "form">

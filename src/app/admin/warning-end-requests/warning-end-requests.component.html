@@ -1,0 +1,89 @@
+<mat-toolbar>
+  <span>Gaming Cafe</span>
+
+<span class="example-spacer"></span>
+
+  <h1>{{name}}</h1>
+</mat-toolbar>
+
+
+<mat-sidenav-container class="sidenav-container">
+
+    <mat-sidenav #sidenav mode="side" [opened]="false" class="app-sidenav">
+
+        <mat-nav-list>
+
+        <a mat-list-item (click)="goToHome()">
+            Home
+        </a>
+
+        <a mat-list-item (click)="goToUploadRequests()">
+            Pending upload requests
+        </a>
+
+        <a mat-list-item (click)="goToallActiveWarnings()">
+            Issued warning
+        </a>
+
+        <a mat-list-item>
+            Warning end requests
+        </a>
+
+        </mat-nav-list>
+
+    </mat-sidenav>
+
+  <mat-sidenav-content>
+
+   <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+   </button>
+   <h1 class="marginLeft">All requests</h1>
+<table mat-table [dataSource]="allRequests" class="mat-elevation-z2">
+
+  <ng-container matColumnDef="game">
+    <th mat-header-cell *matHeaderCellDef> Game name </th>
+      <td mat-cell *matCellDef="let req"> 
+        {{ req.gameName }}
+      </td>
+  </ng-container>
+
+  <ng-container matColumnDef="developer">
+    <th mat-header-cell *matHeaderCellDef> Develper </th>
+      <td mat-cell *matCellDef="let req"> 
+        <span>{{ req.developerName }}</span> 
+      </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="reason">
+    <th mat-header-cell *matHeaderCellDef> Warning reason </th>
+    <td mat-cell *matCellDef="let req"> {{ req.reason }} </td>
+  </ng-container>
+
+
+   <ng-container matColumnDef="note">
+    <th mat-header-cell *matHeaderCellDef> Request note </th>
+    <td mat-cell *matCellDef="let req"> {{ req.requestNote }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef> Actions </th>
+    <td mat-cell *matCellDef="let req">
+        <button mat-stroked-button class="approve-button" (click)="acceptRequest(req)">
+            <mat-icon class="approve-icon">check</mat-icon>
+            Accept
+        </button>
+        <button mat-stroked-button class="reject-button">
+            <mat-icon class="reject-icon" color="danger">close</mat-icon>
+            Reject
+        </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+</mat-sidenav-content>
+
+</mat-sidenav-container>

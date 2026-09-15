@@ -1,4 +1,7 @@
 
+.example-spacer{
+    flex: 1 1 auto;
+}
 
 .image-container {
   display: flex;
@@ -170,7 +173,7 @@
 }
 
 .rating-control mat-slider {
-    width: 350px;
+    width: 250px;
 }
 
 .rateButton {
@@ -190,4 +193,8 @@
 .rateButton:disabled {
     cursor: not-allowed;
     opacity: 0.5;
+}
+
+.marginLeft{
+  margin-left: 20px;
 }

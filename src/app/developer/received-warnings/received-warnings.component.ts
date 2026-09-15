@@ -15,11 +15,12 @@ import { RequestDialogComponent } from '../request-dialog/request-dialog.compone
 import { SendWarningEndReqDTO } from '../../models/SendWarningEndReqDTO';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
 @Component({
   selector: 'app-received-warnings',
   standalone: true,
   imports: [MatSidenavContainer, MatNavList, MatSidenav, MatSidenavContent, MatToolbar, MatIcon,
-      MatListModule, CommonModule, MatTableModule, MatButton
+      MatListModule, CommonModule, MatTableModule, MatButton, MatButtonModule
     ],
   templateUrl: './received-warnings.component.html',
   styleUrl: './received-warnings.component.css'

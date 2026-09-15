@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CustomerService } from '../../customer/customer.service';
 import { ReturnGamesToCustomerDTO } from '../../models/ReturnGameToCustDTO';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatIcon } from "@angular/material/icon";
 import { MatCard, MatCardContent } from "@angular/material/card";
 import { CommonModule } from '@angular/common';
@@ -10,11 +10,14 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GetRequirementsDTO } from '../../models/getRequirementsDTO';
 import { EditRequirementsService } from '../../edit-requirements/edit-requirements.service';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-game-details',
   standalone: true,
-  imports: [CommonModule,MatIcon, MatCard, MatCardContent,FormsModule,MatSliderModule],
+  imports: [CommonModule, MatIcon, MatCard, MatCardContent, 
+    FormsModule, MatSliderModule, MatToolbar, MatButtonModule],
   templateUrl: './game-details.component.html',
   styleUrl: './game-details.component.css'
 })
@@ -46,8 +49,10 @@ export class GameDetailsComponent
     storage: ''
   }
   viewerRole='';
+  name='';
+  gamesInCart=0;
   constructor(private customerService: CustomerService, private route:ActivatedRoute,
-    private snackBar:MatSnackBar){}
+    private snackBar:MatSnackBar, private router:Router){}
   ngOnInit()
   {
     const token = localStorage.getItem('token');
@@ -68,7 +73,8 @@ export class GameDetailsComponent
         console.error('Failed to get game:', err);
       }
     });
-    if(this.viewerIsCustomer()){
+    if(this.viewerIsCustomer())
+    {
       this.customerService.getRatingGiven(this.gameId).subscribe({
         next: (result) => {
           this.userRating = this.roundToTwoDecimal(result);
@@ -78,6 +84,8 @@ export class GameDetailsComponent
             console.error('Failed to get game:', err);
           }
         });
+        this.getName();
+        this.getCartCount();
     }
     this.customerService.getGameReq(this.gameId).subscribe({
       next: (req) => 
@@ -94,7 +102,30 @@ export class GameDetailsComponent
       }
     });
   }
- 
+  getName() 
+  {
+      this.customerService.getName().subscribe({
+      next: (result) => {
+        this.name = result;
+      },
+      error: (err) => {
+        console.error('Failed to get name:', err);
+      }
+    });
+  }
+  getCartCount()
+  { 
+    this.customerService.getCartCount().subscribe({
+      next: (result) => 
+      {
+        this.gamesInCart = result;
+      },
+      error: (err) => 
+      {
+        console.error('Failed to get count:', err);
+      }
+    });
+  }
   rateGame(gameId: number, ratingGiven: number)
   {
     this.customerService.rateGame(gameId,ratingGiven).subscribe({
@@ -149,8 +180,8 @@ export class GameDetailsComponent
     error: (error) => {
       console.error("Add to cart error:", error);
       let message = `Unable to add "${gameName}" to cart!`;
-
-      if (error.status === 400) {
+      if (error.status === 400) 
+      {
         message = error.error;
       }
 
@@ -174,4 +205,8 @@ export class GameDetailsComponent
   viewerIsCustomer():boolean{
     return this.viewerRole == 'Customer';  
   }
+  goToGames(){
+    this.router.navigate(['/customerHome']);
+  }
+
 }

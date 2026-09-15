@@ -1,3 +1,13 @@
+<mat-toolbar *ngIf="viewerIsCustomer()">
+  <span>Gaming Cafe</span>
+  <a mat-button (click)="goToGames()" class="marginLeft">Games</a>
+  <a mat-button *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
+  <a href="/cart" mat-button *ngIf="gamesInCart < 1">Cart</a>
+ <span class="example-spacer"></span>
+
+  <h1>{{name}}</h1>
+</mat-toolbar>
+
 <div *ngIf="game as g">  
     <div class="image-container">
         <img src="{{g.imageLink}}" alt="Game Image" height="450px" width="50%" (error)="imageError($event)">

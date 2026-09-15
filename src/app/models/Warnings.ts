@@ -5,5 +5,6 @@ export interface Warning{
     reason:string,
     issuedBy:number,
     issuedAt:Date,
-    requestedToEnd:boolean
+    requestedToEnd:boolean,
+    developerName:string
 }

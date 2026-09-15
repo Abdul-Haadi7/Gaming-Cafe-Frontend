@@ -37,6 +37,7 @@ export class CustomerCartComponent {
   gamesInCart=0;
   totalPrice=0;
   games: CartGames[] = [];
+  name = '';
 
   ngOnInit(){
     this.cartService.getCartGames().subscribe({
@@ -49,6 +50,18 @@ export class CustomerCartComponent {
         console.log(err);
       }
     })
+    this.getName();
+  }
+  getName() 
+  {
+      this.customerService.getName().subscribe({
+      next: (result) => {
+        this.name = result;
+      },
+      error: (err) => {
+        console.error('Failed to get name:', err);
+      }
+    });
   }
   goToGames(){
     this.router.navigate(['/customerHome']);

@@ -17,6 +17,8 @@ import { CustomerCartComponent } from './customer-cart/customer-cart/customer-ca
 import { UploadRequestsComponent } from './developer/upload-requests/upload-requests.component';
 import { UploadRequestsReceived } from './admin/upload-requests/upload-requests.component';
 import { ReceivedWarningsComponent } from './developer/received-warnings/received-warnings.component';
+import { WarningEndRequestsComponent } from './admin/warning-end-requests/warning-end-requests.component';
+import { ActiveWarningsComponent } from './admin/active-warnings/active-warnings.component';
 
 export const routes: Routes = [
     {path:'',redirectTo:'login',pathMatch:'full'},
@@ -34,5 +36,7 @@ export const routes: Routes = [
     {path:'cart', component: CustomerCartComponent,canActivate: [authGuard, roleGuard(['Customer'])]},
     {path:'uploadRequestsSent', component: UploadRequestsComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
     {path:'uploadRequestsReceived', component: UploadRequestsReceived,canActivate: [authGuard, roleGuard(['Super Admin','Admin'])]},
-    {path:'receivedWarnings', component: ReceivedWarningsComponent,canActivate: [authGuard, roleGuard(['Developer'])]}  
+    {path:'receivedWarnings', component: ReceivedWarningsComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
+    {path:'warningEndRequestsReceived', component: WarningEndRequestsComponent,canActivate: [authGuard, roleGuard(['Super Admin','Admin'])]},
+    {path:'allActiveWarnings', component: ActiveWarningsComponent,canActivate: [authGuard, roleGuard(['Super Admin','Admin'])]}
 ];

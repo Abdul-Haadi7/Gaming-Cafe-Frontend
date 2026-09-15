@@ -1,3 +1,7 @@
+.example-spacer{
+    flex: 1 1 auto;
+}
+
 .product-card{
     max-width: 260px;
     max-height: 400px;
@@ -114,4 +118,8 @@ mat-grid-tile {
     padding-top: 50px;
     padding-left: 10px;
 
+}
+
+.marginLeft{
+  margin-left: 20px;
 }

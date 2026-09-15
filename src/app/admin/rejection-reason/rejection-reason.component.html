@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>
+  Send Warning
+</h2>
+
+<mat-dialog-content>
+
+  <p>
+    Rejection reason for game
+    <strong>{{ data.req.name }}</strong>
+    Developer
+    <strong>{{ data.req.developerName }}</strong>
+  </p>
+
+  <mat-form-field appearance="outline" class="warning-field">
+    <mat-label>Rejection reason</mat-label>
+
+    <textarea
+      matInput
+      [(ngModel)]="rejectionReason"
+      rows="5"
+      placeholder="Enter the reason for rejecting this game">
+    </textarea>
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+  <button mat-button (click)="cancel()">
+    Cancel
+  </button>
+
+  <button
+    mat-flat-button
+    color="warn"
+    [disabled]="!rejectionReason.trim()"
+    (click)="submitReason()">
+
+    <mat-icon>warning</mat-icon>
+    Reject game
+
+  </button>
+
+</mat-dialog-actions>

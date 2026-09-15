@@ -20,11 +20,11 @@
     Pending upload requests
   </a>
 
-  <a mat-list-item>
-    Issue warning
+  <a mat-list-item (click)="goToallActiveWarnings()">
+    Issued warning
   </a>
 
-  <a mat-list-item>
+  <a mat-list-item (click)="goToWarningEndReqs()">
     Warning end requests
   </a>
 
@@ -48,13 +48,13 @@
           <div class="stat-label">Pending upload requests</div>
         </mat-card>
 
-        <mat-card class="stat-card">
+        <mat-card class="stat-card" (click)="goToallActiveWarnings()">
           <mat-icon class="stat-icon">warning</mat-icon>
           <div class="stat-value">{{activeWarnings}}</div>
           <div class="stat-label">Active warnings</div>
         </mat-card>
         
-        <mat-card class="stat-card">
+        <mat-card class="stat-card" (click)="goToWarningEndReqs()">
           <mat-icon class="stat-icon">notification_important</mat-icon>
           <div class="stat-value">{{endWarningReqCount}}</div>
           <div class="stat-label">End warning request</div>
