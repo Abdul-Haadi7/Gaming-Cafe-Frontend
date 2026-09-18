@@ -32,6 +32,7 @@ export class ActiveWarningsComponent
   allWarnings: Warning[] = [];
   displayedColumns: string[] = ['name', 'developer','reason', 'issuedAt', 
     'requested', 'actions'];
+    
   constructor(private router:Router, private adminService:AdminService,
     private snackBar: MatSnackBar
   ){}
@@ -39,8 +40,8 @@ export class ActiveWarningsComponent
   {
     this.getName();
     this.getAllWarnings();
-    console.log(this.allWarnings);
   }
+
   getName() 
   {
     this.adminService.getName().subscribe({

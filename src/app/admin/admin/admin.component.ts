@@ -42,15 +42,25 @@ export class AdminComponent {
     sortOrder = '';
     filter = '';
     searchName = '';
+  userRole = '';
     constructor(private adminService: AdminService, private router:Router,
       private dialog:MatDialog, private snackBar:MatSnackBar) {}
     ngOnInit(): void 
     {
+      this.getUserRole();
       this.getName();
       this.getReqCount();
       this.getAllGames();
       this.getWarningsCount();
       this.getWarningEndReqCount();
+    }
+    getUserRole()
+    {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        this.userRole = payload.role;
+      }
     }
     getName() 
     {
@@ -152,7 +162,6 @@ export class AdminComponent {
 
   }
 
-
   searchGames(searched: string): void 
   {
     this.searchName = searched.trim().toLowerCase();
@@ -242,5 +251,36 @@ export class AdminComponent {
   }
   goToCust(){
     this.router.navigate(['/viewCust']);
+  }
+  userIsSuperAdmin():boolean{
+    return this.userRole == 'Super Admin';  
+  }
+  deleteGame(game:ReturnGamesToAdminDTO){
+    const confirmed = confirm(
+      `Are you sure you want to delete "${game.name}"?`
+    );
+    if (!confirmed)
+    {
+      return;
+    }
+    this.adminService.deleteGame(game.id).subscribe({
+      next: (result)=>{
+        this.snackBar.open("Game deleted!", 'Close',
+        {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
+        this.allActiveGames = this.allActiveGames.filter(g => g.id !== game.id);
+        this.filteredGames = this.filteredGames.filter(g => g.id !== game.id);
+      },
+      error:(err)=>{
+        console.log("Failed to delete game! "+err);
+      }
+    });
+
+  }
+  viewDetails(gameId : number){
+    this.router.navigate(['/gameDetails',gameId]);
   }
 }

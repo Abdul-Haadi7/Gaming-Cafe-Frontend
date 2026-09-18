@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-view-developers',
@@ -26,13 +27,26 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrl: './view-developers.component.css'
 })
 export class ViewDevelopersComponent {
-  constructor(private adminService:AdminService, private router:Router){}
+  constructor(private adminService:AdminService, private router:Router,
+    private snackBar:MatSnackBar
+  ){}
   name = '';
   allDevs: ReturnDevsToAdmin[] = [];
+  filteredDevs: ReturnDevsToAdmin[] = [];
   displayedColumns: string[] = ['name', 'email','phone', 'activeGamesCount','status'];
+  userRole = '';
   ngOnInit(){
     this.getName();
     this.fetchAllDevs();
+    this.getUserRole();
+  }
+  getUserRole()
+  {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      this.userRole = payload.role;
+    }
   }
   getName() 
   {
@@ -49,6 +63,7 @@ export class ViewDevelopersComponent {
     this.adminService.fetchAllDevs().subscribe({
       next: (result) =>{
         this.allDevs = result;
+        this.filteredDevs = result;
       },
       error: (err) => {
         console.log("Failed to get devs! "+err);
@@ -69,5 +84,62 @@ export class ViewDevelopersComponent {
   }
   goToCust(){
     this.router.navigate(['/viewCust']);
+  }
+  userIsSuperAdmin():boolean{
+    return this.userRole == 'Super Admin';  
+  }
+  blockDev(dev:ReturnDevsToAdmin)
+  {
+       const confirmed = confirm(
+      `Are you sure you want to block "${dev.name}"?`
+      );
+      if (!confirmed)
+      {
+        return;
+      }
+    this.adminService.blockDev(dev.id).subscribe({
+      next: (result) => {
+         this.snackBar.open("User blocked!", 'Close',
+        {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
+        dev.isActive=false;
+      },
+      error:(err)=>{
+        console.log("Coud not block user! "+err);
+      }
+    });
+  }
+  unblockDev(dev:ReturnDevsToAdmin)
+  {
+       const confirmed = confirm(
+      `Are you sure you want to unblock "${dev.name}"?`
+      );
+      if (!confirmed)
+      {
+        return;
+      }
+    this.adminService.unblockDev(dev.id).subscribe({
+      next: (result) => {
+         this.snackBar.open("User unblocked!", 'Close',
+        {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
+        dev.isActive=true;
+      },
+      error:(err)=>{
+        console.log("Coud not unblock user! "+err);
+      }
+    });
+  }
+  searchDev(searchName:string)
+  {
+    let temp = [...this.allDevs];
+    temp = temp.filter(cust => cust.name.toLowerCase().includes(searchName.trim().toLowerCase()));
+    this.filteredDevs = temp;
   }
 }

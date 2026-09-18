@@ -31,7 +31,6 @@ import { RequestDialogComponent } from '../request-dialog/request-dialog.compone
 })
 export class DeveloperComponent {
   name: string = '';
-  devGames: ReturnGamesToDevDTO[] = [];
   activeGames: ReturnGamesToDevDTO[] = [];
   filteredGames: ReturnGamesToDevDTO[] = [];
   totalGameSold = 0;
@@ -54,10 +53,8 @@ export class DeveloperComponent {
           for(let game of games){
             game.rating = this.roundToTwoDecimal(game.rating);
           }
-          this.devGames = games;
           this.activeGames = [];
-          this.devGames = games;
-          this.activeGames = this.devGames.filter(game => game.isActive);
+          this.activeGames = games.filter(game => game.isActive);
           this.filteredGames = [...this.activeGames];
           this.upateStats();
           console.log(this.activeGames);
@@ -69,7 +66,7 @@ export class DeveloperComponent {
       this.getWarningsCount();
     }
     upateStats(){
-      for (let game of this.devGames)
+      for (let game of this.activeGames)
       {
         this.totalGameSold+= game.soldAmount;
         this.totalMoneyEarned+= game.earned;
@@ -118,8 +115,7 @@ export class DeveloperComponent {
     this.developerService.deleteGame(game.id).subscribe({
         next: (result) => 
         { 
-            this.activeGames = this.activeGames.filter(g => g !== game);
-            this.snackBar.open(
+          this.snackBar.open(
             'Game deleted!',
             'Close',
             {
@@ -128,6 +124,8 @@ export class DeveloperComponent {
               verticalPosition: 'top'
             }
           );
+          this.activeGames = this.activeGames.filter(g => g !== game);
+          this.filteredGames = this.filteredGames.filter(g => g !== game);
         },
         error: (err) => {
           console.error('Failed to get name:', err);

@@ -189,4 +189,90 @@ export class AdminService {
       }
     )
   }
+  deleteGame(gameId:number)
+  {
+    const token = localStorage.getItem('token');
+    return this.http.delete(
+      this.apiURL+"/deleteGame?gameId="+gameId,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  blockCust(custId:number){
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      this.apiURL+"/blockCust?custId="+custId,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  blockDev(devId:number){
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      this.apiURL+"/blockDev?devId="+devId,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  blockAdmin(adminId:number){
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      this.apiURL+"/blockAdmin?adminId="+adminId,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+
+
+
+  unblockCust(custId:number){
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      this.apiURL+"/unblockCust?custId="+custId,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  unblockDev(devId:number){
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      this.apiURL+"/unblockDev?devId="+devId,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  unblockAdmin(adminId:number){
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      this.apiURL+"/unblockAdmin?adminId="+adminId,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
 }

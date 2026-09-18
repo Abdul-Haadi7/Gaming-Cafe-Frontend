@@ -30,7 +30,7 @@ export const routes: Routes = [
     {path:'customerHome', component: CustomerComponent,canActivate: [authGuard, roleGuard(['Customer'])]},
     {path:'devHome', component: DeveloperComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
     {path:'superAdminHome', component: SuperAdminComponent,canActivate: [authGuard, roleGuard(['Super Admin'])]},
-    {path:'adminHome', component: AdminComponent,canActivate: [authGuard, roleGuard(['Admin'])]},
+    {path:'adminHome', component: AdminComponent,canActivate: [authGuard, roleGuard(['Admin','Super Admin'])]},
     {path:'uploadGame', component: UploadGameComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
     {path:'addRequirements/:gameId', component: GameRequirementsComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
     {path:'editGame/:gameId', component: EditGameComponent,canActivate: [authGuard, roleGuard(['Developer'])]},

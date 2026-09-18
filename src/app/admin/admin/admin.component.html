@@ -179,7 +179,12 @@
           <mat-icon>report</mat-icon>
           Warn
       </button>
-  
+      <button mat-icon-button color="warn" *ngIf="this.userIsSuperAdmin()" (click)="deleteGame(game)">
+        <mat-icon title="Delete Game">delete</mat-icon>
+      </button>
+      <button mat-icon-button (click)="viewDetails(game.id)" title="View Game Details">
+        <mat-icon>visibility</mat-icon>
+      </button>
     </td>
   </ng-container>
 

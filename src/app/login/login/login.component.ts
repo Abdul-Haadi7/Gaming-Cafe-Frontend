@@ -56,12 +56,10 @@ export class LoginComponent implements OnInit {
           {
             this.router.navigate(['/customerHome']);
           }
-          else if (role === 'Admin') {
+          else if (role === 'Admin' || role === 'Super Admin') {
             this.router.navigate(['/adminHome']);
           }
-          else if (role === 'Super Admin') {
-            this.router.navigate(['/superAdminHome']);
-          }
+         
           else 
           {
             this.errorMessage = 'Unknown account role.';
