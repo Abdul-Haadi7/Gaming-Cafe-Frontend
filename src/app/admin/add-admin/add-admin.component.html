@@ -1,0 +1,195 @@
+<mat-toolbar>
+  <span>Gaming Cafe</span>
+
+  <span class="example-spacer"></span>
+
+  <h1>{{name}}</h1>
+</mat-toolbar>
+
+
+<mat-sidenav-container class="sidenav-container">
+
+  <mat-sidenav
+    #sidenav
+    mode="side"
+    [opened]="false"
+    class="app-sidenav">
+
+    <mat-nav-list>
+
+      <a mat-list-item (click)="goToHome()">
+        Home
+      </a>
+
+      <a mat-list-item (click)="goToUploadRequests()">
+        Pending upload requests
+      </a>
+
+      <a mat-list-item (click)="goToallActiveWarnings()">
+        Issued warning
+      </a>
+
+      <a mat-list-item (click)="goToWarningEndReqs()">
+        Warning end requests
+      </a>
+
+      <a mat-list-item (click)="goToDevs()">
+        Developers
+      </a>
+
+      <a mat-list-item (click)="goToCust()">
+        Customers
+      </a>
+
+      <a mat-list-item (click)="goToAdmins()">
+        Admins
+      </a>
+
+    </mat-nav-list>
+
+  </mat-sidenav>
+
+
+  <mat-sidenav-content>
+
+    <button
+      mat-icon-button
+      (click)="sidenav.toggle()">
+
+      <mat-icon>menu</mat-icon>
+
+    </button>
+
+    <div class="page">
+
+      <mat-card class="form-card" appearance="outlined">
+
+        <mat-card-header class="form-header">
+          <mat-card-title>Add admin</mat-card-title>
+          <mat-card-subtitle>
+            Enter the admin's details and choose what they are allowed to do.
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+
+          <form [formGroup]="addAdminForm" (ngSubmit)="createAdmin()" novalidate>
+
+            <div class="details-grid">
+
+              <mat-form-field appearance="outline" class="span-2">
+                <mat-label>Full name</mat-label>
+                <mat-icon matPrefix>person</mat-icon>
+                <input matInput formControlName="name" autocomplete="name" placeholder="e.g. Ayesha Khan">
+                <mat-error *ngIf="nameControl?.hasError('required')">Name is required</mat-error>
+                <mat-error *ngIf="nameControl?.hasError('minlength')">Name must be at least 3 characters</mat-error>
+                <mat-error *ngIf="nameControl?.hasError('maxlength')">Name can be at most 50 characters</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <mat-icon matPrefix>mail</mat-icon>
+                <input matInput type="email" formControlName="email" autocomplete="email" placeholder="admin@example.com">
+                <mat-error *ngIf="emailControl?.hasError('required')">Email is required</mat-error>
+                <mat-error *ngIf="emailControl?.hasError('email') || emailControl?.hasError('pattern')">
+                  Enter a valid email address
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <mat-icon matPrefix>visibility</mat-icon>
+                <input matInput type="password" formControlName="password" placeholder="password">
+                <mat-error *ngIf="emailControl?.hasError('required')">Password is required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Phone</mat-label>
+                <mat-icon matPrefix>phone</mat-icon>
+                <input matInput type="tel" formControlName="phone" autocomplete="tel" placeholder="+923001234567">
+                <mat-hint>10 to 15 digits, optional leading +</mat-hint>
+                <mat-error *ngIf="phoneControl?.hasError('required')">Phone number is required</mat-error>
+                <mat-error *ngIf="phoneControl?.hasError('pattern')">Enter 10 to 15 digits, optionally starting with +</mat-error>
+              </mat-form-field>
+
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <section class="permissions" aria-labelledby="permissions-title">
+
+              <div class="permissions-header">
+                <div class="permissions-title-block">
+                  <h2 id="permissions-title">Permissions</h2>
+                  <span class="selected-count">
+                    {{ selectedCount }} of {{ permissions.length }} selected
+                  </span>
+                </div>
+
+                <div class="permissions-actions">
+                  <button
+                    mat-stroked-button
+                    type="button"
+                    (click)="selectAllPermissions()"
+                    [disabled]="allSelected">
+                    <mat-icon>select_all</mat-icon>
+                    Select all
+                  </button>
+
+                  <button
+                    mat-stroked-button
+                    type="button"
+                    (click)="clearAllPermissions()"
+                    [disabled]="selectedCount === 0">
+                    <mat-icon>deselect</mat-icon>
+                    Deselect all
+                  </button>
+                </div>
+              </div>
+
+              <div
+                class="permissions-grid"
+                [class.has-error]="showPermissionsError"
+                formArrayName="permissions">
+
+                <mat-checkbox
+                  *ngFor="let permission of permissions; let i = index"
+                  [formControlName]="i">
+                  {{ permission.name }}
+                </mat-checkbox>
+
+              </div>
+
+              <div class="permissions-error" *ngIf="showPermissionsError" role="alert">
+                <mat-icon>error_outline</mat-icon>
+                Select at least one permission
+              </div>
+
+            </section>
+
+            <!-- Actions -->
+            <div class="form-actions">
+
+              <button mat-stroked-button type="button" (click)="goToAdmins()">
+                <mat-icon>arrow_back</mat-icon>
+                Back
+              </button>
+
+              <button mat-flat-button color="primary" type="submit">
+                <mat-icon>person_add</mat-icon>
+                Create admin
+              </button>
+
+            </div>
+
+          </form>
+
+        </mat-card-content>
+
+      </mat-card>
+
+    </div>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

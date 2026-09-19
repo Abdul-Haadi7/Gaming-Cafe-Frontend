@@ -31,12 +31,14 @@ export class WarningEndRequestsComponent {
   
   allRequests: ReturnWarningEndReq[] = [];
   displayedColumns: string[] = ['game', 'developer','reason', 'note','actions'];
+  userRole = '';
   constructor(private adminService:AdminService, private router:Router,
     private snackBar:MatSnackBar){}
 
   ngOnInit(){
     this.getName();
     this.getReqs();
+    this.getUserRole();
   }
   getReqs()
   {
@@ -49,6 +51,14 @@ export class WarningEndRequestsComponent {
         console.error('Failed to get requests:', err);
       }
     })
+  }
+  getUserRole()
+  {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      this.userRole = payload.role;
+    }
   }
   getName() 
   {
@@ -107,7 +117,13 @@ export class WarningEndRequestsComponent {
   goToDevs(){
     this.router.navigate(['/viewDevs']);
   }
- goToCust(){
+  goToCust(){
     this.router.navigate(['/viewCust']);
+  }
+  goToAdmins(){
+    this.router.navigate(['/viewAdmins']);
+  }
+  userIsSuperAdmin():boolean{
+    return this.userRole == 'Super Admin';  
   }
 }

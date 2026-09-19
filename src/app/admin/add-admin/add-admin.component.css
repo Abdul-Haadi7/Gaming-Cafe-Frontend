@@ -1,0 +1,173 @@
+/* ---------- Your existing styles ---------- */
+.example-spacer{
+    flex: 1 1 auto;
+}
+
+.sidenav-container {
+  height: 100vh;
+  width: 100%;
+}
+
+.app-sidenav {
+  width: 250px;
+}
+
+.marginLeft{
+  margin-left: 15px;
+}
+
+/* ---------- Add admin form ---------- */
+.page {
+  display: flex;
+  justify-content: center;
+  padding: 8px 24px 40px;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 920px;
+  padding: 8px 8px 16px;
+}
+
+.form-header {
+  padding-bottom: 20px;
+}
+
+/* Name / email / phone */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 20px;
+  padding-top: 8px;
+  margin-bottom: 8px;
+}
+
+.details-grid .span-2 {
+  grid-column: 1 / -1;
+}
+
+.details-grid mat-form-field {
+  width: 100%;
+}
+
+/* Permissions */
+.permissions {
+  margin-top: 24px;
+}
+
+.permissions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.permissions-title-block {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.permissions-title-block h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.selected-count {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.permissions-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.permissions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.16));
+  border-radius: 12px;
+}
+
+.permissions-grid.has-error {
+  border-color: var(--mat-sys-error, #b3261e);
+}
+
+.permissions-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--mat-sys-error, #b3261e);
+}
+
+.permissions-error mat-icon {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+}
+
+/* Server error */
+.server-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--mat-sys-on-error-container, #410e0b);
+  background: var(--mat-sys-error-container, #f9dedc);
+}
+
+/* Bottom buttons */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .permissions-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 8px 12px 32px;
+  }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .permissions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .permissions-actions {
+    width: 100%;
+  }
+
+  .permissions-actions button {
+    flex: 1;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}

@@ -8,6 +8,9 @@ import { Warning } from '../models/Warnings';
 import { ReturnWarningEndReq } from '../models/ReturnWarningEndReq';
 import { ReturnDevsToAdmin } from '../models/ReturnDevsToAdmin';
 import { ReturnCustomerToAdmin } from '../models/ReturnCustomerToAdmin';
+import { ReturnAdminToSuperAdmin } from '../models/ReturnAdminToSuperAdmin';
+import { AddAdmin } from '../models/AddAdmin';
+import { Permission } from '../models/Permissions';
 
 @Injectable({
   providedIn: 'root'
@@ -189,6 +192,18 @@ export class AdminService {
       }
     )
   }
+
+ fetchAllAdmins(){
+    const token = localStorage.getItem('token');
+    return this.http.get<ReturnAdminToSuperAdmin[]>(
+      this.apiURL+"/getAllAdmins",{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+
   deleteGame(gameId:number)
   {
     const token = localStorage.getItem('token');
@@ -237,8 +252,6 @@ export class AdminService {
     )
   }
 
-
-
   unblockCust(custId:number){
     const token = localStorage.getItem('token');
     return this.http.put(
@@ -274,5 +287,28 @@ export class AdminService {
         }
       }
     )
+  }
+  getAdminPerms(): Observable<Permission[]>
+  {
+    const token = localStorage.getItem('token');
+    return this.http.get<Permission[]>(
+      this.apiURL+"/getAdminPermissions",{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
+  addAdmin(admin:AddAdmin)
+  {
+    const token = localStorage.getItem('token');
+      return this.http.post(
+        this.apiURL+"/addAdmin",admin,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
   }
 }

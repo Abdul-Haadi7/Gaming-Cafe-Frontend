@@ -34,7 +34,9 @@
         <a mat-list-item (click)="goToCust()">
             Customers
         </a>
-
+        <a mat-list-item (click)="goToAdmins()" *ngIf="userIsSuperAdmin()">
+          Admins
+        </a>
         </mat-nav-list>
 
     </mat-sidenav>
@@ -45,6 +47,7 @@
     <mat-icon>menu</mat-icon>
    </button>
    <h1 class="marginLeft">All developers</h1>
+   <h3 class="marginLeft">Total: {{filteredDevs.length}}</h3>
     <mat-form-field>
         <input #searchInput matInput class="marginLeft" placeholder="Search developer" (keyup)="searchDev(searchInput.value)">
     </mat-form-field>

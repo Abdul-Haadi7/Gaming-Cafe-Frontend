@@ -31,6 +31,7 @@ export class UploadRequestsReceived {
   ){}
   name="";
   pendingRequests: ReturnUploadReqToAdmin[] = [];
+  userRole='';
   displayedColumns: string[] = ['name', 'price', 'genre','developer','details','actions'];
   ngOnInit(){
      this.adminService.getUploadRequests().subscribe({
@@ -43,6 +44,7 @@ export class UploadRequestsReceived {
         }
       });
       this.getName();
+      this.getUserRole();
   }
   getName() 
   {
@@ -54,6 +56,14 @@ export class UploadRequestsReceived {
         console.error('Failed to get name:', err);
       }
     });
+  }
+  getUserRole()
+  {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      this.userRole = payload.role;
+    }
   }
   goToHome(){
     this.router.navigate(['/adminHome']);
@@ -131,5 +141,11 @@ export class UploadRequestsReceived {
   }
   goToCust(){
     this.router.navigate(['/viewCust']);
+  }
+  goToAdmins(){
+    this.router.navigate(['/viewAdmins']);
+  }
+  userIsSuperAdmin():boolean{
+    return this.userRole == 'Super Admin';  
   }
 }

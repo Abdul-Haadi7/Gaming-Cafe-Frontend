@@ -283,4 +283,7 @@ export class AdminComponent {
   viewDetails(gameId : number){
     this.router.navigate(['/gameDetails',gameId]);
   }
+  goToAdmins(){
+    this.router.navigate(['/viewAdmins']);
+  }
 }

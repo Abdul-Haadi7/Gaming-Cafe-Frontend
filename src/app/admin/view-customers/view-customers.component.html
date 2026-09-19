@@ -34,6 +34,9 @@
         <a mat-list-item>
             Customers
         </a>
+        <a mat-list-item (click)="goToAdmins()" *ngIf="userIsSuperAdmin()">
+          Admins
+        </a>
 
         </mat-nav-list>
 
@@ -45,6 +48,7 @@
     <mat-icon>menu</mat-icon>
    </button>
    <h1 class="marginLeft">All customers</h1>
+   <h3 class="marginLeft">Total: {{filteredCust.length}}</h3>
     <mat-form-field>
         <input #searchInput matInput class="marginLeft" placeholder="Search customer" (keyup)="searchCust(searchInput.value)">
     </mat-form-field>

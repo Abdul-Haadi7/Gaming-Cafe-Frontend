@@ -22,6 +22,8 @@ import { ActiveWarningsComponent } from './admin/active-warnings/active-warnings
 import { WarningEndRequestsSentComponent } from './developer/warning-end-requests/warning-end-requests.component';
 import { ViewDevelopersComponent } from './admin/view-developers/view-developers.component';
 import { ViewCustomersComponent } from './admin/view-customers/view-customers.component';
+import { ViewAdminsComponent } from './admin/view-admins/view-admins.component';
+import { AddAdminComponent } from './admin/add-admin/add-admin.component';
 
 export const routes: Routes = [
     {path:'',redirectTo:'login',pathMatch:'full'},
@@ -44,5 +46,7 @@ export const routes: Routes = [
     {path:'allActiveWarnings', component: ActiveWarningsComponent,canActivate: [authGuard, roleGuard(['Super Admin','Admin'])]},
     {path:'warningEndReqs', component: WarningEndRequestsSentComponent,canActivate: [authGuard, roleGuard(['Developer'])]},
     {path:'viewDevs', component: ViewDevelopersComponent,canActivate: [authGuard, roleGuard(['Admin','Super Admin'])]},
-    {path:'viewCust', component: ViewCustomersComponent,canActivate: [authGuard, roleGuard(['Admin','Super Admin'])]}
+    {path:'viewCust', component: ViewCustomersComponent,canActivate: [authGuard, roleGuard(['Admin','Super Admin'])]},
+    {path:'viewAdmins', component: ViewAdminsComponent,canActivate: [authGuard, roleGuard(['Super Admin'])]},
+    {path:'addAdmin', component: AddAdminComponent,canActivate: [authGuard, roleGuard(['Super Admin'])]}
 ];

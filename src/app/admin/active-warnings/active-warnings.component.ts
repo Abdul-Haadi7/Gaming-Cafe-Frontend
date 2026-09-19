@@ -32,7 +32,7 @@ export class ActiveWarningsComponent
   allWarnings: Warning[] = [];
   displayedColumns: string[] = ['name', 'developer','reason', 'issuedAt', 
     'requested', 'actions'];
-    
+  userRole = '';
   constructor(private router:Router, private adminService:AdminService,
     private snackBar: MatSnackBar
   ){}
@@ -40,6 +40,7 @@ export class ActiveWarningsComponent
   {
     this.getName();
     this.getAllWarnings();
+    this.getUserRole();
   }
 
   getName() 
@@ -52,6 +53,14 @@ export class ActiveWarningsComponent
       console.error('Failed to get name: ', err);
       }
     });
+  }
+  getUserRole()
+  {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      this.userRole = payload.role;
+    }
   }
   getAllWarnings(){
     this.adminService.getAllActiveWarnings().subscribe({
@@ -93,8 +102,13 @@ export class ActiveWarningsComponent
   goToDevs(){
     this.router.navigate(['/viewDevs']);
   }
- goToCust(){
+  goToCust(){
     this.router.navigate(['/viewCust']);
   }
-
+  goToAdmins(){
+    this.router.navigate(['/viewAdmins']);
+  }
+  userIsSuperAdmin():boolean{
+    return this.userRole == 'Super Admin';  
+  }
 }

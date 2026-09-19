@@ -1,53 +1,45 @@
 import { Component } from '@angular/core';
-import { AdminService } from '../admin.service';
-import { ReturnCustomerToAdmin } from '../../models/ReturnCustomerToAdmin';
-import { Router } from '@angular/router';
-import { MatToolbar } from '@angular/material/toolbar';
+import { MatToolbar } from "@angular/material/toolbar";
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormField } from "@angular/material/form-field";
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { resourceUsage } from 'node:process';
+import { AdminService } from '../admin.service';
+
+import { ReturnAdminToSuperAdmin } from '../../models/ReturnAdminToSuperAdmin';
 
 @Component({
-  selector: 'app-view-customers',
+  selector: 'app-view-admins',
   standalone: true,
   imports: [MatToolbar, MatSidenavModule, MatButtonModule, MatIconModule,
-    MatListModule, MatCardModule, MatTableModule, CommonModule, MatFormField,
+      MatListModule, MatCardModule, MatTableModule, CommonModule, MatFormField,
     MatFormFieldModule,MatInputModule,MatSelectModule,MatOption],
-  templateUrl: './view-customers.component.html',
-  styleUrl: './view-customers.component.css'
+  templateUrl: './view-admins.component.html',
+  styleUrl: './view-admins.component.css'
 })
-export class ViewCustomersComponent {
- constructor(private adminService:AdminService, private router:Router,
-  private snackBar:MatSnackBar){}
+export class ViewAdminsComponent {
+  constructor(private router:Router, private adminService:AdminService, private snackBar:MatSnackBar){}
   name = '';
-  allCust: ReturnCustomerToAdmin[] = [];
-  filteredCust: ReturnCustomerToAdmin[] = [];
-  displayedColumns: string[] = ['name', 'email','phone', 'gamesBoughtCount','status'];
-  userRole = '';
+  allAdmins: ReturnAdminToSuperAdmin[] = [];
+  filteredAdmins: ReturnAdminToSuperAdmin[] = [];
+  displayedColumns: string[] = ['name', 'email','phone', 'permissions','status','actions'];
+
   ngOnInit(){
-    this.getUserRole()
     this.getName();
-    this.fetchAllCust();
+    this.getAllAdmins();
   }
-  getUserRole()
-  {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      this.userRole = payload.role;
-    }
-  }
+
   getName() 
   {
     this.adminService.getName().subscribe({
@@ -59,17 +51,19 @@ export class ViewCustomersComponent {
       }
     });
   }
-  fetchAllCust(){
-    this.adminService.fetchAllCust().subscribe({
-      next: (result) =>{
-        this.allCust = result;
-        this.filteredCust = result;
+
+  getAllAdmins(){
+    this.adminService.fetchAllAdmins().subscribe({
+      next: (result)=>{
+        this.allAdmins = result;
+        this.filteredAdmins = result;
       },
-      error: (err) => {
-        console.log("Failed to get customers! "+err);
+      error: (err) =>{
+        console.log("Could not get admins");
       }
     });
   }
+
   goToUploadRequests(){
     this.router.navigate(['/uploadRequestsReceived']);
   }
@@ -85,19 +79,28 @@ export class ViewCustomersComponent {
   goToDevs(){
     this.router.navigate(['/viewDevs']);
   }
-  userIsSuperAdmin():boolean{
-    return this.userRole == 'Super Admin';  
+  goToCust(){
+    this.router.navigate(['/viewCust']);
   }
-  blockCust(cust:ReturnCustomerToAdmin)
+  goToAddAdmin(){
+    this.router.navigate(['/addAdmin']);
+  }
+  searchAdmin(searchName:string){
+    let temp = [...this.allAdmins];
+    temp = temp.filter(admin => admin.name.toLowerCase().includes(searchName.trim().toLowerCase()));
+    this.filteredAdmins = temp;
+  }
+
+  blockAdmin(admin:ReturnAdminToSuperAdmin)
   {
     const confirmed = confirm(
-      `Are you sure you want to block "${cust.name}"?`
-    );
+      `Are you sure you want to block "${admin.name}"?`
+    );admin
     if (!confirmed)
     {
       return;
     }
-    this.adminService.blockCust(cust.id).subscribe({
+    this.adminService.blockAdmin(admin.id).subscribe({
       next: (result) => {
          this.snackBar.open("User blocked!", 'Close',
         {
@@ -105,23 +108,23 @@ export class ViewCustomersComponent {
           horizontalPosition: 'center',
           verticalPosition: 'top'
         });
-        cust.isActive = false;
+        admin.isActive = false;
       },
       error:(err)=>{
         console.log("Coud not block user! "+err);
       }
     });
   }
-  unblockCust(cust:ReturnCustomerToAdmin)
+  unblockAdmin(admin:ReturnAdminToSuperAdmin)
   {
     const confirmed = confirm(
-      `Are you sure you want to unblock "${cust.name}"?`
+      `Are you sure you want to unblock "${admin.name}"?`
     );
     if (!confirmed)
     {
       return;
     }
-    this.adminService.unblockCust(cust.id).subscribe({
+    this.adminService.unblockAdmin(admin.id).subscribe({
       next: (result) => {
          this.snackBar.open("User unblocked!", 'Close',
         {
@@ -129,20 +132,11 @@ export class ViewCustomersComponent {
           horizontalPosition: 'center',
           verticalPosition: 'top'
         });
-        cust.isActive = true;
+        admin.isActive = true;
       },
       error:(err)=>{
         console.log("Coud not unblock user! "+err);
       }
     });
-  }
-  searchCust(searchName:string)
-  {
-    let temp = [...this.allCust];
-    temp = temp.filter(cust => cust.name.toLowerCase().includes(searchName.trim().toLowerCase()));
-    this.filteredCust = temp;
-  }
-  goToAdmins(){
-    this.router.navigate(['/viewAdmins']);
   }
 }

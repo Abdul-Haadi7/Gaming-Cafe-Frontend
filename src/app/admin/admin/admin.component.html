@@ -33,6 +33,9 @@
   <a mat-list-item (click)="goToCust()">
     Customers
   </a>
+  <a mat-list-item (click)="goToAdmins()" *ngIf="userIsSuperAdmin()">
+    Admins
+  </a>
 
 </mat-nav-list>
 

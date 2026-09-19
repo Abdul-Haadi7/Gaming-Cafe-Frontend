@@ -1,0 +1,120 @@
+<mat-toolbar>
+  <span>Gaming Cafe</span>
+
+<span class="example-spacer"></span>
+
+  <h1>{{name}}</h1>
+</mat-toolbar>
+
+
+<mat-sidenav-container class="sidenav-container">
+
+    <mat-sidenav #sidenav mode="side" [opened]="false" class="app-sidenav">
+
+        <mat-nav-list>
+
+        <a mat-list-item (click)="goToHome()">
+            Home
+        </a>
+
+        <a mat-list-item (click)="goToUploadRequests()">
+            Pending upload requests
+        </a>
+
+        <a mat-list-item (click)="goToallActiveWarnings()">
+            Issued warning
+        </a>
+
+        <a mat-list-item (click)="goToWarningEndReqs()">
+            Warning end requests
+        </a>
+        <a mat-list-item (click)="goToDevs()">
+            Developers
+        </a>
+        <a mat-list-item (click)="goToCust()">
+            Customers
+        </a>
+        <a mat-list-item>
+            Admins
+        </a>
+    </mat-nav-list>
+    
+    </mat-sidenav>
+
+  <mat-sidenav-content>
+
+   <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+   </button>
+   <h1 class="marginLeft">All admins</h1>
+    <button class="addNew " color="primary" (click)="goToAddAdmin()">
+      <mat-icon>add</mat-icon>
+        Add new admin
+    </button>
+   <h3 class="marginLeft">Total: {{filteredAdmins.length}}</h3>
+    <mat-form-field>
+        <input #searchInput matInput class="marginLeft" placeholder="Search admin" (keyup)="searchAdmin(searchInput.value)">
+    </mat-form-field>
+    <table mat-table [dataSource]="filteredAdmins" class="mat-elevation-z2">
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let admin"> 
+            {{ admin.name }}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let admin"> 
+            <span>{{ admin.email }}</span> 
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef> Phone </th>
+        <td mat-cell *matCellDef="let admin"> {{ admin.phone }} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="permissions">
+        <th mat-header-cell *matHeaderCellDef> Permissions </th>
+        <td mat-cell *matCellDef="let admin"> 
+            <div class="permissions-container">
+                <span class="permission-chip" *ngFor="let perm of admin.permissions">
+                    {{ perm }}
+                </span>
+            </div>
+         </td>
+    </ng-container>
+
+   <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let admin"> 
+            <span *ngIf="admin.isActive" class="active">
+                <button mat-stroked-button (click)="blockAdmin(admin)">Active</button>
+            </span>
+            <span *ngIf="!admin.isActive" class="blocked">
+                <button mat-stroked-button (click)="unblockAdmin(admin)">
+                    <mat-icon color="warn">block</mat-icon>
+                        Blocked
+                </button>
+            </span>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let admin"> 
+            <button mat-stroked-button title="Edit">
+                <mat-icon>edit</mat-icon>
+            </button>
+         </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+</mat-sidenav-content>
+
+</mat-sidenav-container>

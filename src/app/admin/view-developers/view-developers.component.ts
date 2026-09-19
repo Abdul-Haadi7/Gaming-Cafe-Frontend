@@ -142,4 +142,7 @@ export class ViewDevelopersComponent {
     temp = temp.filter(cust => cust.name.toLowerCase().includes(searchName.trim().toLowerCase()));
     this.filteredDevs = temp;
   }
+  goToAdmins(){
+    this.router.navigate(['/viewAdmins']);
+  }
 }
