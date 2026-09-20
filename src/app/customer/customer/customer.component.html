@@ -1,91 +1,117 @@
-<!-- <mat-toolbar class="sticky">
-    <mat-toolbar-row class = "navbar">
-        <a mat-button>Games</a>
-        <a (click)="goToCart()" mat-button *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
-        <a href="/cart" mat-button *ngIf="gamesInCart < 1">Cart</a>
-    </mat-toolbar-row>
-</mat-toolbar> -->
-<mat-toolbar>
-  <span>Gaming Cafe</span>
-  <a mat-button class="marginLeft">Games</a>
-  <a (click)="goToCart()" mat-button *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
-  <a href="/cart" mat-button *ngIf="gamesInCart < 1">Cart</a>
- <span class="example-spacer"></span>
+<mat-toolbar class="topbar">
+  <span class="brand">
+    <mat-icon>sports_esports</mat-icon>
+    Gaming Cafe
+  </span>
+  <a mat-button class="nav-link active marginLeft">Games</a>
+  <a (click)="goToCart()" mat-button class="nav-link" *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
+  <a (click)="goToCart()" mat-button class="nav-link" *ngIf="gamesInCart < 1">Cart</a>
+  <span class="example-spacer"></span>
 
-  <h1>{{name}}</h1>
+  <div class="user-area">
+    <button mat-button class="user-btn" [matMenuTriggerFor]="userMenu">
+      {{name}}
+      <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+    </button>
+
+    <mat-menu #userMenu="matMenu" xPosition="before" class="gc-menu-panel">
+      <button mat-menu-item (click)="logOut()">
+        <mat-icon>logout</mat-icon>
+        <span>Log out</span>
+      </button>
+    </mat-menu>
+  </div>
 </mat-toolbar>
 
-<div class = "container">
-  <!-- <div class = "container marginLeft">
-    <h1>Gaming Cafe</h1>
-    <h3>Get your favourite games</h3>
-  </div> -->
 
-  <div class="container">
-    <mat-form-field class = "form">
+<div class="page">
+
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Gaming Cafe</h1>
+      <h3>Get your favourite games</h3>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <mat-icon class="hero-icon">sports_esports</mat-icon>
+    </div>
+  </section>
+
+  <section class="filters">
+    <mat-form-field class="form search-field">
       <input matInput #search placeholder="Search games" (keyup)="searchGames(search.value)">
+      <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-     <mat-form-field class = "form"> 
-        <mat-select [(value)]="sortOrder" placeholder="Sort" (selectionChange)="sortGames($event.value)">    
-            <mat-option value="priceLowHigh"> Price: Low to High </mat-option>
-            <mat-option value="priceHighLow"> Price: High to Low </mat-option>
-            <mat-option value="ratingHighLow"> Rating: High to Low </mat-option>
-            <mat-option value="ratingLowHigh"> Rating: Low to High </mat-option>
-            <button mat-button (click)="clearSort()">Clear filter</button>
-          </mat-select>
-      </mat-form-field>
-   
-      <mat-form-field class="searchFilter"> 
-      <mat-select [(value)]="filter" placeholder="Filter out games" (selectionChange)="filterOutGames($event.value)">    
+
+    <mat-form-field class="form select-field">
+      <mat-select [(value)]="sortOrder" placeholder="Sort" panelClass="gc-select-panel" (selectionChange)="sortGames($event.value)">
+        <mat-option value="priceLowHigh"> Price: Low to High </mat-option>
+        <mat-option value="priceHighLow"> Price: High to Low </mat-option>
+        <mat-option value="ratingHighLow"> Rating: High to Low </mat-option>
+        <mat-option value="ratingLowHigh"> Rating: Low to High </mat-option>
+        <button mat-button (click)="clearSort()">Clear filter</button>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="searchFilter select-field">
+      <mat-select [(value)]="filter" placeholder="Filter out games" panelClass="gc-select-panel" (selectionChange)="filterOutGames($event.value)">
         <mat-option value="discounted"> Discounted applied </mat-option>
         <mat-option value="notDiscounted"> No discounted </mat-option>
         <mat-option value="owned"> Owned </mat-option>
         <mat-option value="notOwned"> Not owned </mat-option>
- 
+
         <button mat-button (click)="clearFilter()">Clear filter</button>
       </mat-select>
     </mat-form-field>
-    <br>
-    Total games: {{filteredGames.length}}
-  </div>
+  </section>
 
-  <mat-grid-list cols="3" rowHeight="350px" gutterSize="20px">
-  <mat-grid-tile *ngFor="let game of filteredGames">
-    <mat-card class="product-card game-card" appearance="outlined" (click)="goToDetails(game.id)">
-      <div class="ribbon" *ngIf="game.discountPercentage > 0">
-        <span>{{game.discountPercentage}}% off!</span>
+  <div class="total">Total games: {{filteredGames.length}}</div>
+
+  <div class="games-grid">
+    <mat-card *ngFor="let game of filteredGames" class="product-card game-card" appearance="outlined" (click)="goToDetails(game.id)">
+
+      <div class="media">
+        <img mat-card-image src="{{game.imageLink}}" alt="Game cover" (error)="imageError($event)">
+        <span class="discount-badge" *ngIf="game.discountPercentage > 0">{{game.discountPercentage}}% off</span>
       </div>
-      <img mat-card-image src="{{game.imageLink}}" alt="Game cover" (error)="imageError($event)">
-      <mat-card-content>
-        <mat-card-title>{{ game.name }}</mat-card-title>
-        <mat-card-subtitle>{{game.description}}</mat-card-subtitle>
-        <div class = "rating" *ngIf="game.rating > 0">
+
+      <mat-card-content class="card-info">
+        <mat-card-title class="game-title">{{ game.name }}</mat-card-title>
+        <mat-card-subtitle class="game-desc">{{game.description}}</mat-card-subtitle>
+
+        <div class="meta">
+          <div class="genre">
+            <mat-icon>category</mat-icon>
+            {{game.genre}}
+          </div>
+          <mat-card-subtitle class="developer">Developer: {{game.developerName}}</mat-card-subtitle>
+        </div>
+
+        <div class="buy-row">
+          <div class="rating" *ngIf="game.rating > 0">
             <mat-icon class="rating-icon">star</mat-icon>
-            {{game.rating}}     
+            <span class="rating-value">{{game.rating}}</span>
+          </div>
+
+          <div class="price-block">
+            <mat-card-subtitle class="price" *ngIf="game.discountPercentage <= 0">{{ game.price | currency: 'PKR ' }}</mat-card-subtitle>
+            <ng-container *ngIf="game.discountPercentage > 0">
+              <mat-card-subtitle class="price-old">{{ game.price | currency: 'PKR ' }}</mat-card-subtitle>
+              <mat-card-subtitle class="price price-sale">{{ getDiscountedPrice(game.price, game.discountPercentage) | currency: 'PKR '}}</mat-card-subtitle>
+            </ng-container>
+          </div>
         </div>
-        <div class = "genere">
-          <mat-icon>category</mat-icon>
-          {{game.genre}}
-        </div>
-        <mat-card-subtitle  *ngIf="game.discountPercentage <=0">{{ game.price | currency: 'PKR ' }}</mat-card-subtitle>
-        <mat-card-subtitle  *ngIf="game.discountPercentage > 0">
-          <span style="text-decoration: line-through;">
-            {{ game.price | currency: 'PKR ' }} 
-          </span>
-          {{ getDiscountedPrice(game.price, game.discountPercentage) | currency: 'PKR '}}
-        </mat-card-subtitle>
-        <mat-card-subtitle>Developer: {{game.developerName}}</mat-card-subtitle>
       </mat-card-content>
-      <mat-card-content>
+
+      <mat-card-content class="card-actions">
         <button *ngIf="!game.alreadyOwned" (click)="addToCart(game.id, game.name); $event.stopPropagation()" class="button" mat-stroked-button color="primary">
-            <mat-icon>shopping_cart</mat-icon>
+          <mat-icon>shopping_cart</mat-icon>
+          Add to cart
         </button>
-        <button *ngIf="game.alreadyOwned"  class="button" mat-stroked-button disabled>
+        <button *ngIf="game.alreadyOwned" class="button" mat-stroked-button disabled>
           <mat-icon>check</mat-icon>
-            Owned
+          Owned
         </button>
       </mat-card-content>
     </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
+  </div>
 </div>

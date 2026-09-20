@@ -16,13 +16,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from '@angular/material/select';
 import { Warning } from '../../models/Warnings';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-active-warnings',
   standalone: true,
   imports: [MatToolbar, MatSidenavModule, MatButtonModule, MatIconModule,
     MatListModule, MatCardModule, MatTableModule, CommonModule, MatFormField,
-    MatFormFieldModule,MatInputModule,MatSelectModule,MatOption],
+    MatFormFieldModule,MatInputModule,MatSelectModule,MatOption, MatMenuModule],
   templateUrl: './active-warnings.component.html',
   styleUrl: './active-warnings.component.css'
 })
@@ -110,5 +111,8 @@ export class ActiveWarningsComponent
   }
   userIsSuperAdmin():boolean{
     return this.userRole == 'Super Admin';  
+  }
+  logOut(){
+    this.router.navigate(['/login']);
   }
 }

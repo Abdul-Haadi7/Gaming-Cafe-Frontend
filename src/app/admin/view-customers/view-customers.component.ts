@@ -16,14 +16,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { resourceUsage } from 'node:process';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-view-customers',
   standalone: true,
   imports: [MatToolbar, MatSidenavModule, MatButtonModule, MatIconModule,
     MatListModule, MatCardModule, MatTableModule, CommonModule, MatFormField,
-    MatFormFieldModule,MatInputModule,MatSelectModule,MatOption],
+    MatFormFieldModule,MatInputModule,MatSelectModule,MatOption, MatMenuModule],
   templateUrl: './view-customers.component.html',
   styleUrl: './view-customers.component.css'
 })
@@ -144,5 +144,8 @@ export class ViewCustomersComponent {
   }
   goToAdmins(){
     this.router.navigate(['/viewAdmins']);
+  }
+  logOut(){
+    this.router.navigate(['/login']);
   }
 }

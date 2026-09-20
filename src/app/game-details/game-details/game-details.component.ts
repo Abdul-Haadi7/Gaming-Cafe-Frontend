@@ -12,12 +12,13 @@ import { GetRequirementsDTO } from '../../models/getRequirementsDTO';
 import { EditRequirementsService } from '../../edit-requirements/edit-requirements.service';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-game-details',
   standalone: true,
   imports: [CommonModule, MatIcon, MatCard, MatCardContent, 
-    FormsModule, MatSliderModule, MatToolbar, MatButtonModule],
+    FormsModule, MatSliderModule, MatToolbar, MatButtonModule, MatMenuModule],
   templateUrl: './game-details.component.html',
   styleUrl: './game-details.component.css'
 })
@@ -208,5 +209,10 @@ export class GameDetailsComponent
   goToGames(){
     this.router.navigate(['/customerHome']);
   }
-
+  logOut(){
+    this.router.navigate(['/login']);
+  }
+  goToCart(){
+    this.router.navigate(['/cart']);
+  }
 }

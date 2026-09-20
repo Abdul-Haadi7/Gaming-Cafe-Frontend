@@ -7,7 +7,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { ReturnGamesToDevDTO } from '../../models/ReturnGameToDev';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormField } from "@angular/material/form-field";
@@ -20,13 +19,14 @@ import { AdminService } from '../admin.service';
 import { ReturnGamesToAdminDTO } from '../../models/ReturnGameToAdmin';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningDialogComponent } from '../warning-dialog/warning-dialog.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
   imports: [MatToolbar, MatSidenavModule, MatButtonModule, MatIconModule,
       MatListModule, MatCardModule, MatTableModule, CommonModule, MatFormField,
-    MatFormFieldModule,MatInputModule,MatSelectModule,MatOption],
+    MatFormFieldModule,MatInputModule,MatSelectModule,MatOption, MatMenuModule],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
@@ -285,5 +285,8 @@ export class AdminComponent {
   }
   goToAdmins(){
     this.router.navigate(['/viewAdmins']);
+  }
+  logOut(){
+    this.router.navigate(['/login']);
   }
 }

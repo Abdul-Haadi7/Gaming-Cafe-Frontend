@@ -5,23 +5,22 @@ import { MatToolbar } from "@angular/material/toolbar";
 import { MatIcon } from "@angular/material/icon";
 import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
-import { ReturnGamesToDevDTO } from '../../models/ReturnGameToDev';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButton } from '@angular/material/button';
-import { DeveloperService } from '../../developer/developer.service';
 import { ReturnUploadReqToAdmin } from '../../models/ReturnUploadReqToAdminDTO';
 import { AdminService } from '../admin.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { RejectionReasonComponent } from '../rejection-reason/rejection-reason.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-upload-requests',
   standalone: true,
   imports: [MatSidenavContainer, MatNavList, MatSidenav, MatSidenavContent, MatToolbar, MatIcon,
-    MatListModule, CommonModule, MatTableModule, MatButton, MatButtonModule],
+    MatListModule, CommonModule, MatTableModule, MatButton, MatButtonModule, MatMenuModule],
   templateUrl: './upload-requests.component.html',
   styleUrl: './upload-requests.component.css'
 })
@@ -147,5 +146,8 @@ export class UploadRequestsReceived {
   }
   userIsSuperAdmin():boolean{
     return this.userRole == 'Super Admin';  
+  }
+  logOut(){
+    this.router.navigate(['/login']);
   }
 }

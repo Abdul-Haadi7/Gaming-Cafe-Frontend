@@ -16,13 +16,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from '@angular/material/select';
 import { ReturnWarningEndReq } from '../../models/ReturnWarningEndReq';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-warning-end-requests',
   standalone: true,
   imports: [MatToolbar, MatSidenavModule, MatButtonModule, MatIconModule,
       MatListModule, MatCardModule, MatTableModule, CommonModule, MatFormField,
-    MatFormFieldModule,MatInputModule,MatSelectModule,MatOption],
+    MatFormFieldModule,MatInputModule,MatSelectModule,MatOption, MatMenuModule],
   templateUrl: './warning-end-requests.component.html',
   styleUrl: './warning-end-requests.component.css'
 })
@@ -125,5 +126,8 @@ export class WarningEndRequestsComponent {
   }
   userIsSuperAdmin():boolean{
     return this.userRole == 'Super Admin';  
+  }
+  logOut(){
+    this.router.navigate(['/login']);
   }
 }

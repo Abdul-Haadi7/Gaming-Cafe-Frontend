@@ -18,13 +18,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { AdminService } from '../admin.service';
 
 import { ReturnAdminToSuperAdmin } from '../../models/ReturnAdminToSuperAdmin';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-view-admins',
   standalone: true,
   imports: [MatToolbar, MatSidenavModule, MatButtonModule, MatIconModule,
       MatListModule, MatCardModule, MatTableModule, CommonModule, MatFormField,
-    MatFormFieldModule,MatInputModule,MatSelectModule,MatOption],
+    MatFormFieldModule,MatInputModule,MatSelectModule,MatOption, MatMenuModule],
   templateUrl: './view-admins.component.html',
   styleUrl: './view-admins.component.css'
 })
@@ -141,5 +142,8 @@ export class ViewAdminsComponent {
         console.log("Coud not unblock user! "+err);
       }
     });
+  }
+  logOut(){
+    this.router.navigate(['/login']);
   }
 }

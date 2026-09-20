@@ -1,79 +1,312 @@
-.example-spacer{
-    flex: 1 1 auto;
+:host {
+  --bg: #060818;
+  --surface: #14142c;
+  --line: #3a2f6b;
+  --line-soft: #24224a;
+  --violet-deep: #4a25a6;
+  --teal: #2dd4bf;
+  --green: #4ade80;
+  --red: #ef4444;
+  --text: #f3f3fb;
+  --muted: #9b9dc4;
+
+  --font-display: 'Orbitron', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  display: block;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: var(--font-body);
+  background:
+    radial-gradient(900px 520px at 6% -4%, rgba(124, 58, 237, 0.30), transparent 62%),
+    radial-gradient(760px 480px at 100% 8%, rgba(45, 212, 191, 0.10), transparent 60%),
+    var(--bg);
 }
 
-.sticky {
-  position: fixed;
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.marginLeft {
+  margin-left: 20px;
+}
+
+.topbar {
+  position: sticky;
   top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  margin-bottom: 20px;
+  z-index: 20;
+  padding: 0 clamp(12px, 4vw, 40px);
+  background: rgba(10, 12, 28, 0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--text);
+  font-family: var(--font-body);
 }
 
-
-.price {
-    font-weight: 800;
+.topbar .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--teal);
+  text-shadow: 0 0 14px rgba(45, 212, 191, 0.5);
 }
+
+.topbar .brand mat-icon {
+  width: 28px;
+  height: 28px;
+  font-size: 28px;
+  color: #a78bfa;
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.9));
+}
+
+.topbar .nav-link {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #dcdcf0;
+  transition: color 0.15s ease;
+}
+
+.topbar .nav-link:hover {
+  color: #fff;
+}
+
+.topbar .nav-link.active {
+  color: var(--green);
+}
+
+.topbar .nav-link.active::after {
+  content: '';
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 8px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--green);
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.7);
+}
+
+.topbar .user-btn {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.topbar .user-btn:hover {
+  border-color: var(--teal);
+  box-shadow: 0 0 12px rgba(45, 212, 191, 0.25);
+}
+
+.user-area {
+  display: flex;
+  align-items: center;
+}
+
 
 .container-sm {
-    max-width: 700px;
-    margin: 50px auto;
+  max-width: 760px;
+  margin: 48px auto;
+  padding: 0 clamp(16px, 4vw, 24px);
 }
 
-mat-card {
-    padding: 20px;
+.container-sm .cart-card {
+  padding: 12px 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #181733, var(--surface));
+  color: var(--text);
+  box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.08), 0 0 34px rgba(124, 58, 237, 0.22);
 }
 
-::ng-deep mat-list-item {
-    height: auto !important;
+.cart-card ::ng-deep mat-list-item {
+  height: auto !important;
 }
 
-mat-list-item {
-    display: block;
-    padding: 14px 8px;
+.cart-card mat-list-item {
+  display: block;
+  padding: 16px 0;
 }
 
-mat-list-item:not(:last-child) {
-    border-bottom: 1px solid #eee;
+.cart-card mat-list-item:not(:last-child) {
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.cart-card ::ng-deep .mdc-list-item__primary-text,
+.cart-card ::ng-deep .mdc-list-item__content {
+  overflow: visible;
+  color: var(--text);
+  font-family: var(--font-body);
+  white-space: normal;
 }
 
 .game-row {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
 }
 
 .game-name {
-    font-size: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .game-price {
-    font-size: 16px;
-    margin-left: 50px;
-}
-
-.total-row {
-    border-top: 1px solid #ddd;
-    margin-top: 10px;
-    padding-top: 15px;
-    font-weight: bold;
-}
-.sticky {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  margin-bottom: 20px;
-}
-
-.pad{
-    padding-top: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--text);
 }
 
 
-.marginLeft{
-  margin-left: 20px;
+.cart-card .delete-btn {
+  color: var(--muted);
+  transition: color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cart-card .delete-btn:hover {
+  color: #f87171;
+  background-color: rgba(239, 68, 68, 0.12);
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.3);
+}
+
+.cart-card .total-row {
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+
+.cart-card .total-row .game-name {
+  margin-right: auto;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.cart-card .clear-btn,
+.cart-card .pay-btn {
+  height: 44px;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: box-shadow 0.2s ease, filter 0.2s ease, border-color 0.2s ease;
+}
+
+.cart-card .clear-btn {
+  border: 1.5px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--muted);
+}
+
+.cart-card .clear-btn:hover {
+  border-color: #f87171;
+  color: #f87171;
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.25);
+}
+
+.cart-card .pay-btn {
+  border: 1.5px solid var(--teal);
+  background: linear-gradient(180deg, #6d3fe0, var(--violet-deep));
+  color: #fff;
+  box-shadow: 0 0 14px rgba(45, 212, 191, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.cart-card .pay-btn:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 0 22px rgba(45, 212, 191, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.empty-state {
+  padding: 36px 24px;
+  border: 1px dashed var(--line);
+  border-radius: 18px;
+  background: rgba(124, 58, 237, 0.06);
+  text-align: center;
+}
+
+.empty-state h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.pad {
+  padding-top: 0;
+}
+
+@media (max-width: 560px) {
+  .topbar .brand {
+    font-size: 0.95rem;
+  }
+
+  .topbar .nav-link {
+    min-width: 0;
+    padding: 0 8px;
+  }
+
+  .topbar .nav-link.active::after {
+    left: 8px;
+    right: 8px;
+  }
+
+  .marginLeft {
+    margin-left: 8px;
+  }
+
+  .container-sm .cart-card {
+    padding: 8px 14px;
+  }
+
+  .game-price {
+    margin-left: 8px;
+  }
+
+  .cart-card .total-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cart-card .total-row .game-name {
+    margin-right: 0;
+  }
+
+  .cart-card .clear-btn,
+  .cart-card .pay-btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-card .delete-btn,
+  .cart-card .clear-btn,
+  .cart-card .pay-btn,
+  .topbar .user-btn {
+    transition: none;
+  }
 }

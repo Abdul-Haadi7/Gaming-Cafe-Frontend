@@ -18,14 +18,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
-import { RequestDialogComponent } from '../request-dialog/request-dialog.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-developer',
   standalone: true,
   imports: [MatToolbar, MatSidenavModule, MatButtonModule, MatIconModule,
     MatListModule, MatCardModule, MatTableModule, CommonModule, MatFormField,
-  MatFormFieldModule,MatInputModule,MatSelectModule,MatOption],
+  MatFormFieldModule,MatInputModule,MatSelectModule,MatOption, MatMenuModule],
   templateUrl: './developer.component.html',
   styleUrl: './developer.component.css'
 })
@@ -273,5 +273,8 @@ export class DeveloperComponent {
   }
   goToWarningEndReqs(){
     this.router.navigate(['/warningEndReqs']);
+  }
+  logOut(){
+    this.router.navigate(['/login']);
   }
 }

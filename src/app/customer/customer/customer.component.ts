@@ -16,15 +16,14 @@ import { MatToolbarRow } from "@angular/material/toolbar";
 import { Router } from '@angular/router'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReturnGamesToCustomerDTO } from '../../models/ReturnGameToCustDTO';
-import { getDiffieHellman } from 'crypto';
-// import { CartService } from '../../cart/cart.service';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-customer',
   standalone: true,
   imports: [CommonModule, MatCard, MatCardContent, MatCardTitle, MatCardSubtitle,
   MatGridListModule, MatIconModule, MatCardActions, MatFormFieldModule, MatButtonModule,
-  MatInputModule, MatOption, MatSelectModule, MatToolbar, MatToolbarRow],
+  MatInputModule, MatOption, MatSelectModule, MatToolbar, MatToolbarRow, MatMenuModule],
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.css'
 })
@@ -236,5 +235,9 @@ export class CustomerComponent
   roundToTwoDecimal(value: number): number 
   {
     return Math.round((value + Number.EPSILON) * 100) / 100;
+  }
+
+  logOut(){
+    this.router.navigate(['/login']);
   }
 }

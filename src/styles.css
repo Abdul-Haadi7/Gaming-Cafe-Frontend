@@ -1,7 +1,71 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap');
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  margin: 0;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.gc-select-panel.mat-mdc-select-panel {
+  background: #14142c !important;
+  border: 1px solid #3a2f6b;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 0 24px rgba(124, 58, 237, 0.25) !important;
+}
+
+.gc-select-panel .mat-mdc-option {
+  color: #f3f3fb;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.9rem;
+}
+
+.gc-select-panel .mat-mdc-option .mdc-list-item__primary-text {
+  color: #f3f3fb !important;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+.gc-select-panel .mat-mdc-option:hover:not(.mdc-list-item--disabled),
+.gc-select-panel .mat-mdc-option.mat-mdc-option-active:not(.mdc-list-item--disabled) {
+  background: rgba(124, 58, 237, 0.22) !important;
+}
+
+.gc-select-panel .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+  background: rgba(45, 212, 191, 0.12) !important;
+}
+
+.gc-select-panel .mat-mdc-option.mdc-list-item--selected .mdc-list-item__primary-text {
+  color: #2dd4bf !important;
+}
+
+
+.gc-select-panel button.mat-mdc-button {
+  display: block;
+  width: calc(100% - 16px);
+  margin: 6px 8px 4px;
+  border: 1px solid #3a2f6b;
+  border-radius: 10px;
+  color: #2dd4bf !important;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.gc-menu-panel.mat-mdc-menu-panel {
+  min-width: 170px;
+  background: #14142c !important;
+  border: 1px solid #3a2f6b;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55), 0 0 24px rgba(124, 58, 237, 0.25) !important;
+}
+
+.gc-menu-panel .mat-mdc-menu-item .mat-mdc-menu-item-text {
+  color: #f3f3fb !important;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+.gc-menu-panel .mat-mdc-menu-item .mat-icon {
+  color: #a78bfa !important;
+}
+
+.gc-menu-panel .mat-mdc-menu-item:hover:not([disabled]) {
+  background: rgba(124, 58, 237, 0.22) !important;
+}

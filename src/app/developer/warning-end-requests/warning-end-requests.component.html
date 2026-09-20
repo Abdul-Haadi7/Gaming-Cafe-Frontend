@@ -3,7 +3,20 @@
 
  <span class="example-spacer"></span>
 
-  <h1>{{name}}</h1>
+    <h1><span class="example-spacer"></span>
+
+    <button mat-button [matMenuTriggerFor]="userMenu">
+      {{name}}
+      <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+    </button>
+
+    <mat-menu #userMenu="matMenu" xPosition="before">
+      <button mat-menu-item (click)="logOut()">
+        <mat-icon>logout</mat-icon>
+        <span>Log out</span>
+      </button>
+    </mat-menu>
+  </h1>
 </mat-toolbar>
 
 <mat-sidenav-container class="sidenav-container">

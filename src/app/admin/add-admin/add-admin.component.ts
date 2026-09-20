@@ -31,6 +31,8 @@ import { Permission } from '../../models/Permissions';
 import { ReturnAdminToSuperAdmin } from '../../models/ReturnAdminToSuperAdmin';
 import { forkJoin } from 'rxjs';
 import { EditAdmin } from '../../models/EditAdminDTO';
+import { MatMenuModule } from '@angular/material/menu';
+
 
 function atLeastOneSelected(control: AbstractControl): ValidationErrors | null 
 {
@@ -44,7 +46,7 @@ function atLeastOneSelected(control: AbstractControl): ValidationErrors | null
   imports: [MatToolbar, MatSidenavModule, MatButtonModule, MatIconModule,
     MatListModule, MatCardModule, MatTableModule, CommonModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatOption,
-    MatCheckboxModule, MatDividerModule, ReactiveFormsModule, FormsModule],
+    MatCheckboxModule, MatDividerModule, ReactiveFormsModule, FormsModule, MatMenuModule],
   templateUrl: './add-admin.component.html',
   styleUrl: './add-admin.component.css'
 })
@@ -326,5 +328,8 @@ export class AddAdminComponent implements OnInit
         });
       }
     });
+  }
+  logOut(){
+    this.router.navigate(['/login']);
   }
 }

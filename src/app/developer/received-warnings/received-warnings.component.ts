@@ -14,13 +14,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { RequestDialogComponent } from '../request-dialog/request-dialog.component';
 import { SendWarningEndReqDTO } from '../../models/SendWarningEndReqDTO';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-received-warnings',
   standalone: true,
   imports: [MatSidenavContainer, MatNavList, MatSidenav, MatSidenavContent, MatToolbar, MatIcon,
-      MatListModule, CommonModule, MatTableModule, MatButton, MatButtonModule
+      MatListModule, CommonModule, MatTableModule, MatButton, MatButtonModule, MatMenuModule
     ],
   templateUrl: './received-warnings.component.html',
   styleUrl: './received-warnings.component.css'
@@ -104,5 +104,8 @@ export class ReceivedWarningsComponent {
   }
   goToWarningEndReqs(){
     this.router.navigate(['/warningEndReqs']);
+  }
+  logOut(){
+    this.router.navigate(['/login']);
   }
 }

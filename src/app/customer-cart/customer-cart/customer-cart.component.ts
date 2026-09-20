@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { MatToolbar } from "@angular/material/toolbar";
-// import { GameService } from '../game.service'
-import { Game } from '../../models/game';
 import { CommonModule } from '@angular/common';
-import { MatCardModule, MatCard, MatCardContent, MatCardTitle, MatCardSubtitle, MatCardActions } from '@angular/material/card';
+import { MatCard, MatCardContent, MatCardTitle, MatCardSubtitle, MatCardActions } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,19 +12,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarRow } from "@angular/material/toolbar";
 import { Router } from '@angular/router'; 
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ReturnGamesToCustomerDTO } from '../../models/ReturnGameToCustDTO';
 import { CartGames } from '../../models/CartGames';
 import { MatList, MatListItem } from '@angular/material/list';
 import { CustomerCartService } from '../customer-cart.service';
 import { CustomerService } from '../../customer/customer.service';
-
+import { MatMenuModule } from '@angular/material/menu';
 @Component({
   selector: 'app-customer-cart',
   standalone: true,
   imports: [CommonModule, MatCard, MatCardContent, MatCardTitle, MatCardSubtitle,
   MatGridListModule, MatIconModule, MatCardActions, MatFormFieldModule, MatButtonModule,
   MatInputModule, MatOption, MatSelectModule, MatToolbar, MatToolbarRow,
-MatList,MatListItem],
+MatList,MatListItem, MatMenuModule],
   templateUrl: './customer-cart.component.html',
   styleUrl: './customer-cart.component.css'
 })
@@ -151,5 +148,8 @@ export class CustomerCartComponent {
         alert(err.error?.message || err.error || 'Something went wrong');
       }
       })
+  }
+  logOut(){
+    this.router.navigate(['/login']);
   }
 }

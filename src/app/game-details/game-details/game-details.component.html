@@ -1,117 +1,135 @@
-<mat-toolbar *ngIf="viewerIsCustomer()">
-  <span>Gaming Cafe</span>
-  <a mat-button (click)="goToGames()" class="marginLeft">Games</a>
-  <a mat-button *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
-  <a href="/cart" mat-button *ngIf="gamesInCart < 1">Cart</a>
- <span class="example-spacer"></span>
+<mat-toolbar class="topbar" *ngIf="viewerIsCustomer()">
+  <span class="brand">
+    <mat-icon>sports_esports</mat-icon>
+    Gaming Cafe
+  </span>
+  <a mat-button (click)="goToGames()" class="nav-link marginLeft">Games</a>
+  <a (click)="goToCart()" mat-button class="nav-link" *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
+  <a (click)="goToCart()" mat-button class="nav-link" *ngIf="gamesInCart < 1">Cart</a>
+  <span class="example-spacer"></span>
 
-  <h1>{{name}}</h1>
+  <div class="user-area">
+    <button mat-button class="user-btn" [matMenuTriggerFor]="userMenu">
+      {{name}}
+      <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+    </button>
+
+    <mat-menu #userMenu="matMenu" xPosition="before" class="gc-menu-panel">
+      <button mat-menu-item (click)="logOut()">
+        <mat-icon>logout</mat-icon>
+        <span>Log out</span>
+      </button>
+    </mat-menu>
+  </div>
 </mat-toolbar>
 
-<div *ngIf="game as g">  
-    <div class="image-container">
-        <img src="{{g.imageLink}}" alt="Game Image" height="450px" width="50%" (error)="imageError($event)">
-    </div>
-    <div class="name-desc">
-        <h1>{{game.name}}</h1>
-        <h3>{{game.intro}}</h3>
-    </div>
-    <div class="details">
-        <h1>About Game:</h1>
-        {{game.description}}
-    </div>
+<div class="page" *ngIf="game as g">
 
-    <div class="stats">
-        <div class="stat" *ngIf="game.rating > 0">
-            <mat-icon class="star" >star</mat-icon>
-            <span>{{ game.rating }}</span>
-        </div>
+  <div class="image-container">
+    <img src="{{g.imageLink}}" alt="Game Image" height="450px" width="50%" (error)="imageError($event)">
+  </div>
 
-        <div class="stat">
-            <mat-icon>category</mat-icon>
-            <span>{{ game.genre }}</span>
-        </div>
+  <div class="name-desc">
+    <h1>{{game.name}}</h1>
+    <h3>{{game.intro}}</h3>
+  </div>
 
-        <div class="stat">
-            <span>PKR {{ getDiscountedPrice(game.price, game.discountPercentage) }}</span>
-        </div>
+  <div class="details">
+    <h2 class="section-title">About Game:</h2>
+    <p>{{game.description}}</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat rating-stat" *ngIf="game.rating > 0">
+        <mat-icon class="rating-icon">star</mat-icon>
+        <span class="rating-value">{{ game.rating }}</span>
     </div>
 
-    <mat-card class="game-info-card">
+    <div class="stat">
+      <mat-icon>category</mat-icon>
+      <span>{{ game.genre }}</span>
+    </div>
+
+    <div class="stat price-stat">
+      <span class="price-old" *ngIf="game.discountPercentage > 0">PKR {{ game.price }}</span>
+      <span class="price">PKR {{ getDiscountedPrice(game.price, game.discountPercentage) }}</span>
+      <span class="discount-badge" *ngIf="game.discountPercentage > 0">{{game.discountPercentage}}% off</span>
+    </div>
+  </div>
+
+  <mat-card class="game-info-card">
     <mat-card-content>
-        <div>
-            <strong>Developer</strong>
-            <span>{{ game.developerName }}</span>
-        </div>
-
+      <div>
+        <strong>Developer</strong>
+        <span>{{ game.developerName }}</span>
+      </div>
     </mat-card-content>
-    </mat-card>
+  </mat-card>
 
-    <h1 class="image-container">PC requirements</h1>    
-    <mat-card class="game-info-card">
+  <h2 class="section-title centered">PC requirements</h2>
+  <mat-card class="game-info-card">
     <mat-card-content>
-        <div>
-            <strong>Operating system</strong>
-            <span>{{ gameReq.os }}</span>
-        </div>
+      <div>
+        <strong>Operating system</strong>
+        <span>{{ gameReq.os }}</span>
+      </div>
 
-        <div>
-            <strong>Processor</strong>
-            <span>{{ gameReq.processor }}</span>
-        </div>
+      <div>
+        <strong>Processor</strong>
+        <span>{{ gameReq.processor }}</span>
+      </div>
 
-        <div>
-            <strong>RAM</strong>
-            <span>{{ gameReq.ram }}</span>
-        </div>
+      <div>
+        <strong>RAM</strong>
+        <span>{{ gameReq.ram }}</span>
+      </div>
 
-        <div>
-            <strong>Graphics card</strong>
-            <span>{{ gameReq.graphicsCard }}</span>
-        </div>
+      <div>
+        <strong>Graphics card</strong>
+        <span>{{ gameReq.graphicsCard }}</span>
+      </div>
 
-        <div>
-            <strong>Storage</strong>
-            <span>{{ gameReq.storage }}</span>
-        </div>
-
+      <div>
+        <strong>Storage</strong>
+        <span>{{ gameReq.storage }}</span>
+      </div>
     </mat-card-content>
-    </mat-card>
-    <div class="image-container" *ngIf="viewerIsCustomer()">
-        <button *ngIf="!g.alreadyOwned" class="cartButton" (click)="addToCart(game.id,game.name)">Add to cart</button>
+  </mat-card>
+
+  <div class="cart-row" *ngIf="viewerIsCustomer()">
+    <button *ngIf="!g.alreadyOwned" class="cartButton" (click)="addToCart(game.id,game.name)">
+      <mat-icon>shopping_cart</mat-icon>
+      Add to cart
+    </button>
+  </div>
+
+  <div class="rating-section" *ngIf="this.userRating <= 0 && viewerIsCustomer()">
+    <h2 class="section-title centered">Rate this game</h2>
+
+    <div class="rating-control">
+      <span>Your rating: {{ tempRating }}/10</span>
+
+      <mat-slider
+        min="0.5"
+        max="10"
+        step="0.5"
+        discrete>
+        <input matSliderThumb [(ngModel)]="tempRating">
+      </mat-slider>
+
+      <button
+        class="rateButton"
+        [disabled]="tempRating <= 0 || tempRating > 10"
+        (click)="rateGame(game.id, tempRating)">
+        Submit Rating
+      </button>
     </div>
+  </div>
 
-    <div class="rating-section" *ngIf="this.userRating <= 0 && viewerIsCustomer()">
-    <h1>Rate this game</h1>
-
-        <div class="rating-control">
-            <span>Your rating: {{ tempRating }}/10</span>
-
-            <mat-slider
-                min="0.5"
-                max="10"
-                step="0.5"
-                discrete>
-                <input matSliderThumb [(ngModel)]="tempRating">
-            </mat-slider>
-
-            <button
-                class="rateButton"
-                [disabled]="tempRating <= 0 || tempRating > 10"
-                (click)="rateGame(game.id, tempRating)">
-                Submit Rating
-            </button>
-        </div>
-        
+  <div class="rating-section" *ngIf="this.userRating > 0 && viewerIsCustomer()">
+    <div class="rating-control">
+      <span>You rated this game: {{ userRating }}/10</span>
     </div>
-
-
-
-    <div class="rating-section" *ngIf="this.userRating > 0 && viewerIsCustomer()">
-        <div class="rating-control">
-            <span>You rated this game: {{ userRating }}/10</span>
-        </div>
-    </div>
-
+  </div>
 
 </div>

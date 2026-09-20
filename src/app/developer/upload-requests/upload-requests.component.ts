@@ -6,18 +6,18 @@ import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { MatListModule } from '@angular/material/list';
 import { Router } from '@angular/router';
 import { DeveloperService } from '../developer.service';
-import { ReturnGamesToDevDTO } from '../../models/ReturnGameToDev';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButton } from '@angular/material/button';
 import { ReturnUploadReqToDev } from '../../models/ReturnUploadReqToDev';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-upload-requests',
   standalone: true,
   imports: [MatSidenavContainer, MatNavList, MatSidenav, MatSidenavContent, MatToolbar, MatIcon,
-    MatListModule, CommonModule, MatTableModule, MatButton, MatIconModule, MatButtonModule
+    MatListModule, CommonModule, MatTableModule, MatButton, MatIconModule, MatButtonModule, MatMenuModule
   ],
   templateUrl: './upload-requests.component.html',
   styleUrl: './upload-requests.component.css'
@@ -74,5 +74,8 @@ export class UploadRequestsComponent {
   }
   goToWarningEndReqs(){
     this.router.navigate(['/warningEndReqs']);
+  }
+  logOut(){
+    this.router.navigate(['/login']);
   }
 }

@@ -1,46 +1,52 @@
-<!-- <mat-toolbar class="sticky">
-    <mat-toolbar-row class = "navbar">
-        <a href="/customerHome" mat-button>Games</a>
-        <a mat-button *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
-        <a mat-button *ngIf="gamesInCart < 1">Cart</a>
-    </mat-toolbar-row>
-</mat-toolbar> -->
+<mat-toolbar class="topbar">
+  <span class="brand">
+    <mat-icon>sports_esports</mat-icon>
+    Gaming Cafe
+  </span>
+  <a mat-button (click)="goToGames()" class="nav-link marginLeft">Games</a>
+  <a mat-button class="nav-link active" *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
+  <a mat-button class="nav-link active" *ngIf="gamesInCart < 1">Cart</a>
+  <span class="example-spacer"></span>
 
+  <div class="user-area">
+    <button mat-button class="user-btn" [matMenuTriggerFor]="userMenu">
+      {{name}}
+      <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+    </button>
 
-<mat-toolbar>
-  <span>Gaming Cafe</span>
-  <a mat-button (click)="goToGames()" class="marginLeft">Games</a>
-  <a mat-button *ngIf="gamesInCart > 0">Cart ({{gamesInCart}})</a>
-  <a href="/cart" mat-button *ngIf="gamesInCart < 1">Cart</a>
- <span class="example-spacer"></span>
-
-  <h1>{{name}}</h1>
+    <mat-menu #userMenu="matMenu" xPosition="before" class="gc-menu-panel">
+      <button mat-menu-item (click)="logOut()">
+        <mat-icon>logout</mat-icon>
+        <span>Log out</span>
+      </button>
+    </mat-menu>
+  </div>
 </mat-toolbar>
 
 <div class="container-sm">
-    <mat-card *ngIf="games.length > 0">
-        <mat-list-item *ngFor="let game of games">
-            <div class="game-row">
-                <span class="game-name">{{ game.name }}</span>
-                <span class="game-price">
-                    {{ game.price | currency:'PKR ' }}
-                    <button mat-icon-button (click)="deleteFromCart(game.id)">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </span>
-            </div>
-        </mat-list-item>
+  <mat-card class="cart-card" *ngIf="games.length > 0">
+    <mat-list-item *ngFor="let game of games">
+      <div class="game-row">
+        <span class="game-name">{{ game.name }}</span>
+        <span class="game-price">
+          {{ game.price | currency:'PKR ' }}
+          <button mat-icon-button class="delete-btn" (click)="deleteFromCart(game.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </span>
+      </div>
+    </mat-list-item>
 
-        <mat-list-item>
-            <div class="game-row total-row">
-                <span class="game-name">Total: {{ totalPrice | currency:'PKR ' }}</span>
-                <button mat-button (click)="clearCart()">Clear Cart</button>
-                <button mat-button (click)="checkOut()">Pay and download</button>
-            </div>
-        </mat-list-item>
-    </mat-card>
+    <mat-list-item>
+      <div class="game-row total-row">
+        <span class="game-name">Total: {{ totalPrice | currency:'PKR ' }}</span>
+        <button mat-button class="clear-btn" (click)="clearCart()">Clear Cart</button>
+        <button mat-button class="pay-btn" (click)="checkOut()">Pay and download</button>
+      </div>
+    </mat-list-item>
+  </mat-card>
 
-    <div *ngIf="games.length < 1">
-        <h1 class="pad">Your cart is empty.</h1>
-    </div>
+  <div class="empty-state" *ngIf="games.length < 1">
+    <h1 class="pad">Your cart is empty.</h1>
+  </div>
 </div>
