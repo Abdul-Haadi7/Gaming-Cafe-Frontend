@@ -51,7 +51,8 @@ export class EditRequirementsComponent
     private snackBar: MatSnackBar,
     private editReqService:EditRequirementsService,
     private addReqService: GameRequirementsService
-  ) {
+  ) 
+  {
     this.requirementsForm = this.fb.group({
       os: ['', Validators.required],
       processor: ['', Validators.required],

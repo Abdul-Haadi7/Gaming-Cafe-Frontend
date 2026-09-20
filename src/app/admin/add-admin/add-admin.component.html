@@ -65,7 +65,8 @@
       <mat-card class="form-card" appearance="outlined">
 
         <mat-card-header class="form-header">
-          <mat-card-title>Add admin</mat-card-title>
+          <mat-card-title *ngIf="!this.isEditMode">Add admin</mat-card-title>
+          <mat-card-title *ngIf="this.isEditMode">Edit admin</mat-card-title>
           <mat-card-subtitle>
             Enter the admin's details and choose what they are allowed to do.
           </mat-card-subtitle>
@@ -80,7 +81,7 @@
               <mat-form-field appearance="outline" class="span-2">
                 <mat-label>Full name</mat-label>
                 <mat-icon matPrefix>person</mat-icon>
-                <input matInput formControlName="name" autocomplete="name" placeholder="e.g. Ayesha Khan">
+                <input matInput formControlName="name" autocomplete="name" placeholder="e.g. Ali Khan">
                 <mat-error *ngIf="nameControl?.hasError('required')">Name is required</mat-error>
                 <mat-error *ngIf="nameControl?.hasError('minlength')">Name must be at least 3 characters</mat-error>
                 <mat-error *ngIf="nameControl?.hasError('maxlength')">Name can be at most 50 characters</mat-error>
@@ -96,7 +97,7 @@
                 </mat-error>
               </mat-form-field>
 
-              <mat-form-field appearance="outline">
+              <mat-form-field appearance="outline" *ngIf="!this.isEditMode">
                 <mat-label>Password</mat-label>
                 <mat-icon matPrefix>visibility</mat-icon>
                 <input matInput type="password" formControlName="password" placeholder="password">
@@ -175,11 +176,14 @@
                 Back
               </button>
 
-              <button mat-flat-button color="primary" type="submit">
+              <button mat-flat-button color="primary" type="submit" *ngIf="!this.isEditMode">
                 <mat-icon>person_add</mat-icon>
                 Create admin
               </button>
-
+              <button mat-flat-button color="primary" *ngIf="this.isEditMode" (click)="editAdmin()" type="button">
+                <mat-icon>save</mat-icon>
+                Save changes
+              </button>
             </div>
 
           </form>

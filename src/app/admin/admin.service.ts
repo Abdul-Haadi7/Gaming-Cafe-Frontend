@@ -11,6 +11,7 @@ import { ReturnCustomerToAdmin } from '../models/ReturnCustomerToAdmin';
 import { ReturnAdminToSuperAdmin } from '../models/ReturnAdminToSuperAdmin';
 import { AddAdmin } from '../models/AddAdmin';
 import { Permission } from '../models/Permissions';
+import { EditAdmin } from '../models/EditAdminDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -203,7 +204,16 @@ export class AdminService {
       }
     )
   }
-
+ fetchSingleAdmin(adminId:number){
+    const token = localStorage.getItem('token');
+    return this.http.get<ReturnAdminToSuperAdmin>(
+      this.apiURL+"/getSingleAdmin?adminId="+adminId,{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
   deleteGame(gameId:number)
   {
     const token = localStorage.getItem('token');
@@ -310,5 +320,15 @@ export class AdminService {
           }
         }
       );
+  }
+  editAdmin(admin:EditAdmin){
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      this.apiURL+"/editAdmin",admin,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
   }
 }

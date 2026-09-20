@@ -48,5 +48,6 @@ export const routes: Routes = [
     {path:'viewDevs', component: ViewDevelopersComponent,canActivate: [authGuard, roleGuard(['Admin','Super Admin'])]},
     {path:'viewCust', component: ViewCustomersComponent,canActivate: [authGuard, roleGuard(['Admin','Super Admin'])]},
     {path:'viewAdmins', component: ViewAdminsComponent,canActivate: [authGuard, roleGuard(['Super Admin'])]},
-    {path:'addAdmin', component: AddAdminComponent,canActivate: [authGuard, roleGuard(['Super Admin'])]}
+    {path:'addAdmin', component: AddAdminComponent,canActivate: [authGuard, roleGuard(['Super Admin'])]},
+    {path:'editAdmin/:adminId', component: AddAdminComponent,canActivate: [authGuard, roleGuard(['Super Admin'])]}
 ];

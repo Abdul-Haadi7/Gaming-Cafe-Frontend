@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,6 +28,9 @@ import {
 import { AdminService } from '../admin.service';
 import { AddAdmin } from '../../models/AddAdmin';
 import { Permission } from '../../models/Permissions';
+import { ReturnAdminToSuperAdmin } from '../../models/ReturnAdminToSuperAdmin';
+import { forkJoin } from 'rxjs';
+import { EditAdmin } from '../../models/EditAdminDTO';
 
 function atLeastOneSelected(control: AbstractControl): ValidationErrors | null 
 {
@@ -51,7 +54,8 @@ export class AddAdminComponent implements OnInit
     private router: Router,
     private adminService: AdminService,
     private formBuilder: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route:ActivatedRoute
   ) {}
 
   addAdminForm!: FormGroup;
@@ -60,24 +64,86 @@ export class AddAdminComponent implements OnInit
   permissions: Permission[] = [];  
   submitted = false;
   isSaving = false;
-
+  isEditMode = false;
+  adminId = 0;
+  existingAdmin: ReturnAdminToSuperAdmin = {
+    id:0,
+    name:'',
+    email:'',
+    phone:'',
+    isActive:true,
+    permissions:[]
+  }
   ngOnInit()
   {
+    const id = Number(this.route.snapshot.paramMap.get('adminId'));
+    this.adminId = Number.isInteger(id) && id > 0 ? id : 0;
+    this.isEditMode = this.adminId > 0;
+
     this.buildForm();
     this.getName();
-    this.getAdminPerms();
-  }
 
+    if (this.isEditMode) {
+      this.loadForEdit();
+    } else {
+      this.getAdminPerms();    
+    }
+  }
+  getAdminById()
+  {
+    this.adminService.fetchSingleAdmin(this.adminId).subscribe({
+      next:(result)=>{
+        this.existingAdmin = result;
+      },
+      error:(err)=>{
+        console.log("Could not fetch admin!: "+err);
+      }
+    });
+  }
+  private loadForEdit()
+  {
+    forkJoin({
+      permissions: this.adminService.getAdminPerms(),
+      admin: this.adminService.fetchSingleAdmin(this.adminId!)
+    }).subscribe({
+      next: ({ permissions, admin }) => {
+        this.permissions = permissions;
+        this.buildPermissionControls();
+
+        this.existingAdmin = admin;
+        this.addAdminForm.patchValue({
+          name: admin.name,
+          email: admin.email,
+          phone: admin.phone
+        });
+        this.applyExistingPermissions(admin.permissions);
+      },
+      error: (err) => {
+        console.error('Failed to load edit data:', err);
+        this.errorMessage = err?.error?.message ?? 'Failed to load admin details.';
+      }
+    });
+  }
+  private applyExistingPermissions(existingPermissionNames: string[])
+  {
+    const owned = new Set(existingPermissionNames);
+    this.permissionsArray.setValue(
+      this.permissions.map(p => owned.has(p.name))
+    );
+  }
   buildForm()
   {
     this.addAdminForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email,
                    Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)]],
-      password: ['',[Validators.required]],
       phone: ['', [Validators.required, Validators.pattern(/^\+?[0-9]{10,15}$/)]],
       permissions: this.formBuilder.array([], atLeastOneSelected)
     });
+    if(!this.isEditMode)
+    {
+      this.addAdminForm.addControl('password', this.formBuilder.control('', Validators.required));
+    }
   }
   private buildPermissionControls()
   {
@@ -174,8 +240,6 @@ export class AddAdminComponent implements OnInit
 
     this.isSaving = true;
 
-    console.log(admin);
-
     this.adminService.addAdmin(admin).subscribe({
       next: () => {
         this.isSaving = false;
@@ -216,5 +280,51 @@ export class AddAdminComponent implements OnInit
   goToAdmins(){
     this.router.navigate(['/viewAdmins']);
   }
+  editAdmin()
+  {
+    console.log('editAdmin called');
+    Object.entries(this.addAdminForm.controls).forEach(([key, control]) => {
+      if (control.invalid) console.log('invalid control:', key, control.errors);
+    });
+    this.submitted = true;
+    this.errorMessage = '';
 
+    if (this.addAdminForm.invalid) {
+      this.addAdminForm.markAllAsTouched();
+      return;
+    }
+
+    const value = this.addAdminForm.value;
+
+    const admin: EditAdmin = {
+      id:this.adminId,
+      name: value.name.trim(),
+      email: value.email.trim(),
+      phone: value.phone.trim(),
+      permissions: this.permissions.filter((_, i) => value.permissions[i] === true).map(p => p.id)
+    };
+
+    this.isSaving = true;
+
+    this.adminService.editAdmin(admin).subscribe({
+      next: (result) => {
+        this.isSaving = false;
+        this.snackBar.open("Edited successfully!", 'Close',
+        {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
+        this.goToAdmins();
+      },
+      error: (err) => {
+        this.isSaving = false;
+        this.snackBar.open(err?.error?.message ?? 'Failed to update admin. Please try again.', 'Close', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
+      }
+    });
+  }
 }

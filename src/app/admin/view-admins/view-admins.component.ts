@@ -85,6 +85,9 @@ export class ViewAdminsComponent {
   goToAddAdmin(){
     this.router.navigate(['/addAdmin']);
   }
+  goToEditAdmin(adminId:number){
+    this.router.navigate(['/editAdmin',adminId]);
+  }
   searchAdmin(searchName:string){
     let temp = [...this.allAdmins];
     temp = temp.filter(admin => admin.name.toLowerCase().includes(searchName.trim().toLowerCase()));
