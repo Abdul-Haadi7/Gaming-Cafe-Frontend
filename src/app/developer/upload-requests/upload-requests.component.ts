@@ -12,6 +12,8 @@ import { MatButton } from '@angular/material/button';
 import { ReturnUploadReqToDev } from '../../models/ReturnUploadReqToDev';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-upload-requests',
@@ -23,7 +25,7 @@ import { MatMenuModule } from '@angular/material/menu';
   styleUrl: './upload-requests.component.css'
 })
 export class UploadRequestsComponent {
-  constructor(private router:Router, private developerService: DeveloperService){}
+  constructor(private router:Router, private developerService: DeveloperService, private dialog:MatDialog){}
   name = "";
   displayedColumns: string[] = ['name', 'price', 'genre','status','actions'];
   pendingRequests: ReturnUploadReqToDev[] = [];
@@ -77,5 +79,20 @@ export class UploadRequestsComponent {
   }
   logOut(){
     this.router.navigate(['/login']);
+  }
+  openChangePassDialog() 
+  {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      width: '450px',
+     
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.confirmed) 
+      {
+        dialogRef.close();
+      }
+    });
+
   }
 }

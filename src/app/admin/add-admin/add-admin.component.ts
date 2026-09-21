@@ -60,6 +60,7 @@ export class AddAdminComponent implements OnInit
     private route:ActivatedRoute
   ) {}
 
+  hidePassword = true;
   addAdminForm!: FormGroup;
   errorMessage = '';
   name = '';

@@ -15,6 +15,7 @@ import { RequestDialogComponent } from '../request-dialog/request-dialog.compone
 import { SendWarningEndReqDTO } from '../../models/SendWarningEndReqDTO';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
+import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-received-warnings',
@@ -107,5 +108,20 @@ export class ReceivedWarningsComponent {
   }
   logOut(){
     this.router.navigate(['/login']);
+  }
+  openChangePassDialog() 
+  {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      width: '450px',
+     
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.confirmed) 
+      {
+        dialogRef.close();
+      }
+    });
+
   }
 }

@@ -19,6 +19,7 @@ import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-developer',
@@ -276,5 +277,20 @@ export class DeveloperComponent {
   }
   logOut(){
     this.router.navigate(['/login']);
+  }
+  openChangePassDialog() 
+  {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      width: '450px',
+     
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.confirmed) 
+      {
+        dialogRef.close();
+      }
+    });
+
   }
 }

@@ -19,6 +19,8 @@ import { AdminService } from '../admin.service';
 
 import { ReturnAdminToSuperAdmin } from '../../models/ReturnAdminToSuperAdmin';
 import { MatMenuModule } from '@angular/material/menu';
+import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-view-admins',
@@ -30,7 +32,8 @@ import { MatMenuModule } from '@angular/material/menu';
   styleUrl: './view-admins.component.css'
 })
 export class ViewAdminsComponent {
-  constructor(private router:Router, private adminService:AdminService, private snackBar:MatSnackBar){}
+  constructor(private router:Router, private adminService:AdminService,
+     private snackBar:MatSnackBar, private dialog:MatDialog){}
   name = '';
   allAdmins: ReturnAdminToSuperAdmin[] = [];
   filteredAdmins: ReturnAdminToSuperAdmin[] = [];
@@ -145,5 +148,20 @@ export class ViewAdminsComponent {
   }
   logOut(){
     this.router.navigate(['/login']);
+  }
+  openChangePassDialog() 
+  {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      width: '450px',
+     
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.confirmed) 
+      {
+        dialogRef.close();
+      }
+    });
+
   }
 }

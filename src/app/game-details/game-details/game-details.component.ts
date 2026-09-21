@@ -9,10 +9,11 @@ import { FormsModule } from '@angular/forms';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GetRequirementsDTO } from '../../models/getRequirementsDTO';
-import { EditRequirementsService } from '../../edit-requirements/edit-requirements.service';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-game-details',
@@ -53,7 +54,7 @@ export class GameDetailsComponent
   name='';
   gamesInCart=0;
   constructor(private customerService: CustomerService, private route:ActivatedRoute,
-    private snackBar:MatSnackBar, private router:Router){}
+    private snackBar:MatSnackBar, private router:Router, private dialog:MatDialog){}
   ngOnInit()
   {
     const token = localStorage.getItem('token');
@@ -214,5 +215,20 @@ export class GameDetailsComponent
   }
   goToCart(){
     this.router.navigate(['/cart']);
+  }
+  openChangePassDialog() 
+  {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      width: '450px',
+     
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.confirmed) 
+      {
+        dialogRef.close();
+      }
+    });
+
   }
 }

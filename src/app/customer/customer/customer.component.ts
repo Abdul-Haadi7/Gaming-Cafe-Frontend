@@ -17,6 +17,8 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReturnGamesToCustomerDTO } from '../../models/ReturnGameToCustDTO';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-customer',
@@ -40,7 +42,7 @@ export class CustomerComponent
    filter='';
    
    constructor(private customerService: CustomerService,
-    private snackBar:MatSnackBar, private router:Router
+    private snackBar:MatSnackBar, private router:Router, private dialog:MatDialog
    ) {}   
     ngOnInit(): void 
     {
@@ -239,5 +241,20 @@ export class CustomerComponent
 
   logOut(){
     this.router.navigate(['/login']);
+  }
+  openChangePassDialog() 
+  {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      width: '450px',
+     
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.confirmed) 
+      {
+        dialogRef.close();
+      }
+    });
+
   }
 }

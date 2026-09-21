@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RejectionReasonComponent } from '../rejection-reason/rejection-reason.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-upload-requests',
@@ -118,7 +119,7 @@ export class UploadRequestsReceived {
         }
       });
   }
-  openWarningDialog(req: ReturnUploadReqToAdmin) 
+  openReasonDialog(req: ReturnUploadReqToAdmin) 
   {
     const dialogRef = this.dialog.open(RejectionReasonComponent, {
       width: '450px',
@@ -149,5 +150,20 @@ export class UploadRequestsReceived {
   }
   logOut(){
     this.router.navigate(['/login']);
+  }
+  openChangePassDialog() 
+  {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      width: '450px',
+     
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.confirmed) 
+      {
+        dialogRef.close();
+      }
+    });
+
   }
 }

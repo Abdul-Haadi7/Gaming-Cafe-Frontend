@@ -9,7 +9,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatFormField } from "@angular/material/form-field";
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,6 +17,8 @@ import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from '@angular/material/select';
 import { ReturnWarningEndReq } from '../../models/ReturnWarningEndReq';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-warning-end-requests',
@@ -34,7 +35,7 @@ export class WarningEndRequestsSentComponent
   allReqs: ReturnWarningEndReq[] = [];
 
   displayedColumns: string[] = ['game', 'reason', 'note','status','actions'];
-  constructor(private router:Router, private developerService:DeveloperService){}
+  constructor(private router:Router, private developerService:DeveloperService, private dialog:MatDialog){}
   ngOnInit(){
     this.getName();
     this.getReqs();
@@ -82,5 +83,20 @@ export class WarningEndRequestsSentComponent
   }
   logOut(){
     this.router.navigate(['/login']);
+  }
+  openChangePassDialog() 
+  {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      width: '450px',
+     
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.confirmed) 
+      {
+        dialogRef.close();
+      }
+    });
+
   }
 }

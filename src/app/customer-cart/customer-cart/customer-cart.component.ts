@@ -17,6 +17,9 @@ import { MatList, MatListItem } from '@angular/material/list';
 import { CustomerCartService } from '../customer-cart.service';
 import { CustomerService } from '../../customer/customer.service';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
+
 @Component({
   selector: 'app-customer-cart',
   standalone: true,
@@ -29,7 +32,7 @@ MatList,MatListItem, MatMenuModule],
 })
 export class CustomerCartComponent {
   constructor(private router:Router, private cartService: CustomerCartService,
-    private snackBar:MatSnackBar, private customerService:CustomerService
+    private snackBar:MatSnackBar, private customerService:CustomerService, private dialog:MatDialog
   ){}
   gamesInCart=0;
   totalPrice=0;
@@ -151,5 +154,20 @@ export class CustomerCartComponent {
   }
   logOut(){
     this.router.navigate(['/login']);
+  }
+  openChangePassDialog() 
+  {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      width: '450px',
+     
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.confirmed) 
+      {
+        dialogRef.close();
+      }
+    });
+
   }
 }

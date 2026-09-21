@@ -70,4 +70,16 @@ export class AuthService
 
     }
   }
+  changePassword(currentPass:string, newPass:string, confirmPass:string){
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      this.baseUrl+"/changePassword?currentPass="+currentPass
+      +"&newPass="+newPass+
+      "&confrimNewPass="+confirmPass,null,{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
 }

@@ -20,6 +20,7 @@ import { ReturnGamesToAdminDTO } from '../../models/ReturnGameToAdmin';
 import { MatDialog } from '@angular/material/dialog';
 import { WarningDialogComponent } from '../warning-dialog/warning-dialog.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-admin',
@@ -288,5 +289,21 @@ export class AdminComponent {
   }
   logOut(){
     this.router.navigate(['/login']);
+  }
+
+  openChangePassDialog() 
+  {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      width: '450px',
+     
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.confirmed) 
+      {
+        dialogRef.close();
+      }
+    });
+
   }
 }

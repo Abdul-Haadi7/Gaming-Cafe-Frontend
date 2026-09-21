@@ -5,17 +5,26 @@
       Email is required!
     </div>
 
-    <input type="password" formControlName="password" class="input" placeholder="Password">
-    <div class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-      Password is required!
-    </div>
 
-    <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+<div class="password-container">
+  <input [type]="hidePassword ? 'password' : 'text'" formControlName="password" class="input" placeholder="Password">
+  <button type="button" class="visibility-button" (click)="hidePassword = !hidePassword">
+    <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+  </button>
+</div>
 
-    <button type="submit" class="button">Login</button>
-    <div class="newAccDiv">
-      <h4>Don`t have an account?</h4>
-      <h4 class="newAcc" (click)="goToNewAcc()">Create new account</h4>
-    </div>
+<div class="error" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+  Password is required!
+</div>
+
+<div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+<button type="submit" class="button">Login</button>
+<div class="newAccDiv">
+  <h4>Don`t have an account?</h4>
+  <h4 class="newAcc" (click)="goToNewAcc()">Create new account</h4>
+</div>
+
+
   </form>
 </div>

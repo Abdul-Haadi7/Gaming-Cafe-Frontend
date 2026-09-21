@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../login/login.service';
+import { AuthService } from '../../login/auth.service';
 import { CommonModule } from '@angular/common';
 import { NewAccService } from '../new-acc.service';
 import { NewAccDTO } from '../new-acc.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-new-acc',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, MatIcon],
   templateUrl: './new-acc.component.html',
   styleUrl: './new-acc.component.css'
 })
@@ -18,6 +19,7 @@ export class NewAccComponent implements OnInit {
   newAccForm: FormGroup = new FormGroup({});
   errorMessage = '';
   successMessage = '';
+  hidePassword = true;
 
   constructor(
     private formBuilder: FormBuilder,

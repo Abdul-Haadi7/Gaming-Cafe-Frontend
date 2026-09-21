@@ -104,3 +104,22 @@
   display: flex;
   flex-direction: column;
 }
+
+.password-container {
+  position: relative;
+}
+
+.visibility-button {
+  position: absolute;
+  right: 8px;
+  top: 22px;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.password-container .input {
+  padding-right: 40px;
+}

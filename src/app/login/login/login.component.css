@@ -77,3 +77,22 @@
   cursor: pointer;
   text-decoration: underline;
 }
+
+.password-container {
+  position: relative;
+}
+
+.visibility-button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.password-container .input {
+  padding-right: 40px;
+}

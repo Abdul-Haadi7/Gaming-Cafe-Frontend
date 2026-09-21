@@ -17,6 +17,8 @@ import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialog } from '@angular/material/dialog';
+import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
 
 @Component({
   selector: 'app-view-customers',
@@ -29,7 +31,7 @@ import { MatMenuModule } from '@angular/material/menu';
 })
 export class ViewCustomersComponent {
  constructor(private adminService:AdminService, private router:Router,
-  private snackBar:MatSnackBar){}
+  private snackBar:MatSnackBar, private dialog:MatDialog){}
   name = '';
   allCust: ReturnCustomerToAdmin[] = [];
   filteredCust: ReturnCustomerToAdmin[] = [];
@@ -147,5 +149,20 @@ export class ViewCustomersComponent {
   }
   logOut(){
     this.router.navigate(['/login']);
+  }
+  openChangePassDialog() 
+  {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      width: '450px',
+     
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.confirmed) 
+      {
+        dialogRef.close();
+      }
+    });
+
   }
 }

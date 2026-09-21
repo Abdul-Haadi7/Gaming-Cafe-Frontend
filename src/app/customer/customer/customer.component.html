@@ -13,11 +13,16 @@
       {{name}}
       <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
     </button>
+    
 
     <mat-menu #userMenu="matMenu" xPosition="before" class="gc-menu-panel">
       <button mat-menu-item (click)="logOut()">
         <mat-icon>logout</mat-icon>
         <span>Log out</span>
+      </button>
+      <button mat-menu-item (click)="openChangePassDialog()">
+        <mat-icon>lock_restart</mat-icon>
+        <span>Change password</span>
       </button>
     </mat-menu>
   </div>

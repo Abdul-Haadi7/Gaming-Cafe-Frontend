@@ -15,6 +15,10 @@
         <mat-icon>logout</mat-icon>
         <span>Log out</span>
       </button>
+      <button mat-menu-item (click)="openChangePassDialog()">
+        <mat-icon>lock_restart</mat-icon>
+        <span>Change Password</span>
+      </button>
     </mat-menu>
   </h1>
 </mat-toolbar>
@@ -64,7 +68,7 @@
 
 <div class="requests-container">
 
-  <h2>Pending Upload Requests</h2>
+  <h2 class="marginLeft">Pending Upload Requests</h2>
 
   <table mat-table [dataSource]="pendingRequests">
 
@@ -131,7 +135,7 @@
             <mat-icon class="approve-icon">check</mat-icon>
             Approve
         </button>
-        <button (click)="openWarningDialog(req)" mat-stroked-button class="reject-button">
+        <button (click)="openReasonDialog(req)" mat-stroked-button class="reject-button">
             <mat-icon class="reject-icon" color="danger">close</mat-icon>
             Reject
         </button>

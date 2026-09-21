@@ -17,6 +17,8 @@ import { MatOption } from "@angular/material/core";
 import { MatSelectModule } from '@angular/material/select';
 import { ReturnWarningEndReq } from '../../models/ReturnWarningEndReq';
 import { MatMenuModule } from '@angular/material/menu';
+import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-warning-end-requests',
@@ -34,7 +36,7 @@ export class WarningEndRequestsComponent {
   displayedColumns: string[] = ['game', 'developer','reason', 'note','actions'];
   userRole = '';
   constructor(private adminService:AdminService, private router:Router,
-    private snackBar:MatSnackBar){}
+    private snackBar:MatSnackBar, private dialog:MatDialog){}
 
   ngOnInit(){
     this.getName();
@@ -129,5 +131,20 @@ export class WarningEndRequestsComponent {
   }
   logOut(){
     this.router.navigate(['/login']);
+  }
+  openChangePassDialog() 
+  {
+    const dialogRef = this.dialog.open(ChangePasswordDialogComponent, {
+      width: '450px',
+     
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result?.confirmed) 
+      {
+        dialogRef.close();
+      }
+    });
+
   }
 }
