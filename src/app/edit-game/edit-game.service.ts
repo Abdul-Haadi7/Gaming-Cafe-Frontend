@@ -26,7 +26,7 @@ export class EditGameService
       }
     );
   }
-  saveEditedGame(game:EditGameDTO, image: File | null)
+  saveEditedGame(game:EditGameDTO, image: File | null, file: File | null)
   {
     const formData = new FormData();
     
@@ -77,6 +77,13 @@ export class EditGameService
       formData.append(
         'image',
         image
+      );
+    }
+    if(file)
+    {
+      formData.append(
+        'file',
+        file
       );
     }
     const token = localStorage.getItem('token');

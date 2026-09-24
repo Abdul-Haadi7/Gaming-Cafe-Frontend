@@ -41,6 +41,9 @@ export class EditGameComponent {
   };
   selectedImage: File | null = null;
   imageRequired: boolean = false;
+  selectedFile: File | null = null;
+  fileRequired: boolean = false;
+  disableButtons = false;
 
   constructor(private fb: FormBuilder, private editGameService: EditGameService,
     private router: Router, private snackBar:MatSnackBar, private route:ActivatedRoute) 
@@ -51,7 +54,7 @@ export class EditGameComponent {
       intro: ['', [Validators.required, Validators.maxLength(70)]],
       description: ['', [Validators.required]],
       genre: ['', [Validators.required, Validators.maxLength(100)]],
-      downloadLink: ['', [Validators.required, Validators.maxLength(100)]],
+      downloadLink: [],
       imageLink: [],
       discountPercentage: [0, [Validators.min(0), Validators.max(100)]]
     });
@@ -85,27 +88,64 @@ export class EditGameComponent {
   get f() {
     return this.gameForm.controls;
   }
-  onImageSelected(event: Event) {
+  
+  onImageSelected(event: Event) 
+  {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.selectedImage = input.files[0];
-      this.imageRequired = false;
+    const file = input.files?.[0];
+
+    if (!file) {
+      return;
     }
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    const extensionsAllowed = ['jpg', 'jpeg', 'png', 'webp'];
+
+    if (!extension || !extensionsAllowed.includes(extension)) 
+    {
+      this.selectedImage = null;
+      this.imageRequired = true;
+      input.value = '';
+      return;
+    }
+    this.selectedImage = file;
+    this.imageRequired = false;
   }
+  onFileSelected(event: Event) 
+  {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) {
+      return;
+    }
+    const extension = file.name.split('.').pop()?.toLowerCase();
+    const extensions = ['exe', 'zip'];
+    if (!extension || !extensions.includes(extension)) 
+    {
+      this.selectedFile = null;
+      this.fileRequired = true;
+      input.value = '';
+      return;
+    }
+
+    this.selectedFile = file;
+    this.fileRequired = false;
+  }
+
   saveEditedGame()
   {
     const snackBarRef = this.snackBar.open(
-    'Please wait',
+    'Updating game, please wait',
     undefined,
     {
       horizontalPosition: 'center',
       verticalPosition: 'top'
     }
     );
+    this.disableButtons = true;
     this.game = this.gameForm.value;
     this.game.id = this.gameId;
 
-    this.editGameService.saveEditedGame(this.game, this.selectedImage).subscribe({
+    this.editGameService.saveEditedGame(this.game, this.selectedImage, this.selectedFile).subscribe({
       next: (response) => {
         snackBarRef.dismiss();
         this.snackBar.open('Game edited successfully!', 'Close', {
@@ -113,6 +153,7 @@ export class EditGameComponent {
            horizontalPosition: 'center',
            verticalPosition: 'top'
         });
+        this.editReq();
       },
 
       error: (error) => {
@@ -127,6 +168,7 @@ export class EditGameComponent {
             verticalPosition: 'top'
           }
         );
+        this.disableButtons = false;
       }
     });
   }

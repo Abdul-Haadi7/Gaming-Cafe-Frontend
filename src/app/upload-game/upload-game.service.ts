@@ -13,10 +13,8 @@ export class UploadGameService {
 
   constructor(private http: HttpClient) {}
 
-uploadGame(game: Game, image: File): Observable<any> {
-
+uploadGame(game: Game, image: File, file: File): Observable<any> {
     const formData = new FormData();
-    
     formData.append(
       'name',
       game.name
@@ -43,11 +41,6 @@ uploadGame(game: Game, image: File): Observable<any> {
     );
 
     formData.append(
-      'downloadLink',
-      game.downloadLink
-    );
-
-    formData.append(
       'discountPercentage',
       game.discountPercentage.toString()
     );
@@ -55,6 +48,11 @@ uploadGame(game: Game, image: File): Observable<any> {
     formData.append(
       'image',
       image
+    );
+
+    formData.append(
+      'file',
+      file
     );
     const token = localStorage.getItem('token');
 

@@ -62,24 +62,27 @@
 
     <div class="section">
       <div class="section-title"><span>Game Files</span></div>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Download link</mat-label>
-        <input matInput formControlName="downloadLink" maxlength="100" placeholder="Enter your game download link">
-        <mat-error *ngIf="f['downloadLink'].hasError('required')">Download link is required</mat-error>
-      </mat-form-field>
+      <div class="image-upload">
+        <div class="upload-icon"><span>↑</span></div>
+        <div class="upload-content">
+          <div class="upload-title">Change Game file</div>
+          <div class="upload-description">Upload ZIP or .exe file of your game.</div>
+          <div class="selected-file" *ngIf="selectedFile">
+            <span class="file-name">{{ selectedFile.name }}</span>
+          </div>
+          <label for="gameFile" class="choose-image-button">Choose file</label>
+          <input id="gameFile" type="file" accept=".zip,.exe" (change)="onFileSelected($event)">
+        </div>
+      </div>
 
       <div class="image-upload">
         <div class="upload-icon"><span>↑</span></div>
-
         <div class="upload-content">
           <div class="upload-title">Change Game Cover Image</div>
           <div class="upload-description">Upload a JPG, PNG or WEBP image for your game.</div>
-
           <div class="selected-file" *ngIf="selectedImage">
             <span class="file-name">{{ selectedImage.name }}</span>
           </div>
-
           <label for="gameImage" class="choose-image-button">Choose Image</label>
           <input id="gameImage" type="file" accept="image/jpeg,image/png,image/webp" (change)="onImageSelected($event)">
         </div>
@@ -87,9 +90,15 @@
     </div>
 
     <div class="actions">
-      <button mat-stroked-button type="button" (click)="home()">Home</button>
-      <button mat-stroked-button type="button" (click)="saveEditedGame()">Save</button>
-      <button mat-raised-button color="primary" type="button" (click)="editReq()">Edit Requirements</button>
+      <button mat-stroked-button type="button" (click)="home()" [disabled]="disableButtons">
+        Home
+      </button>
+      <button mat-stroked-button type="button" (click)="saveEditedGame()" [disabled]="disableButtons">
+        Save
+      </button>
+      <button mat-raised-button color="primary" type="button" (click)="editReq()" [disabled]="disableButtons">
+        Edit Requirements
+      </button>
     </div>
 
   </form>
