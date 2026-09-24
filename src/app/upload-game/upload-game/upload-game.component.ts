@@ -174,15 +174,11 @@ export class UploadGameComponent {
           snackBarRef.dismiss();
           console.error(
             'Error in uploading game:',error);
-          this.snackBar.open(
-            'Sorry, some error occurred!',
-            'Close',
-            {
-              duration: 3000,
-              horizontalPosition: 'center',
-              verticalPosition: 'top'
-            }
-          );
+          this.snackBar.open(error.error?.message || 'Something went wrong!', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top'
+          });
         }
       });
 

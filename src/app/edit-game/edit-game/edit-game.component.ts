@@ -158,16 +158,11 @@ export class EditGameComponent {
 
       error: (error) => {
         console.error('Error editing game:', error);
-
-        this.snackBar.open(
-          error.error?.message || 'Game could not be edited!',
-          'Close',
-          {
-            duration: 3000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top'
-          }
-        );
+        this.snackBar.open(error.error?.message || 'Something went wrong!', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
         this.disableButtons = false;
       }
     });
