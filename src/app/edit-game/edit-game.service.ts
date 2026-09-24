@@ -26,12 +26,63 @@ export class EditGameService
       }
     );
   }
-  saveEditedGame(game:EditGameDTO, gameId:number)
+  saveEditedGame(game:EditGameDTO, image: File | null)
   {
+    const formData = new FormData();
+    
+    formData.append(
+      'id',
+      game.id.toString()
+    );
+
+    formData.append(
+      'name',
+      game.name
+    );
+
+    formData.append(
+      'price',
+      game.price.toString()
+    );
+
+    formData.append(
+      'intro',
+      game.intro
+    );
+
+    formData.append(
+      'description',
+      game.description
+    );
+
+    formData.append(
+      'genre',
+      game.genre
+    );
+
+    formData.append(
+      'downloadLink',
+      game.downloadLink
+    );
+   formData.append(
+      'imageLink',
+      game.imageLink
+    );
+    formData.append(
+      'discountPercentage',
+      game.discountPercentage.toString()
+    );
+    if(image)
+    {
+      formData.append(
+        'image',
+        image
+      );
+    }
     const token = localStorage.getItem('token');
     return this.http.put(
-      `${this.apiURL}/editMyGame?gameId=${gameId}`,
-      game,
+      this.apiURL+"/editMyGame",
+      formData,
       {
         headers: 
         {

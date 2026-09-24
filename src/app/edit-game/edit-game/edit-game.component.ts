@@ -6,9 +6,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { EditGameDTO } from '../../models/EditGameDTO';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-// import { UploadGameService } from '../../upload-game/upload-game.service';
 import { EditGameService } from '../edit-game.service';
 
 @Component({
@@ -40,7 +39,8 @@ export class EditGameComponent {
     imageLink: '',
     discountPercentage: 0
   };
-
+  selectedImage: File | null = null;
+  imageRequired: boolean = false;
 
   constructor(private fb: FormBuilder, private editGameService: EditGameService,
     private router: Router, private snackBar:MatSnackBar, private route:ActivatedRoute) 
@@ -52,7 +52,7 @@ export class EditGameComponent {
       description: ['', [Validators.required]],
       genre: ['', [Validators.required, Validators.maxLength(100)]],
       downloadLink: ['', [Validators.required, Validators.maxLength(100)]],
-      imageLink: ['', [Validators.required, Validators.maxLength(100)]],
+      imageLink: [],
       discountPercentage: [0, [Validators.min(0), Validators.max(100)]]
     });
   }
@@ -73,6 +73,8 @@ export class EditGameComponent {
           imageLink: game.imageLink,
           discountPercentage: game.discountPercentage
         });
+        console.log(game.imageLink);
+        this.game = game;
       },
       error: (error) => {
         console.error('Error getting game:', error);
@@ -82,6 +84,13 @@ export class EditGameComponent {
 
   get f() {
     return this.gameForm.controls;
+  }
+  onImageSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedImage = input.files[0];
+      this.imageRequired = false;
+    }
   }
   saveEditedGame()
   {
@@ -96,7 +105,7 @@ export class EditGameComponent {
     this.game = this.gameForm.value;
     this.game.id = this.gameId;
 
-    this.editGameService.saveEditedGame(this.game, this.gameId).subscribe({
+    this.editGameService.saveEditedGame(this.game, this.selectedImage).subscribe({
       next: (response) => {
         snackBarRef.dismiss();
         this.snackBar.open('Game edited successfully!', 'Close', {

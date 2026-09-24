@@ -8,5 +8,5 @@ export interface EditGameDTO
   genre: string;
   downloadLink: string;
   imageLink: string;
-  discountPercentage?: number;
+  discountPercentage: number;
 }

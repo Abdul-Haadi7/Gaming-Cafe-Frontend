@@ -1,8 +1,6 @@
 import { CustomerService } from '../customer.service';
 import { MatToolbar } from "@angular/material/toolbar";
 import { Component, OnInit } from '@angular/core';
-// import { GameService } from '../game.service'
-import { Game } from '../../models/game';
 import { CommonModule } from '@angular/common';
 import { MatCardModule, MatCard, MatCardContent, MatCardTitle, MatCardSubtitle, MatCardActions } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -19,6 +17,7 @@ import { ReturnGamesToCustomerDTO } from '../../models/ReturnGameToCustDTO';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-customer',
@@ -40,7 +39,7 @@ export class CustomerComponent
    gamesInCart = 0;
    searchName='';
    filter='';
-   
+   apiURL = environment.apiURL;
    constructor(private customerService: CustomerService,
     private snackBar:MatSnackBar, private router:Router, private dialog:MatDialog
    ) {}   

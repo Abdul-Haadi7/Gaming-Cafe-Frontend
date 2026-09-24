@@ -64,8 +64,8 @@ export class UploadRequestsComponent {
   goToWarnings(){
     this.router.navigate(['/receivedWarnings']);
   }
-  markWarningEndReqAsDontShow(request:ReturnUploadReqToDev){
-    this.developerService.markWarningEndReqAsDontShow(request.id).subscribe({
+  markUploadReqAsDontShow(request:ReturnUploadReqToDev){
+    this.developerService.doNotShowUploadReq(request.id).subscribe({
       next:(result)=>{
         this.pendingRequests = this.pendingRequests.filter(req => req!=request);
       },

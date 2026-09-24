@@ -30,7 +30,7 @@
 <div class="page" *ngIf="game as g">
 
   <div class="image-container">
-    <img src="{{g.imageLink}}" alt="Game Image" height="450px" width="50%" (error)="imageError($event)">
+    <img mat-card-image [src]="apiURL + game.imageLink" alt="Game cover" (error)="imageError($event)">
   </div>
 
   <div class="name-desc">

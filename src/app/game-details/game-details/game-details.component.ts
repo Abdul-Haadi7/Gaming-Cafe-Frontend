@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { ChangePasswordDialogComponent } from '../../change-password-dialog/change-password-dialog.component';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-game-details',
@@ -53,6 +54,7 @@ export class GameDetailsComponent
   viewerRole='';
   name='';
   gamesInCart=0;
+  apiURL = environment.apiURL;
   constructor(private customerService: CustomerService, private route:ActivatedRoute,
     private snackBar:MatSnackBar, private router:Router, private dialog:MatDialog){}
   ngOnInit()

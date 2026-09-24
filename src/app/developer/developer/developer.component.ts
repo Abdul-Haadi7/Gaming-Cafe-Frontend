@@ -293,4 +293,7 @@ export class DeveloperComponent {
     });
 
   }
+  viewDetails(gameId:number){
+    this.router.navigate(['/gameDetails',gameId]);
+  }
 }

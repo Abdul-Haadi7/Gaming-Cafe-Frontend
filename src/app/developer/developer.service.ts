@@ -130,6 +130,17 @@ export class DeveloperService {
       }
     )
   }
+  doNotShowUploadReq(id:number){
+    const token = localStorage.getItem('token');
+    return this.http.put(
+      this.apiURL+"/doNotShowUploadReq?gameId="+id,null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+  }
   getEndWarningReqs():Observable<ReturnWarningEndReq[]>
   {
     const token = localStorage.getItem('token');

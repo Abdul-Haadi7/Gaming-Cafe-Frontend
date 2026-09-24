@@ -75,7 +75,7 @@
     <mat-card *ngFor="let game of filteredGames" class="product-card game-card" appearance="outlined" (click)="goToDetails(game.id)">
 
       <div class="media">
-        <img mat-card-image src="{{game.imageLink}}" alt="Game cover" (error)="imageError($event)">
+        <img mat-card-image [src]="apiURL + game.imageLink" alt="Game cover" (error)="imageError($event)">
         <span class="discount-badge" *ngIf="game.discountPercentage > 0">{{game.discountPercentage}}% off</span>
       </div>
 

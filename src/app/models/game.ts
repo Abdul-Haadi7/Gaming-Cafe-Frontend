@@ -7,7 +7,7 @@ export interface Game
   genre: string;
   downloadLink: string;
   imageLink: string;
-  discountPercentage?: number;
+  discountPercentage: number;
 }
 export interface UploadGameResponse {
   message: string;

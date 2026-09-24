@@ -190,7 +190,9 @@
       <button mat-icon-button color="warn" (click)="deleteGame(game)">
         <mat-icon>delete</mat-icon>
       </button>
-  
+      <button mat-icon-button (click)="viewDetails(game.id)" title="View Game Details">
+        <mat-icon>visibility</mat-icon>
+      </button>
     </td>
   </ng-container>
 
