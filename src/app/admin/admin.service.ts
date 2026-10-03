@@ -151,10 +151,10 @@ export class AdminService {
       }
     )
   }
-  approveReq(warningId:number){
+  approveReq(reqId:number){
     const token = localStorage.getItem('token');
     return this.http.put(
-      this.apiURL+"/approveEndWarningReq?warningId="+warningId,null,
+      this.apiURL+"/approveEndWarningReq?reqId="+reqId,null,
      {
         headers: {
           Authorization: `Bearer ${token}`
@@ -162,10 +162,10 @@ export class AdminService {
       }
     )
   }
-  rejectEndWarningReq(warningId:number){
+  rejectEndWarningReq(reqId:number){
     const token = localStorage.getItem('token');
     return this.http.put(
-      this.apiURL+"/rejectEndWarningReq?warningId="+warningId,null,
+      this.apiURL+"/rejectEndWarningReq?reqId="+reqId,null,
      {
         headers: {
           Authorization: `Bearer ${token}`

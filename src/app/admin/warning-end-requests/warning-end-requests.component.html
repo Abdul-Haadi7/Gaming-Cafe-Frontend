@@ -64,7 +64,10 @@
     <mat-icon>menu</mat-icon>
    </button>
    <h1 class="marginLeft">All requests</h1>
-<table mat-table [dataSource]="allRequests" class="mat-elevation-z2">
+    <mat-form-field class="marginLeft">
+        <input #searchInput matInput  placeholder="Search games" (keyup)="searchGames(searchInput.value)">
+    </mat-form-field>
+<table mat-table [dataSource]="filteredRequests" class="mat-elevation-z2">
 
   <ng-container matColumnDef="game">
     <th mat-header-cell *matHeaderCellDef> Game name </th>

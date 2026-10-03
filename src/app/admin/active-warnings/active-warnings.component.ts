@@ -33,9 +33,11 @@ export class ActiveWarningsComponent
 {
   name='';
   allWarnings: Warning[] = [];
+  filteredWarnings: Warning[] = [];
   displayedColumns: string[] = ['name', 'developer','reason', 'issuedAt', 
     'requested', 'actions'];
   userRole = '';
+  searchName = ''; 
   constructor(private router:Router, private adminService:AdminService,
     private snackBar: MatSnackBar, private dialog:MatDialog
   ){}
@@ -69,6 +71,7 @@ export class ActiveWarningsComponent
     this.adminService.getAllActiveWarnings().subscribe({
       next:(result) =>{
         this.allWarnings = result;
+        this.filteredWarnings = result;
       },
       error: (err) => {
         console.log('Failed to get warnings!: ',err);
@@ -96,6 +99,7 @@ export class ActiveWarningsComponent
         }
         );
         this.allWarnings = this.allWarnings.filter(warn => warn!=warning)
+        this.filteredWarnings = this.filteredWarnings.filter(warn => warn!=warning)
       },
       error:(err)=>{
         console.log("Could not end warning! "+err);
@@ -131,5 +135,21 @@ export class ActiveWarningsComponent
       }
     });
 
+  }
+  searchGames(searched: string): void 
+  {
+    this.searchName = searched.trim().toLowerCase();
+    this.applyFilters();
+  }
+  applyFilters(): void 
+  {
+    let warnings = [...this.allWarnings];
+    if (this.searchName) 
+    {
+      warnings = warnings.filter(war =>
+        war.gameName.toLowerCase().includes(this.searchName)
+      );
+    }
+    this.filteredWarnings = warnings;
   }
 }

@@ -105,6 +105,10 @@
       <mat-icon>shopping_cart</mat-icon>
       Add to cart
     </button>
+     <button *ngIf="g.alreadyOwned" class="cartButton">
+      <mat-icon>check</mat-icon>
+      Already owned
+    </button>
   </div>
 
   <div class="rating-section" *ngIf="this.userRating <= 0 && viewerIsCustomer()">

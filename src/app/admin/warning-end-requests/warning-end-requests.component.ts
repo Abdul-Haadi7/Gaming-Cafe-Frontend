@@ -31,10 +31,11 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class WarningEndRequestsComponent {
   name='';
-  
   allRequests: ReturnWarningEndReq[] = [];
+  filteredRequests: ReturnWarningEndReq[] = [];
   displayedColumns: string[] = ['game', 'developer','reason', 'note','actions'];
   userRole = '';
+  searchName = '';
   constructor(private adminService:AdminService, private router:Router,
     private snackBar:MatSnackBar, private dialog:MatDialog){}
 
@@ -48,7 +49,7 @@ export class WarningEndRequestsComponent {
     this.adminService.getWarningEndReqs().subscribe({
       next: (result) =>{
         this.allRequests = result;
-        console.log(this.allRequests);
+        this.filteredRequests = result;
       },
       error: (err)=>{
         console.error('Failed to get requests:', err);
@@ -84,7 +85,7 @@ export class WarningEndRequestsComponent {
     this.router.navigate(['/allActiveWarnings']);
   }
   acceptRequest(req:ReturnWarningEndReq){
-    this.adminService.approveReq(req.warningId).subscribe({
+    this.adminService.approveReq(req.id).subscribe({
       next:(result) => 
       {
         this.snackBar.open("Request accepted", 'Close',
@@ -94,6 +95,7 @@ export class WarningEndRequestsComponent {
           verticalPosition: 'top'
         });
         this.allRequests = this.allRequests.filter(request => request!=req)
+        this.filteredRequests = this.filteredRequests.filter(request => request!=req)
       },
       error: (err) =>{
         console.error('Failed to accept request:', err);
@@ -101,7 +103,7 @@ export class WarningEndRequestsComponent {
     });
   }
   rejectRequest(req:ReturnWarningEndReq){
-    this.adminService.rejectEndWarningReq(req.warningId).subscribe({
+    this.adminService.rejectEndWarningReq(req.id).subscribe({
       next:(result) => 
       {
         this.snackBar.open("Request rejected", 'Close',
@@ -111,6 +113,7 @@ export class WarningEndRequestsComponent {
           verticalPosition: 'top'
         });
         this.allRequests = this.allRequests.filter(request => request!=req)
+        this.filteredRequests = this.filteredRequests.filter(request => request!=req)
       },
       error: (err) =>{
         console.error('Failed to reject request:', err);
@@ -145,6 +148,21 @@ export class WarningEndRequestsComponent {
         dialogRef.close();
       }
     });
-
+  }
+  searchGames(searched: string): void 
+  {
+    this.searchName = searched.trim().toLowerCase();
+    this.applyFilters();
+  }
+  applyFilters(): void 
+  {
+    let reqs = [...this.allRequests];
+    if (this.searchName) 
+    {
+      reqs = reqs.filter(req =>
+        req.gameName.toLowerCase().includes(this.searchName)
+      );
+    }
+    this.filteredRequests = reqs;
   }
 }
